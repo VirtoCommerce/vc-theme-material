@@ -1,0 +1,28 @@
+<div class="row-fluid">
+  <div class="title">Account Details</div>
+  <ul id="customer_detail" class="unstyled list-styled">
+    <li>
+      <address class="clearfix">
+        <div class="info">
+          <i class="icon-user"></i>
+          <span class="address-group">
+            <span class="author">{{ customer.name }}</span> 
+            <span class="email">{{ customer.email }}</span>
+          </span>
+        </div>
+        <div class="address">
+          <i class="icon-home"></i>
+          <span class="address-group">
+            <span class="address1">{{ customer.default_address.address1 }}</span> 
+            <span class="city1">{{ customer.default_address.city}}{% if customer.default_address.country != nil %}, {{customer.default_address.country}}{% endif %}</span> 
+            <span class="zip">{{ customer.default_address.zip}}</span> 
+            <span class="phone">{{ customer.default_address.phone }}</span>
+          </span>
+        </div>
+      </address>
+    </li>
+    <li>
+      <button class="btn btn-4" id="view_address" onclick="window.location='/account/addresses'">View Addresses ({{ customer.addresses_count }})</button>
+    </li>
+  </ul>
+</div>

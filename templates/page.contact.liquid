@@ -1,0 +1,156 @@
+{% if settings.contact_map and settings.contact_map_placement == 'full-width' %}
+<div id="map_container">
+  <div id="contact_map" class="map"></div>
+  {% if settings.contact_info != blank %}
+  <div class="map_info">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-4 pull-right">
+        <div class="map_inner">
+          <div class="map_content">
+            {{settings.contact_info}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+<div id="col-main" class="contact_map clearfix">
+  {% if settings.contact_map and settings.contact_map_placement == 'within-container' %}
+  <div class="container">
+    <div id="contact_map" class="map"></div>
+  </div>
+  {% endif %}
+  
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-9">
+        <div class="widget-wrapper">
+          {% form 'contact' %}
+
+          {% if settings.contact_map_heading != blank %}
+          <h2 class="title">
+            {{settings.contact_map_heading}}
+          </h2>
+          {% endif %}
+
+          {% if form.posted_successfully? %}
+          <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {{ 'contact.form.post_success' | t }}
+          </div>
+          {% endif %}
+
+          {% if form.errors %}
+          <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {{ form.errors | default_errors }}
+          </div>
+          {% endif %}
+
+          <ul id="contact-form" class="row list-unstyled">
+            <li class="col-sm-4">
+              <div class="group-input">      
+                <input required="required" type="text" id="name" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.first_name }} {{ customer.last_name }}{% endif %}" name="contact[name]" />
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>{{ 'contact.form.name' | t }} *</label>
+              </div>
+            </li>
+            <li class="col-sm-4">
+              <div class="group-input">      
+                <input required="required" type="email" id="email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" name="contact[email]" />
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>{{ 'contact.form.email' | t }} *</label>
+              </div>
+            </li>
+            <li class="col-sm-4">
+              <div class="group-input">      
+                <input type="text" id="phone" value="{{ form.phone }}" name="contact[phone]" />
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>{{ 'contact.form.phone' | t }}</label>
+              </div>
+            </li>
+            <li class="col-sm-12">
+              <div class="group-input">      
+                <textarea required="required" id="message" cols="40" rows="5" class="input" name="contact[body]">{{ form.body }}</textarea>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>{{ 'contact.form.message' | t }} *</label>
+              </div>
+            </li>
+            <li class="col-sm-12 last">
+              <button type="submit" class="ripple btn btn-1">
+                {{ 'contact.form.send' | t }}
+              </button>
+            </li>
+          </ul>
+          {% endform %}
+        </div>
+      </div>
+
+      <div class="col-sm-3">
+        {% if settings.contact_info_show %}
+        <div class="widget-contact widget-wrapper">
+          {% if settings.contact_info_heading != blank %}
+          <div class="title">
+            {{settings.contact_info_heading}}
+          </div>
+          {% endif%}
+          <ul class="list-unstyled contact-world-map">
+            {% if settings.contact_info_address != blank %}
+            <li>
+              <i class="fa fa-home"></i>&nbsp; {{settings.contact_info_address}}
+            </li>
+            {% endif %}
+
+            {% if settings.contact_info_phone != blank %}
+            <li>
+              <i class="fa fa-phone"></i>&nbsp; {{settings.contact_info_phone}}
+            </li>
+            {% endif %}
+
+            {% if settings.contact_info_email != blank %}
+            <li>
+              <i class="fa fa-envelope"></i>&nbsp; <a href="mailto:{{settings.contact_info_email}}">{{settings.contact_info_email}}</a>
+            </li>
+            {% endif %}
+
+            {% if settings.contact_info_other != blank %}
+            <li>
+              <i class="fa fa-clock-o"></i>&nbsp; {{settings.contact_info_other}}
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+        {% endif %}
+
+        {% if settings.contact_social_show %}
+        <div class="widget-wrapper social-icons">
+          {% if settings.contact_social_heading != blank %}
+          <div class="title">
+            {{settings.contact_social_heading}}
+          </div>
+          {% endif %}
+
+          <ul class="list-inline text-left">
+            {% if settings.contact_social_facebook_show %}<li><a target="_blank" href="{{ settings.social_icons_facebook_link }}" class="social-icon facebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>{% endif %}
+            {% if settings.contact_social_twitter_show %}<li><a target="_blank" href="{{ settings.social_icons_twitter_link }}" class="social-icon twitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>{% endif %}
+            {% if settings.contact_social_pinterest_show %}<li><a target="_blank" href="{{ settings.social_icons_pinterest_link }}" class="social-icon pinterest" title="Pinterest"><i class="fa fa-pinterest"></i></a></li>{% endif %}
+            {% if settings.contact_social_google_show %}<li><a target="_blank" href="{{ settings.social_icons_google_link }}" class="social-icon google" title="Google Plus"><i class="fa fa-google-plus"></i></a></li>{% endif %}
+            {% if settings.contact_social_youtube_show %}<li><a target="_blank" href="{{ settings.social_icons_youtube_link }}" class="social-icon youtube" title="Youtube"><i class="fa fa-youtube"></i></a></li>{% endif %}
+            {% if settings.contact_social_vimeo_show %}<li><a target="_blank" href="{{ settings.social_icons_vimeo_link }}" class="social-icon vimeo" title="Vimeo"><i class="fa fa-vimeo-square"></i></a></li>{% endif %}
+            {% if settings.contact_social_flickr_show %}<li><a target="_blank" href="{{ settings.social_icons_vimeo_link }}" class="social-icon flickr" title="Flickr"><i class="fa fa-flickr"></i></a></li>{% endif %}
+            {% if settings.contact_social_instagram_show %}<li><a target="_blank" href="{{ settings.social_icons_instagram_link }}" class="social-icon instagram" title="Instagram"><i class="fa fa-instagram"></i></a></li>{% endif %}
+            {% if settings.contact_social_tumblr_show %}<li><a target="_blank" href="{{ settings.social_icons_tumblr_link }}" class="social-icon tumblr" title="Tumblr"><i class="fa fa-tumblr"></i></a></li>{% endif %}
+            {% if settings.contact_social_rss_show %}<li><a target="_blank" href="{{ settings.social_icons_rss_link }}" class="social-icon rss" title="RSS Feed"><i class="fa fa-rss"></i></a></li>{% endif %}
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

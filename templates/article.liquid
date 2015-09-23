@@ -1,0 +1,156 @@
+{% if settings.sidebar_blog_placement == 'left' %}
+<div id="sidebar" class="col-sm-3{% if settings.sidebar_blog_mobile %} hidden-xs{% endif %}">
+  {% include 'sidebar-blog' %}
+</div>
+{% endif %}
+
+{% paginate article.comments by settings.comment_pagination_limit %}
+<div id="col-main" class="blog-page article{% if settings.sidebar_blog_placement != 'none' %} col-sm-9{% else %} col-sm-12{% endif %}">
+  <div class="blog-posts">
+    <article class="blog-post clearfix">
+      <div class="blog-head">
+        {% if article.excerpt contains '<img' %}
+        <div class="excerpt responsive-img">
+          <a href="{{ article.url }}">
+            {{ article.excerpt }}
+          </a>
+        </div>
+        {% elsif article.excerpt contains '<iframe' %}
+        <div class="excerpt responsive-video">
+          {{ article.excerpt }}
+        </div>
+        {% endif %}
+        <h2 data-role="title"><a href="{{ article.url }}">{{ article.title | escape }}</a></h2>
+        <span class="date">{{ article.published_at | date: "%b, %d" }}</span>
+        {% if settings.social_sharing_blog %}
+        <div class="blog-qshare">
+          <a href="javascript:;" class="zmdi zmdi-share"></a>
+          {% include 'social-sharing' %}
+        </div>
+        {% endif %}
+      </div>
+      <div class="blog-content">
+        <p>{{ article.content }}</p>
+      </div>
+    </article>
+  </div>
+  
+  {% if blog.comments_enabled? %}
+  
+  {% form article %}
+  <div id="comment-form" class="comments">
+    
+    <div class="title">
+      {{'blogs.comments.title' | t}}
+    </div>
+    
+    {% if blog.moderated? %}
+    <p>
+      {{'blogs.comments.moderated' | t}}
+    </p>
+    {% endif %}
+    
+    {% if form.posted_successfully? %}
+    {% if blog.moderated? %}
+    <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      {{'blogs.comments.success_moderated' | t}}
+    </div>
+    {% else %}
+    <div class="alert alert-success">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      {{'blogs.comments.success' | t}}
+    </div>
+    {% endif %}
+    {% endif %}
+    
+    {% if form.errors %}
+    <div class="alert alert-error">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      {{ form.errors | default_errors }}
+    </div>
+    {% endif %}
+    
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="group-input">      
+          <input required="required" type="text" id="comment_author" name="comment[author]" value="{% if form.author %}{{ form.author }}{% elsif customer %}{{ customer.first_name }} {{ customer.last_name }}{% endif %}" />
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label>{{ 'blogs.comments.name' | t }} *</label>
+        </div>
+        <div class="group-input">      
+          <input required="required" type="email" id="comment_email" name="comment[email]" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" />
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label>{{ 'blogs.comments.email' | t }} *</label>
+        </div>
+        <div class="hidden-xs">
+          <button type="submit" class="btn btn-1 ripple">
+            {{ 'blogs.comments.post' | t }}
+          </button>
+        </div>
+      </div>
+      <div class="col-sm-8">
+        <div class="group-input">      
+          <textarea required="required" id="comment_body" name="comment[body]" cols="40" rows="5" class="input">{{form.body}}</textarea>
+          <span class="highlight"></span>
+          <span class="bar"></span>
+          <label>{{ 'blogs.comments.message' | t }} *</label>
+        </div>
+      </div>
+      <div class="col-sm-12 visible-xs">
+        <button type="submit" class="btn btn-1 ripple">
+          {{ 'blogs.comments.post' | t }}
+        </button>
+      </div>
+    </div>
+  </div>
+  {% endform %}
+  
+  {% if article.comments != blank %}
+  
+  {% comment %}
+  We're going to reference the number of comments below, so let's hold it in a variable.
+  {% endcomment %}
+  {% assign number_of_comments = article.comments_count %}
+
+  {% comment %}
+  If a comment was just submitted and it has no blank fields, we have an extra comment to count.
+  {% endcomment %}
+  {% if comment and comment.created_at %}
+  {% assign number_of_comments = article.comments_count | plus: 1 %}
+  {% endif %}
+  
+  <div id="comments" class="comments">
+    <div class="title">
+      {{ 'blogs.comments.comments_with_count' | t: count: number_of_comments }}
+    </div>
+    
+    <div class="comment-list">
+      {% comment %} Loop through approved comments: {% endcomment %}        
+      {% for comment in article.comments reversed %}
+      {% include 'comment-template' %}
+      {% endfor %}  
+
+      {% comment %} Show a comment that was *just* submitted {% endcomment %}
+      {% if comment and comment.created_at %}
+      {% include 'comment-template' %}
+      {% endif %}
+    </div>
+    
+    {% include 'pagination' %}
+    
+  </div>
+  {% endif %}
+  
+  {% endif %}
+  
+</div>
+{% endpaginate %}
+
+{% if settings.sidebar_blog_placement == 'right' %}
+<div id="sidebar" class="col-sm-3{% if settings.sidebar_blog_mobile %} hidden-xs{% endif %}">
+  {% include 'sidebar-blog' %}
+</div>
+{% endif %}

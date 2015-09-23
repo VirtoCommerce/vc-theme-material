@@ -1,0 +1,87 @@
+{% if settings.collection_sidebar_filters == 'groups' %}
+{% for i in (1..10) %}
+{% assign tmp = 'filtering_' | append:i %}
+{% if settings[tmp] %}
+<div class="column">
+  {% assign tmp = 'filtering_heading_' | append:i %}
+  {% assign cat_item = settings[tmp] %}
+  {% assign cat_item_down = cat_item | downcase %}
+  {% assign tmp = 'filtering_filters_' | append:i %}
+  {% assign filters = settings[tmp] | strip_newlines | split: ',' %}
+  <div class="filter_title active">
+    <span>{{ cat_item }}<i class="zmdi zmdi-caret-right"></i></span>
+    {% for custom_tag in filters %}
+    {% if current_tags contains custom_tag %}
+    <a href="javascript:;" class="clear">{{ 'collections.general.clear' | t }}</a>
+    {% break %}
+    {% endif %}
+    {% endfor %}
+  </div>
+  <div class="advanced-filter filter_container {{ cat_item_down | replace: ' ', '_' }}">
+    <span class="filter_close" title="close"></span>
+    <ul class="list-unstyled fields">
+      {% if cat_item_down contains 'color' or cat_item_down contains 'colour' %}
+      {% assign file_extension = '.png' %}
+
+      {% for custom_tag in filters %}
+      {% if collection.tags contains custom_tag %}
+      {% if current_tags contains custom_tag %}
+      <li>
+        <div class="field active">
+          <input type="checkbox" checked="checked" value="{{ custom_tag | handleize }}" class="hide" />
+          <span class="img btooltip" title="{{ custom_tag | remove_first: cat_item | remove: '_' }}"><i style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i></span>
+        </div>
+      </li>
+      {% else %}
+      <li>
+        <div class="field">
+          <input type="checkbox" value="{{ custom_tag | handleize }}" class="hide" />
+          <span class="img btooltip" title="{{ custom_tag | remove_first: cat_item | remove: '_' }}"><i style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i></span>
+        </div>
+      </li>
+      {% endif %}
+      {% else %}
+      <li>
+        <div class="field disable">
+          <span class="img"><i style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i></span>
+        </div>
+      </li>
+      {% endif %}
+      {% endfor %}
+
+      {% else %}
+
+      {% for custom_tag in filters %}
+      {% if collection.tags contains custom_tag %}
+      {% if current_tags contains custom_tag %}
+      <li>
+        <div class="field label-checkbox active">
+          <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox" checked="checked" />
+          <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+        </div>
+      </li>
+      {% else %}
+      <li>
+        <div class="field label-checkbox">
+          <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox" />
+          <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+        </div>
+      </li>
+      {% endif %}
+      {% else %}
+      <li>
+        <div class="field disable label-checkbox">
+          <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox" />
+          <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+        </div>
+      </li>
+      {% endif %}
+      {% endfor %}
+
+      {% endif %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+{% endif %}

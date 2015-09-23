@@ -1,0 +1,44 @@
+{% if settings.home_blog_enable %}
+<div class="home-blog container">
+  {% if settings.home_blog_heading != blank %}
+  <h2 class="title title_center">
+    <span>{{ settings.home_blog_heading }}</span>
+  </h2>
+  {% endif %}
+  <div id="home-blog" class="row">
+    {% assign tmp = settings.home_blog %}
+    {% assign blog = blogs[tmp] %}
+    {% for article in blog.articles limit:settings.home_blog_number %}
+    <div class="col-sm-4 col-xs-6">
+      <div class="article animated">
+        {% if article.excerpt contains "<iframe" %}
+        {% assign src = article.excerpt | split: 'src="' %}
+        {% assign src = src[1] | split: '"' | first %}
+        {% if src %}
+        <div class="excerpt responsive-video">
+          <iframe width="100%" scrolling="no" frameborder="no" src="{{ src }}"></iframe>
+          <a class="hover_border" href="{{ article.url }}"><span class="readmore">{{'blogs.article.read_more' | t}}</span></a>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% if article.excerpt contains "<img" %}
+        {% assign src = article.excerpt | split: 'src="' %}
+        {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn' | replace: 'http:http://', 'http://' | remove: 'https:' %}
+        {% if src %}
+        <div class="excerpt responsive-img">
+          <a href="{{ article.url }}">
+            <img alt="{{article.title}}" src="{{ src }}" />
+          </a>
+          <a class="hover_border" href="{{ article.url }}"><span class="readmore">{{'blogs.article.read_more' | t}}</span></a>
+        </div>
+        {% endif %}
+        {% endif %}
+        
+        <h3 class="title"><a href="{{ article.url }}">{{ article.title | escape }}</a></h3>
+        <div class="content">{{ article.content | strip_html | truncatewords: 30 }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}

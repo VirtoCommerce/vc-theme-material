@@ -1,0 +1,129 @@
+<div class="central">
+  <div id="col-main" class="clearfix">
+    <div id="customer-login">
+      <h2 class="page-title">{{ 'customer.login.title' | t }}</h2>
+
+      {% form 'customer_login' %}
+
+      {% if form.errors %}
+      <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        {{ form.errors | default_errors }}
+      </div>
+      {% endif %}
+
+      <div class="group-input">      
+        <input type="email" required="required" name="customer[email]" id="customer_email" />
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>{{ 'customer.login.email' | t }} *</label>
+      </div>
+
+      {% if form.password_needed %}
+      <div class="group-input">      
+        <input type="password" required="required" name="customer[password]" id="customer_password" />
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>{{ 'customer.login.password' | t }} *</label>
+      </div>
+      {% endif %}
+
+      <div class="control-group">
+        <button class="btn btn-1 ripple" type="submit">{{'customer.login.sign_in' | t}}</button>
+      </div>
+
+      <div class="control-group">
+        <div id="forgot_password">
+          <p class="action"><a href="#recover">{{ 'customer.login.forgot_password' | t }}</a></p>
+        </div>
+      </div>
+
+      {% if shop.customer_accounts_optional %}
+      <div class="control-group">
+        <div class="create-account">
+          <p>
+            {{ 'customer.login.register_html' | t }}
+          </p>
+        </div>
+      </div>
+      {% endif %}
+      {% endform %}
+    </div>
+
+    <div id="recover-password" style="display:none;">
+      <h2 class="page-title">{{ 'customer.recover_password.title' | t }}</h2>
+
+      <p>
+        {{ 'customer.recover_password.subtext' | t }}
+      </p>
+
+      {% form 'recover_customer_password' %}
+
+      {% if form.errors %}
+      <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        {{ form.errors | default_errors }}
+      </div>
+      {% endif %}
+
+      <div class="group-input">      
+        <input type="email" required="required" name="email" id="recover-email" />
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>{{ 'customer.recover_password.email' | t }} *</label>
+      </div>
+      
+      <div class="control-group">
+        <button class="btn btn-1 ripple" type="submit">{{ 'customer.recover_password.submit' | t }}</button>
+        or <a class="cancel" href="javascript:;" onclick="showLoginForm();">{{ 'customer.recover_password.cancel' | t }}</a>
+      </div>
+      {% endform %}
+    </div>
+
+    {% if shop.checkout.guest_login %}
+    <div id="guest">
+      <h2 class="title">{{ 'customer.login.guest_title' | t }}</h2>
+
+      <div class="wrap">
+        <p>
+          {{ 'customer.login.guest_subtext' | t }}
+        </p>
+
+        {% form 'guest_login' %}
+        <div class="control-group guest">
+          <button class="btn btn-1 ripple" type="submit">{{'customer.login.guest_continue' | t}}</button>
+        </div>
+        {% endform %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+
+  <script type="text/javascript">
+    jQuery('#forgot_password .action').click(function() {
+      showRecoverPasswordForm();
+    });
+    if(window.location.hash == '#recover'){ 
+      showRecoverPasswordForm();
+    }
+    else{ 
+      showLoginForm();
+    }
+
+    function showRecoverPasswordForm() {
+      $('#recover-password').fadeIn();
+      $('#customer-login').hide();
+      window.location.hash = '#recover';
+      return false;
+    }
+
+    function showLoginForm() {
+      $('#recover-password').hide();
+      $('#customer-register').hide();
+      $('#customer-login').fadeIn();
+      window.location.hash = '';
+      return false;
+    }
+  </script>
+</div>

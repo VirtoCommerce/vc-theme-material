@@ -1,0 +1,231 @@
+<footer id="footer">
+  <div id="footer-bottom" class="container">
+    <div class="row">
+      {% if settings.footer_about_show %}
+      <div class="col-sm-6 col-md-3">
+        <div class="widget-wrapper animated">
+          {% if settings.footer_about_heading != blank %}
+          <h3 class="title title_left">{{settings.footer_about_heading}}</h3>
+          {% endif %}
+          <div class="inner about_us">
+            {% if settings.footer_about_message != blank %}
+            <p class="message">{{settings.footer_about_message}}</p>
+            {% endif %}
+            <ul class="list-unstyled">
+              {% if settings.footer_about_address != blank %}
+              <li>
+                <i class="zmdi zmdi-home"></i>{{settings.footer_about_address}}
+              </li>
+              {% endif %}
+              {% if settings.footer_about_email != blank %}
+              <li>
+                <i class="zmdi zmdi-email"></i><a href="mailto:{{settings.footer_about_email}}">{{settings.footer_about_email}}</a>
+              </li>
+              {% endif %}
+              {% if settings.footer_about_phone != blank %}
+              <li>
+                <i class="zmdi zmdi-phone"></i>{{settings.footer_about_phone}}
+              </li>
+              {% endif %}
+              {% if settings.footer_about_fax != blank %}
+              <li>
+                <i class="zmdi zmdi-local-printshop"></i>{{settings.footer_about_fax}}
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% if settings.footer_linklist1_show %}
+      <div class="col-sm-6 col-md-3">
+        <div class="widget-wrapper animated">
+          {% if settings.footer_linklist1_heading != blank %}
+          <h3 class="title title_left">{{settings.footer_linklist1_heading}}</h3>
+          {% endif %}
+          <div class="inner">
+            {% assign list = linklists[settings.footer_linklist1] %}
+            <ul class="list-unstyled list-styled">
+              {% for link in list.links %}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+      {% if settings.mailing_list_show != 'none' %}
+      <div class="col-sm-6 col-md-3">
+        <div class="widget-wrapper animated">
+          {% if settings.mailing_list_heading != blank %}
+          <h3 class="title title_left">{{settings.mailing_list_heading}}</h3>
+          {% endif %}
+          <div class="inner">
+            {% if settings.mailing_list_show == 'mailchimp' %}
+            <form action="{{ settings.mailing_form_action }}" method="post" id="mc-embedded-subscribe-form" class="mailing-form" name="mc-embedded-subscribe-form" target="_blank">
+              <div class="group-input">      
+                <input type="email" required="required" name="EMAIL" id="email-input" />
+                <span class="bar"></span>
+                <label>{{settings.mailing_list_emailtext}}</label>
+                <button type="submit"><i class="zmdi"></i></button>
+              </div>
+            </form>
+            {% elsif settings.mailing_list_show == 'campaignmonitor' %}
+            {% assign words = settings.mailing_form_action | split: '/' %}
+            <form action="{{settings.mailing_form_action}}" method="post" class="mailing-form" target="_blank">
+              <div class="group-input">      
+                <input type="email" required="required" name="cm-{{ words.last }}-{{ words.last }}" id="fieldEmail" />
+                <span class="bar"></span>
+                <label>{{settings.mailing_list_emailtext}}</label>
+                <button type="submit"><i class="zmdi"></i></button>
+              </div>
+            </form>
+            {% endif %}
+            {% if settings.mailing_list_caption != blank %}
+            <div class="caption">{{settings.mailing_list_caption}}</div>
+            {% endif %}
+          </div>
+          {% if settings.social_icons_show %}
+          {% include 'social-media' %}
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% if settings.footer_social_visible != 'none' %}
+      <div class="col-sm-6 col-md-3">
+        <div class="widget-wrapper animated">
+          {% if settings.footer_social_heading != blank %}
+          <h3 class="title title_left">{{settings.footer_social_heading}}</h3>
+          {% endif %}
+          <div class="inner">
+            {% case settings.footer_social_visible %}
+            {% when 'twitter' %}
+            {% include 'twitter' %}
+            
+            {% when 'facebook' %}
+            {% include 'facebook' %}
+            {% endcase %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div id="copyright">
+    <div class="container">
+      <div class="row">
+        {% if settings.show_multiple_currencies %}
+        <div class="pull-right animated">
+          <div class="currency_container">
+            {% if settings.copyright_linklist_show %}
+            {% assign list = linklists[settings.copyright_linklist] %}
+            <div class="copyright-list">
+              <ul class="list-inline">
+                {% for link in list.links %}
+                <li>
+                  <a href="{{ link.url }}">{{ link.title | escape }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="pull-left animated">
+          <div id="widget-copyright">
+            Copyright &copy; {{ 'now' | date: '%Y' }} <a href="/">{{ shop.name | escape }}</a> and All Rights Reserved.<br/>Designed by <a href="http://roartheme.com" title="Shopify Themes and Templates">RoarTheme</a>
+          </div>
+          <ul id="payment-method" class="list-inline">
+            {% if settings.show_verisign %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="VeriSign">
+              <i class="pw pw-verisign"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_paypal %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Paypal">
+              <i class="pw pw-paypal"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_visa %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Visa">
+              <i class="pw pw-visa"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_visa_electron %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Visa Electron">
+              <i class="pw pw-visa-electron"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_mastercard %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Mastercard">
+              <i class="pw pw-mastercard"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_maestro %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Maestro">
+              <i class="pw pw-maestro"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_westernunion %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Western Union">
+              <i class="pw pw-westernunion"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_amex %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="American Express">
+              <i class="pw pw-american-express"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_discover %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Discover">
+              <i class="pw pw-discover"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_skrill %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Skrill">
+              <i class="pw pw-skrill"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_bitcoin %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Bitcoin">
+              <i class="pw pw-bitcoin-sign"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_amazon %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Amazon">
+              <i class="pw pw-amazon"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_jcb %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="JCB">
+              <i class="pw pw-jcb"></i>
+            </li>
+            {% endif %}
+
+            {% if settings.show_google_wallet %}
+            <li class="btooltip" data-toggle="tooltip" data-placement="top" title="Google Wallet">
+              <i class="pw pw-google-wallet"></i>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

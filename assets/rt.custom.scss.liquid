@@ -1,0 +1,13 @@
+{% if settings.header_font == "1" %}
+{% assign header_font = '"' | append: settings.header_font_1 | append: '"' | append: ', sans-serif' %}
+{% else %}
+{% assign header_font = settings.header_font_0 %}
+{% endif %}
+
+{% if settings.general_font == "1" %}
+{% assign general_font = '"' | append: settings.general_font_1 | append: '"' | append: ', sans-serif' %}
+{% else %}
+{% assign general_font = settings.general_font_0 %}
+{% endif %}
+
+

@@ -1,0 +1,77 @@
+{% comment %} Sanity check to prevent infinite recursion {% endcomment %}
+{% assign sanity = sanity | plus: 1 %}
+
+{% if sanity < 1000 %}
+{% capture link_handle %}{{ link.title | handle }}{% endcapture %}
+{% assign hasChildren = false %}
+{% if linklists[link_handle] and linklists[link_handle].links.size > 0 %}
+{% assign hasChildren = true %}
+{% endif %}
+
+{% assign isTop = false %}
+{% if navigation-mobile-link == 'top' %}
+{% assign isTop = true %}
+{% endif %}
+
+{% assign isMega = false %}
+{% if isTop %}
+{% assign affixMenu = 'mega_menu' %}
+{% for i in (1..5) %}
+
+{% assign tmp = 'mega_menu' | append:i | append:'_trigger' %}
+{% assign menu_trigger = settings[tmp] | handle %}
+{% if menu_trigger == link_handle %}
+{% assign isMega = true %}
+{% assign affixMenu = 'mega_menu' | append:i | append:'_' %}
+{% break %}
+{% endif %}
+
+{% endfor %}
+{% endif %}
+
+<li{% if hasChildren or isMega %} class="parent_submenu"{% endif %}>
+  <a href="{{link.url}}"{% if hasChildren or isMega %} class="dropdown_link"{% endif %}>{{link.title}}</a>
+  {% if hasChildren or isMega %}<span class="expand"><i></i></span>{% endif %}
+  
+  {% if isMega %}
+  <ul class="dropdown_menu" style="display:none;">
+    {% for j in (1..10) %}
+    {% assign tmp = affixMenu | append: j %}
+    {% assign temp = settings[tmp] %}
+    {% assign nav = linklists[temp] %}
+    {% if nav.handle != blank %}
+    
+    {% assign megaChildren = false %}
+    {% if nav.links.size > 0 %}
+    {% assign megaChildren = true %}
+    {% endif %}
+    <li{% if megaChildren %} class="parent_submenu"{% endif %}>
+      {% assign tmp1 = affixMenu | append:'title_' | append: j %}
+      {% assign tmp2 = affixMenu | append:'link_' | append: j %}
+      <a href="{{settings[tmp2]}}"{% if megaChildren %} class="dropdown_link"{% endif %}>{{settings[tmp1]}}</a>
+      {% if megaChildren %}<span class="expand"><i></i></span>{% endif %}
+
+      {% if megaChildren %}
+      <ul class="dropdown_menu" style="display:none;">
+        {% for l in nav.links %}
+        <li>
+          <a href="{{l.url}}">{{l.title}}</a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+  {% endif %}
+  
+  {% if hasChildren and isMega == false %}
+  <ul class="dropdown_menu" style="display:none;">
+    {% for link in linklists[link_handle].links %}
+    {% include 'navigation-mobile-link' with 'child' %}
+    {% endfor %}
+  </ul>
+  {% endif %}
+</li>
+{% endif %}

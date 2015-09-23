@@ -1,0 +1,45 @@
+<script>
+  window.products = {};
+  window.rtl = {{settings.rtl_enable}};
+  
+  {% if template contains 'index' and settings.video_active %}
+  window.video_heading_size = {{settings.video_heading_size | plus:0}};
+  window.video_caption_size = {{settings.video_caption_size | plus:0}};
+  {% endif %}
+  
+  {% if template contains 'index' and settings.slideshow_show != 'none' %}
+  window.slideshow_show = {{settings.slideshow_show}};
+  window.slideshow_heading_size = {{settings.slideshow_heading_size | plus:0}};
+  window.slideshow_caption_size = {{settings.slideshow_caption_size | plus:0}};
+  window.slideshow_auto = {{settings.slideshow_auto}};
+  window.slideshow_interval = {{settings.slideshow_interval}};
+  window.slideshow_scale = {{settings.slideshow_scale}};
+  {% endif %}
+  
+  {% if template contains 'page.contact' and settings.contact_map %}
+  window.contact_zoom = {{settings.contact_zoom}};
+  window.contact_scroll = {{settings.contact_scroll}};
+  window.contact_type = '{{settings.contact_type}}';
+  window.contact_address = '{{settings.contact_address}}';
+  window.contact_icon = '{{"icon-gmap.png" | asset_url}}';
+  {% endif %}
+  
+  window.general_font_size = {{settings.general_font_size | plus:0}};
+  window.ajax_add_to_cart = {{settings.ajax_add_to_cart}};
+  window.notify_ie8_page = '{{settings.notify_ie8_page}}';
+  window.loader_gif = '{{"loader.gif" | asset_url}}';
+  window.blank_gif = '{{"blank.gif" | asset_url}}';
+  window.money_format = "{{shop.money_format}}";
+  window.show_multiple_currencies = {{settings.show_multiple_currencies}};
+  window.asset_url = '{{'' | asset_url}}';
+  window.swatch_color = {{settings.swatches_color_enable}};
+  window.swatch_size = {{settings.swatches_size_enable}};
+  window.size_chart = false;
+  {% if settings.product_size_chart != blank %}
+  window.size_chart = true;
+  window.size_chart_txt = '{{'products.product.size_chart' | t}}';
+  {% endif %}
+  window.grid_height = 320;
+  window.list_height = 360;
+  window.enable_filter_multiple_choice = true;
+</script>

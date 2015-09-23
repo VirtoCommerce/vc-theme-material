@@ -1,0 +1,50 @@
+{% if settings.sidebar_collection_placement == 'left' %}
+<div id="sidebar" class="col-sm-3{% if settings.sidebar_collection_mobile %} hidden-xs{% endif %}">
+  {% include 'sidebar-collection' %}
+</div>
+{% endif %}
+
+{% paginate collection.products by collection.all_products_count %}
+<div id="col-main" class="collection-page{% if settings.sidebar_collection_placement != 'none' %} col-sm-9{% else %} col-sm-12{% endif %}">
+  {% include 'collection-slider' %}
+  <div id="sandBox">
+    <h2>{{collection.title}}</h2>
+    {% if collection.description != empty %}
+    <div class="cat-desc clearfix">
+      {{ collection.description }}
+    </div>
+    {% endif %}
+    
+    {% include 'collection-nav' %}
+    
+    {% if collection.products.size > 0 %}
+    <div class="cat-grid row">
+      {% for product in collection.products %}
+      <div class="product_item animated">
+        {% include 'product-item' %}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty">{{ 'collections.general.no_products' | t }}</p>
+    {% include 'collection-default' %}
+    {% endif %}
+  </div>
+
+  <div class="advanced-pagination">
+    {% if settings.collection_infinite_scoll %}
+    {% if paginate.next %}
+    <div class="infinite_scoll">{% include 'spinner2' with paginate.next.url %}</div>
+    {% endif %}
+    {% else %}
+    {% include 'pagination' %}
+    {% endif %}
+  </div>
+</div>
+{% endpaginate %}
+
+{% if settings.sidebar_collection_placement == 'right' %}
+<div id="sidebar" class="col-sm-3{% if settings.sidebar_collection_mobile %} hidden-xs{% endif %}">
+  {% include 'sidebar-collection' %}
+</div>
+{% endif %}

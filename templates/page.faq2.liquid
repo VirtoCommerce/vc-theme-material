@@ -1,0 +1,73 @@
+<div id="col-main" class="col-md-12 clearfix">
+  <div class="page">
+    <div class="page_content faq2">
+      <div class="row">
+        <div class="col-sm-6">
+          {{ page.content }}
+        </div>
+        <div class="col-sm-6">
+          {% form 'contact' %}
+          
+          <h2 class="title">
+            Didn't find the answer?
+          </h2>
+
+          {% if form.posted_successfully? %}
+          <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {{ 'contact.form.post_success' | t }}
+          </div>
+          {% endif %}
+
+          {% if form.errors %}
+          <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {{ form.errors | default_errors }}
+          </div>
+          {% endif %}
+
+          <ul id="contact-form" class="list-unstyled">
+            <li>
+              <div class="group-input">      
+                <input required="required" type="text" id="name" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.first_name }} {{ customer.last_name }}{% endif %}" name="contact[name]" />
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>{{ 'contact.form.name' | t }} *</label>
+              </div>
+            </li>
+            <li>
+              <div class="group-input">      
+                <input required="required" type="email" id="email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" name="contact[email]" />
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>{{ 'contact.form.email' | t }} *</label>
+              </div>
+            </li>
+            <li>
+              <div class="group-input">      
+                <input type="text" id="phone" value="{{ form.phone }}" name="contact[phone]" />
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>{{ 'contact.form.phone' | t }}</label>
+              </div>
+            </li>
+            <li>
+              <div class="group-input">      
+                <textarea required="required" id="message" cols="40" rows="5" class="input" name="contact[body]">{{ form.body }}</textarea>
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label>{{ 'contact.form.message' | t }} *</label>
+              </div>
+            </li>
+            <li class="last">
+              <button type="submit" class="ripple btn btn-1">
+                {{ 'contact.form.send' | t }}
+              </button>
+            </li>
+          </ul>
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

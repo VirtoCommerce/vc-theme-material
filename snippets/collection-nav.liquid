@@ -1,0 +1,85 @@
+<div class="nav-elements-container">
+  <div class="pull-left">
+    <div class="nav-element advanced-viewas">
+      <ul class="list-inline">
+        <li>
+          <span class="field link{% if template == 'collection' %} active{% endif %}" data-handle="12">12</span>
+        </li>
+        <li>
+          <span class="field link{% if template == 'collection.16' %} active{% endif %}" data-handle="16">16</span>
+        </li>
+        <li>
+          <span class="field link{% if template == 'collection.32' %} active{% endif %}" data-handle="32">32</span>
+        </li>
+        <li>
+          <span class="field link{% if template == 'collection.all' %} active{% endif %}" data-handle="all">all</span>
+        </li>
+      </ul>
+    </div>
+    <div class="nav-element advanced-sortby">
+      <label for="order_by">{{ 'collections.sorting.title' | t }}</label>
+      {% assign sort_def = collection.sort_by | default: collection.default_sort_by | escape %}
+      <select id="order_by" class="field">
+        <option value="manual"{% if sort_def == 'manual' %} selected="selected"{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
+        <option value="price-ascending"{% if sort_def == 'price-ascending' %} selected="selected"{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
+        <option value="price-descending"{% if sort_def == 'price-descending' %} selected="selected"{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
+        <option value="title-ascending"{% if sort_def == 'title-ascending' %} selected="selected"{% endif %}>{{ 'collections.sorting.az' | t }}</option>
+        <option value="title-descending"{% if sort_def == 'title-descending' %} selected="selected"{% endif %}>{{ 'collections.sorting.za' | t }}</option>
+        <option value="created-ascending"{% if sort_def == 'created-ascending' %} selected="selected"{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
+        <option value="created-descending"{% if sort_def == 'created-descending' %} selected="selected"{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
+        <option value="best-selling"{% if sort_def == 'best-selling' %} selected="selected"{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
+      </select>
+    </div>
+  </div>
+  {% if settings.collection_grid_list != 'none' %}
+  <div class="pull-right">
+    <div class="nav-element nav-filters">
+      <label>{{ 'collections.general.filters' | t }}</label>
+      <a class="btn-filter" href="javascript:;"><i class="zmdi zmdi-filter-list"></i></a>
+    </div>
+    <div class="nav-element nav-view-as">
+      <label>{{ 'collections.general.display' | t }}</label>
+      <ul class="list-inline">
+        <li>
+          <a class="togrid{% if settings.collection_grid_list == 'grid' %} active{% endif %}" href="javascript:;" title="{{ 'collections.general.grid' | t }}"><i class="zmdi zmdi-apps"></i></a>
+        </li>
+        <li>
+          <a class="tolist{% if settings.collection_grid_list == 'list' %} active{% endif %}" href="javascript:;" title="{{ 'collections.general.list' | t }}"><i class="zmdi zmdi-format-list-bulleted"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% if settings.collection_sidebar_filters == 'groups' %}
+<div class="filters-bar">
+  <div class="nav_close">
+    <button type="button" class="zmdi zmdi-close"></button>
+  </div>
+  <div class="inner clearfix">
+    <div class="column">
+      <div class="filter_title active">
+        <span>{{ 'collections.general.category' | t }}<i class="zmdi zmdi-caret-right"></i></span>
+      </div>
+      <div class="advanced-collection filter_container category">
+        <span class="filter_close" title="close"></span>
+        <ul class="list-unstyled fields">
+          {% for coll in collections %}
+          {% unless coll.handle == 'frontpage' or coll.handle == 'all' %}
+          <li>
+            <div class="field label-checkbox{% if collection.handle == coll.handle %} active{% endif %}">
+              <input type="checkbox" value="{{ coll.url }}" class="checkbox" />
+              <span class="name">{{ coll.title | escape }} <small>({{coll.all_products_count}})</small></span>
+            </div>
+          </li>
+          {% endunless %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% include 'collection-filter2' %}
+    {% if current_tags.size > 0 %}<a href="javascript:;" class="clearall">{{ 'collections.general.clear_all' | t }}</a>{% endif %}
+  </div>
+</div>
+{% endif %}
+{{ 'jquery.ba-dotimeout.min.js' | asset_url | script_tag }}

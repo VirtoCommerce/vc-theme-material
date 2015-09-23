@@ -1,0 +1,14 @@
+{% if template != 'page.about' %}
+<div class="page-top">
+  <div class="container">
+    <h1 class="page-title">{{page_title}}</h1>
+    {% include 'breadcrumb' %}
+  </div>
+</div>
+{% else %}
+<div class="page-top page-about">
+  <div class="container">
+    <h1 class="page-title">{{settings.aboutus_heading}}</h1>
+  </div>
+</div>
+{% endif %}

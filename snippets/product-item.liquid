@@ -1,0 +1,214 @@
+{% assign variant_tmp = product.selected_or_first_available_variant  %}
+{% for variant in product.variants %}
+{% if variant.available == true and variant.price < variant_tmp.price %}
+{% assign variant_tmp = variant %}	
+{% endif %}
+{% endfor %}
+
+<div class="product {{settings.wrapper_style}}">
+  <div class="product-container">
+    <div class="product-buttons">
+      {% if settings.allow_wishlist %}
+      <div class="product-wishlist wishlist-{{product.id}}">
+        {% include 'wishlist-item' %}
+      </div>
+      {% endif %}
+
+      <div class="sharing-ctl">
+        <a href="javascript:void(0);">
+          <i class="zmdi zmdi-share"></i>
+        </a>
+        {% include 'social-sharing' %}
+      </div>
+    </div>
+    
+    <div class="product-wrap">
+      <div class="product-image">
+        {% if variant_tmp.compare_at_price > variant_tmp.price %}
+        <div class="onsale">
+          {% if settings.use_saleoff and variant_tmp.compare_at_price > variant_tmp.price %}
+          <span class="price_percentage">-{{ variant_tmp.compare_at_price | minus: variant_tmp.price | times: 100.0 | divided_by: variant_tmp.compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%</span>
+          {% endif %}
+        </div>
+        {% endif %}
+        <div class="wrap">
+          <a href="{{product.url | within: collection}}">
+            <img src="{{ product.featured_image | product_img_url: settings.wrapper_img_size }}" class="main-image img-responsive" alt="{{ product.title }}" />
+          </a>
+        </div>
+      </div>
+
+      <div class="product-content">
+        <div class="product-inner">
+          <div class="product-title">
+            <a href="{{ product.url | within: collection }}" title="{{ product.title }}">
+              {{ product.title }}
+            </a>
+          </div>
+
+          {% if settings.reviews_enable %}
+          <div class="isreview">
+            <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+          </div>
+          {% endif %}
+
+          <div class="price-val product-price">
+            {% if product.available %}
+
+            <span class="price">{{ variant_tmp.price | money }}</span>
+
+            {% if variant_tmp.compare_at_price > variant_tmp.price %}
+            <del class="price_compare"> {{ variant_tmp.compare_at_price | money }}</del>
+            {% endif %}
+
+            {% else %}
+            <span class="sold_out">{{'products.product.sold_out' | t}}</span>
+            {% endif %}
+          </div>
+
+          <div class="product-desc">
+            {{ product.description | strip_html | truncatewords: 50 }}
+          </div>
+        </div>
+        <div class="product-action">
+          {% comment %} Style #1 {% endcomment %}
+          {% if settings.wrapper_style == 'style1' %}
+          
+          {% if product.available %}
+          {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="btn btn-1 ripple choose-options btn-block"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.select_options' | t}}</a>
+          {% else %}
+          <form action="/cart/add" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="quantity" value="1" />
+            <select class="hide" name="id">
+              {% for variant in product.variants %}
+              <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-1 ripple add-to-cart btn-block"><i class="zmdi zmdi-shopping-cart"></i> {{'products.product.add_to_cart' | t}}</button>
+          </form>
+          {% endif %}
+          {% else %}
+          <a href="{{ product.url | within: collection }}" class="btn btn-1 ripple choose-options btn-block"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.show_details' | t}}</a>
+          {% endif %}
+          
+          <a href="javascript:;" class="quick-shop{% if settings.wrapper_style == 'style1' %} btooltip{% endif %}" title="{{'products.product.quick_shop' | t}}" data-placement="left"><i class="zmdi zmdi-eye"></i> {{'products.product.quick_shop' | t}}</a>
+          
+          {% comment %} Style #2 {% endcomment %}
+          {% else %}
+          <span class="line"></span>
+          {% if product.available %}
+          {% if product.variants.size > 1 %}
+          <a href="{{ product.url | within: collection }}" class="choose-options btn-cart"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.select_options' | t}}</a>
+          {% else %}
+          <form action="/cart/add" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="quantity" value="1" />
+            <button type="submit" class="add-to-cart btn-cart"><i class="zmdi zmdi-shopping-cart"></i> {{'products.product.add_to_cart' | t}}</button>
+            <select class="hide" name="id">
+              {% for variant in product.variants %}
+              <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
+              {% endfor %}
+            </select>
+          </form>
+          {% endif %}
+          {% else %}
+          <a href="{{ product.url | within: collection }}" class="choose-options btn-cart"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.show_details' | t}}</a>
+          {% endif %}
+
+          <a href="javascript:;" class="quick-shop"><i class="zmdi zmdi-eye"></i> {{'products.product.quick_shop' | t}}</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script id="product-block-json-{{product.id}}" type="text/template">window.products.id{{product.id}} = {{product | json}};</script>
+  <script id="product-block-template-{{product.id}}" type="text/template">
+  <div class="quickbuy-form">
+    <div class="row">
+      <div class="product-gallery col-sm-6">
+        <div class="thumbnails">
+          {% for image in product.images %}
+          <a class="thumbnail" href="{{image | product_img_url:'master'}}" data-src="{{image | product_img_url:'grande'}}">
+            <img src="{{image | product_img_url:'small'}}" title="{{product.alt}}" />
+          </a>
+          {% endfor %}
+        </div>
+        <div class="main">
+          <div class="main-img-link" href="{{product.featured_image | product_img_url:'master'}}" title="{{product.title}}">
+            <img class="main-img" src="{{product.featured_image | product_img_url:'grande'}}" alt="{{product.title}}" />
+            {% include 'spinner' %}
+          </div>
+        </div>
+      </div>
+      <div class="product-details col-sm-6">
+        <div class="section product-title-row">
+
+          <div class="product-title">
+            <a href="{{ product.url | within: collection }}">{{product.title}}</a>
+            {% if settings.product_sku_show %}
+            <div id="sku"{% unless variant_tmp and variant_tmp.sku %} class="hidden"{% endunless %}>{{'products.product.sku' | t}} <span>{{variant_tmp.sku}}</span></div>
+            {% endif %}
+          </div>
+
+          <div id="price" class="product-price">
+            {% if variant_tmp.compare_at_price > variant_tmp.price %}
+            <del class="price_compare"> {{ variant_tmp.compare_at_price | money }}</del>
+            <span class="price_percentage">{{ variant_tmp.compare_at_price | minus: variant_tmp.price | times: 100.0 | divided_by: variant_tmp.compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%</span>
+            {% endif %}
+            <div class="price">{{ variant_tmp.price | money }}</div>
+          </div>
+
+          <div class="sharing-btn">
+            <span>{{'products.product.share' | t}}</span>
+            {% include 'social-sharing' %}
+          </div>
+        </div>
+
+        <div class="section border-bottom">
+        {% if product.available %}
+        <form class="product-form" id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}">
+          <div id="product-variants">
+            <select id="product-select" name="id" style="display: none;">
+              {% for variant in product.variants %}
+              {% if variant.available %}
+              <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+              {% else %}
+              <option disabled="disabled">
+                {{ variant.title }} - {{'products.product.sold_out' | t}}
+              </option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="quantity">
+            <div class="group-input">      
+              <input type="number" title="{{'products.product.quantity' | t}}" step="1" min="1" size="4" id="quantity" name="quantity" value="1" />
+              <span class="bar"></span>
+            </div>
+            <button type="submit" class="btn btn-1 ripple add-to-cart" name="add" id="add" data-addtocart="{{'products.product.add_to_cart' | t}}" data-unavailable="{{'products.product.unavailable' | t}}" data-soldout="{{'products.product.sold_out' | t}}">{{'products.product.add_to_cart' | t}}</button>
+          </div>
+        </form>
+        {% if settings.allow_wishlist %}
+        <div class="product-wishlist wishlist-{{product.id}}"></div>
+        {% endif %}
+
+        <div id="backorder" class="hidden">
+          <span id="selected-variant"></span> {{'products.product.backordered_html' | t}}
+        </div>
+        {% else %}
+          <div class="rte">
+            {{'products.product.sold_out_html' | t}}
+          </div>
+        {% endif %}
+        </div>
+
+        <div class="description">
+          <p>{{ product.description | strip_html | truncatewords: 40 }}</p>
+          <a class="more-link" href="{{ product.url | within: collection }}">{{'products.product.description' | t}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </script>
+</div>

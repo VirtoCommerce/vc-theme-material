@@ -1,0 +1,33 @@
+{% if shop.customer_accounts_enabled %}
+{% if customer %}
+<a href="/account">{{ 'general.top.my_account' | t }}</a>
+{% else %}
+<a href="/account/login" class="account-link">{{'general.top.login' | t}}</a>
+<div class="nav-dropdown">
+  <div class="nav-dropdown-inner">
+    {% form 'customer_login' %}
+    <div class="group-input">      
+      <input type="email" required="required" name="customer[email]" id="customer_email_box" />
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>{{ 'customer.login.email' | t }} *</label>
+    </div>
+    {% if form.password_needed %}
+    <div class="group-input">      
+      <input type="password" required="required" name="customer[password]" id="customer_password_box" />
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>{{ 'customer.login.password' | t }} *</label>
+    </div>
+    {% endif %}
+    <div class="buttons">
+      <button class="btn btn-block btn-1 ripple" type="submit">{{'customer.login.sign_in' | t}}</button>
+      {% if shop.customer_accounts_optional %}
+      <a href="/account/register">{{ 'general.top.register' | t }}</a>
+      {% endif %}
+    </div>
+    {% endform %}
+  </div>
+</div>
+{% endif %}
+{% endif %}

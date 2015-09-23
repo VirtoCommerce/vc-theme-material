@@ -1,0 +1,71 @@
+{% assign tmp = settings.product_shipping_return %}
+{% assign temp = pages[tmp] %}
+
+<div class="product-tab">
+  <ul class="nav nav-tabs responsive" id="product-tab">
+    <li class="active"><a href="#product-description">{{'products.product.description' | t}}</a></li>
+    {% if product.featured_image.alt contains 'iframe' %}
+    <li><a href="#product-video">{{'products.product.video' | t}}</a></li>
+    {% endif %}
+    {% if temp.handle != blank %}
+    <li><a href="#product-shipping-return">{{'products.product.shipping_and_return' | t}}</a></li>
+    {% endif %}
+    {% if settings.reviews_enable %}
+    <li><a id="product-reviews-a" href="#product-reviews">{{'products.product.customer_reviews' | t}}</a></li>
+    {% endif %}
+    {% if settings.tweet_code %}
+    <li><a href="#product-discount">{{'products.product.discount' | t}}</a></li>
+    {% endif %}
+  </ul>
+
+  <div class="tab-content responsive">
+    <div class="tab-pane active" id="product-description">
+      <div itemprop="description">
+        {{product.content}}
+      </div>
+    </div>
+    {% if product.featured_image.alt contains 'iframe' %}
+    <div class="tab-pane" id="product-video">
+      {{product.featured_image.alt}}
+    </div>
+    {% endif %}
+    {% if temp.handle != blank %}
+    <div class="tab-pane" id="product-shipping-return">
+      {{temp.content}}
+    </div>
+    {% endif %}
+    {% if settings.reviews_enable %}
+    <div id="product-reviews" class="tab-pane">
+      <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+    </div>
+    {% endif %}
+    {% if settings.tweet_code %}
+    <div id="product-discount" class="tab-pane">
+      {% assign tmp = settings.product_discount %}
+      {% assign page_tmp = pages[tmp] %}
+      {{page_tmp.content}}
+
+      <div class="discount-content">
+        <script>
+          window.twttr = (function (d,s,id) {
+            var t, js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return; js=d.createElement(s); js.id=id;
+            js.src="https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+            return window.twttr || (t = { _e: [], ready: function(f){ t._e.push(f) } });
+          }(document, "script", "twitter-wjs"));
+        </script>
+        <script>
+          twttr.ready(function (twttr) {
+            twttr.events.bind('click', function (event) { jQuery('#tweetCode').show(); });
+          });
+        </script>
+
+        <a class="btn btn-1 ripple" id="tweetLink" href="https://twitter.com/intent/tweet?url={{settings.tweet_code_url}}">{{settings.tweet_code_button}}</a>
+
+        <div id="tweetCode"><span>{{settings.tweet_code_mesg}} <strong>{{settings.tweet_code_discount}}</strong></span></div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>

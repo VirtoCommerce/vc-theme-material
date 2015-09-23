@@ -1,0 +1,85 @@
+<div id="site-navigation">
+  <div class="container">
+    <div class="more_pc">
+      {% if settings.logo_image_sticky %}
+      <div class="logo_sticky"><img src="{{'logo_sticky.png' | asset_url}}" alt="" /></div>
+      {% endif %}
+      {% if settings.nav_linklist != '' %}
+      <nav class="pc_navbar" role="navigation">
+        <ul class="pc_nav">
+          {% for link in linklists[settings.nav_linklist].links %}
+          {% include 'navigation-link' with 'top' %}
+          {% endfor %}
+          <li class="nav-menu-icon visible-xs">
+            <a class="btn-navbar" data-toggle="offcanvas">
+              <span>
+                <span>
+                  <i class="icon-bar"></i>
+                  <i class="icon-bar"></i>
+                  <i class="icon-bar"></i>
+                </span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      {% endif %}
+      <div class="pc_more">
+        {% if settings.header_search %}
+        <a href="javascript:void(0);" class="search-ctl" data-ctl-toggle="#search-ctl">
+          <i class="zmdi zmdi-search"></i>
+        </a>
+        {% endif %}
+        {% if shop.customer_accounts_enabled %}
+        <div class="more-ctl nav-dropdown-parent">
+          <i class="zmdi zmdi-more-vert"></i>
+
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-inner">
+              <ul class="list-unstyled">
+                {% if customer %}
+                <li>
+                  {% assign page_tmp = pages[settings.wishlist_page] %}
+                  <a href="{{page_tmp.url}}">{{'general.top.wishlist' | t}}</a>
+                </li>
+                <li>
+                  <a href="/account">{{ 'general.top.my_account' | t }}</a>
+                </li>
+                <li>
+                  <a href="/account/logout">{{ 'general.top.logout' | t }}</a>
+                </li>
+                {% else %}
+                <li>
+                  <a href="/account/login">{{'general.top.wishlist' | t}}</a>
+                </li>
+                <li>
+                  <a href="/account/login">{{ 'customer.login.sign_in' | t }}</a>
+                </li>
+                <li>
+                  <a href="/account/register">{{ 'general.top.register' | t }}</a>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        <div class="mini-cart nav-dropdown-parent">
+          <div class="cart-inner">
+            <div class="cart-link">
+              <div class="cart-icon">
+                <strong>{{cart.item_count}}</strong>
+                <span class="cart-icon-handle"></span>
+              </div>
+            </div>
+          </div>
+          <div class="nav-dropdown">
+            <div class="nav-dropdown-inner">
+              {% include 'cart-sidebar' %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

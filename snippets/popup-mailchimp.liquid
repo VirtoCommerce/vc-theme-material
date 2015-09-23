@@ -1,0 +1,225 @@
+{% if settings.popup_mailchimp_show %}
+{{ 'jquery.ajaxchimp.js' | asset_url | script_tag }}
+{{ 'jquery.cookie.js' | asset_url | script_tag }}
+{% if settings.popup_style == 'style1' %}
+<div id="newsletter-bar">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <h3 class="sub-text">{{settings.popup_heading}}</h3>
+      <div class="sub-code">
+        {% if settings.popup_action != blank %}
+        <form id="mc-form" action="{{ settings.popup_action }}" method="post" name="mc-embedded-subscribe-form" target="_blank">
+          <div class="group-input">      
+            <input id="mc-email" type="email" name="EMAIL" autocomplete="off" required="required" />
+            <span class="bar"></span>
+            <label>{{ 'general.mailchimp_popup.enter_your_email' | t }}</label>
+            <button type="submit"><i class="zmdi"></i></button>
+          </div>
+          <label id="mc-response" for="mc-email"></label>
+        </form>
+        {% endif %}
+      </div>
+      <a href="javascript:;" class="sub-close"><i class="zmdi zmdi-close"></i></a>
+    </div>
+  </div>
+</div>
+<script>
+  jQuery(document).ready(function() {
+    {% if settings.popup_expires == '0' %}
+    jQuery.removeCookie('popup_cookie');
+    {% endif %}
+    
+    var $_popup_cookie = jQuery.cookie('popup_cookie');
+    if ($_popup_cookie == undefined){
+      setTimeout(function () {
+        jQuery('#newsletter-bar').slideDown();
+      }, 3000);
+      jQuery('#newsletter-bar .sub-close').click(function(e) {
+        jQuery('#newsletter-bar').slideUp();
+        jQuery.cookie('popup_cookie', 'yes', { path: '/', expires: {{settings.popup_expires}} });
+      });
+    }
+    
+    var $_form = jQuery('#mc-form');
+    var $_action = $_form.attr('action');
+    $_form.ajaxChimp({
+      url: $_action,
+      callback: function(resp){
+        $('#mc-response').show();
+      }
+    });
+  });
+</script>
+{% elsif settings.popup_style == 'style2' %}
+<div id="lightbox">
+  <span class="mask"></span>
+  <div class="wrap">
+    <div class="inner">
+      <div class="window">
+        <div class="close"><i></i></div>
+        <div class="content">
+          {% if settings.popup_heading != blank %}
+          <h3 class="mc-title">{{settings.popup_heading}}</h3>
+          {% endif %}
+          
+          <div class="newsletter-inner">
+            {% if settings.popup_content != blank %}
+            <p class="hide-for-small">{{settings.popup_content}}</p>
+            {% endif %}
+
+            {% if settings.popup_action != blank %}
+            <form id="mc-form" action="{{ settings.popup_action }}" method="post" name="mc-embedded-subscribe-form" target="_blank">
+              <input id="mc-email" type="email" name="EMAIL" placeholder="{{ 'general.mailchimp_popup.enter_your_email' | t }}" required />
+              <button id="mc-submit" class="btn btn-arrow" type="submit"><i class="icomoon-arrow-right"></i> {{ 'general.mailchimp_popup.join_us' | t }}</button>
+
+              <label for="mc-email"></label>
+            </form>
+            {% endif %}
+
+            {% if settings.popup_social_show %}
+            <div class="social-icons">
+              <ul class="list-inline">
+                {% if settings.social_icons_facebook_show %}
+                <li>
+                  <a target="_blank" href="{{ settings.social_icons_facebook_link }}" class="social-wrapper facebook">
+                    <span class="social-icon">
+                      <i class="fa fa-facebook"></i>
+                    </span>
+                  </a>
+                </li>
+                {% endif %}
+                {% if settings.social_icons_twitter_show %}
+                <li>
+                  <a target="_blank" href="{{ settings.social_icons_twitter_link }}" class="social-wrapper twitter">
+                    <span class="social-icon">
+                      <i class="fa fa-twitter"></i>
+                    </span>
+                  </a>
+                </li>
+                {% endif %}
+                {% if settings.social_icons_pinterest_show %}
+                <li>
+                  <a target="_blank" href="{{ settings.social_icons_pinterest_link }}" class="social-wrapper pinterest">
+                    <span class="social-icon">
+                      <i class="fa fa-pinterest"></i>
+                    </span>
+                  </a>
+                </li>
+                {% endif %}
+                {% if settings.social_icons_google_show %}
+                <li>
+                  <a target="_blank" href="{{ settings.social_icons_google_link }}" class="social-wrapper google">
+                    <span class="social-icon">
+                      <i class="fa fa-google-plus"></i>
+                    </span>
+                  </a>
+                </li>
+                {% endif %}
+                {% if settings.social_icons_youtube_show %}
+                <li>
+                  <a target="_blank" href="{{ settings.social_icons_youtube_link }}" class="social-wrapper youtube">
+                    <span class="social-icon">
+                      <i class="fa fa-youtube"></i>
+                    </span>
+                  </a>
+                </li>
+                {% endif %}
+                {% if settings.social_icons_vimeo_show %}
+                <li>
+                  <a target="_blank" href="{{ settings.social_icons_vimeo_link }}" class="social-wrapper vimeo">
+                    <span class="social-icon">
+                      <i class="fa fa-vimeo"></i>
+                    </span>
+                  </a>
+                </li>
+                {% endif %}
+                {% if settings.social_icons_flickr_show %}
+                <li>
+                  <a target="_blank" href="{{ settings.social_icons_flickr_link }}" class="social-wrapper flickr">
+                    <span class="social-icon">
+                      <i class="fa fa-flickr"></i>
+                    </span>
+                  </a>
+                </li>
+                {% endif %}
+                {% if settings.social_icons_instagram_show %}
+                <li>
+                  <a target="_blank" href="{{ settings.social_icons_instagram_link }}" class="social-wrapper instagram">
+                    <span class="social-icon">
+                      <i class="fa fa-instagram"></i>
+                    </span>
+                  </a>
+                </li>
+                {% endif %}
+                {% if settings.social_icons_tumblr_show %}
+                <li>
+                  <a target="_blank" href="{{ settings.social_icons_tumblr_link }}" class="social-wrapper tumblr">
+                    <span class="social-icon">
+                      <i class="fa fa-tumblr"></i>
+                    </span>
+                  </a>
+                </li>
+                {% endif %}
+                {% if settings.social_icons_rss_show %}
+                <li>
+                  <a target="_blank" href="{{ settings.social_icons_rss_link }}" class="social-wrapper rss">
+                    <span class="social-icon">
+                      <i class="fa fa-rss"></i>
+                    </span>
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+            </div>
+            {% endif %}
+
+            {% if settings.popup_expires != '0' %}
+            <div id="mc-footer">
+              <input type="checkbox" id="mc-popup-hide" checked="checked" value="1" /> <label for="mc-popup-hide">{{ 'general.mailchimp_popup.dont_show_again' | t }}</label>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  jQuery(document).ready(function() {
+    {% if settings.popup_expires == '0' %}
+    jQuery.removeCookie('popup_cookie');
+    {% endif %}
+    
+    var $_popup_cookie = jQuery.cookie('popup_cookie');
+    if ($_popup_cookie == undefined){
+      jQuery('#lightbox').show();
+      jQuery('body').click(function(e) {
+        if(!(jQuery(e.target).closest('#lightbox .window').length > 0)) {
+          if(jQuery("#mc-popup-hide").is(':checked')){
+            jQuery.cookie('popup_cookie', 'yes', { path: '/', expires: {{settings.popup_expires}} });
+          }
+          jQuery('#lightbox').hide();
+        }
+      });
+      jQuery('#lightbox .close').click(function(e) {
+        if(jQuery("#mc-popup-hide").is(':checked')){
+           jQuery.cookie('popup_cookie', 'yes', { path: '/', expires: {{settings.popup_expires}} });
+        }
+        jQuery('#lightbox').hide();
+      });
+    }
+    
+    var $_form = jQuery('#mc-form');
+    var $_action = $_form.attr('action');
+    $_form.ajaxChimp({
+      url: $_action,
+      callback: function(resp){
+        //
+      }
+    });
+  });
+</script>
+{% endif %}
+{% endif %}

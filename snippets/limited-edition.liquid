@@ -1,0 +1,50 @@
+{% if settings.limited_edition_use %}
+{% if settings.limited_edition_init != blank and settings.limited_edition_stopped != blank and settings.limited_edition_interval != blank %}
+
+<div class="limited_edition_wrapper">
+  <span class="limited_edition_info">{{'products.limited_edition.limited_edition' | t}}</span>
+  <span class="limited_edition_info">{{'products.limited_edition.only' | t}}</span>
+  <span class="limited_edition_info limited_edition_quantity" id="limited_edition_quantity">{{'products.limited_edition.some' | t}}</span>
+  <span class="limited_edition_info">{{'products.limited_edition.left' | t}}</span>
+</div>
+<div class="progress">
+  <div id="limited_edition_bar" class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%;"></div>
+</div>
+
+<script type="text/javascript">
+  var limited_edition_interval;
+  jQuery( document ).ready(function($){
+    
+    setTimeout(function() {
+      var quantity = $.cookie('limited_edition_quantity_{{product.id}}'); 
+    
+      if(quantity == null) {
+        quantity = {{settings.limited_edition_init}};
+        $.cookie('limited_edition_quantity_{{product.id}}', quantity, { expires: 1 });
+      }
+
+      var percent = Math.floor(parseInt(quantity, 10) * 100 /  {{settings.limited_edition_init}});
+      $('#limited_edition_quantity').html(quantity);
+      $('#limited_edition_bar').attr('aria-valuenow', percent).css('width', percent + '%');
+
+      limited_edition_interval = setInterval(function(){
+        var current_quantity = $('#limited_edition_quantity').html();
+
+        if(parseInt(current_quantity, 10) === parseInt({{settings.limited_edition_stopped}}, 10)) {
+          clearInterval(limited_edition_interval);
+        } else {
+          current_quantity = parseInt(current_quantity, 10) - 1;
+          $.cookie('limited_edition_quantity_{{product.id}}', current_quantity, { expires: 1 });
+          var current_percent = Math.floor(parseInt(current_quantity, 10) * 100 /  {{settings.limited_edition_init}});
+          $('#limited_edition_quantity').html(current_quantity);
+          $('#limited_edition_bar').attr('aria-valuenow', current_percent).css('width', current_percent + '%');
+          $('#limited_edition_bar').addClass('progress-bar-striped').addClass('active');      
+          setTimeout(function(){$('#limited_edition_bar').removeClass('progress-bar-striped').removeClass('active');}, 500);
+        }
+      }, {{settings.limited_edition_interval}});
+    }, 3000);
+    
+  });
+</script>
+{% endif %}
+{% endif %}

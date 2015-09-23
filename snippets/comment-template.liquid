@@ -1,0 +1,16 @@
+<div class="comment clearfix">
+  <figure class="author-avatar">
+    <i class="fa fa-user"></i>
+  </figure>
+  <div class="commentary-content">
+    <div class="comment-author commentary">
+      <h3 class="author-name">
+        <cite class="fn">{{ comment.author | escape }}</cite>
+      </h3>
+      <h6 class="comment-date">{{ comment.created_at | date: "%B %d, %Y" }}</h6>
+    </div>
+  </div>
+  <div class="comment-entry commentary">
+    {{ comment.content }}
+  </div>
+</div>

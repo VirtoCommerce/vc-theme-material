@@ -1,0 +1,23 @@
+{% if settings.cart_collection %}
+{% assign temp = settings.cart_collection_use %}
+{% assign collection = collections[temp] %}
+{% if collection.products.size > 0 %}
+<div class="featured-products clearfix">
+  {% if settings.cart_collection_heading != blank %}
+  <div class="title title_center">
+    <span>{{ settings.cart_collection_heading }}</span>
+  </div>
+  {% endif %}
+
+  <div class="owl-row">
+    <div id="featured-products" class="clearfix">
+      {% for product in collection.products limit: settings.cart_collection_number %}
+      <div class="product_item animated">
+        {% include 'product-item' %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endif %}

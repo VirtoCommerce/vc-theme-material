@@ -1,0 +1,118 @@
+{% comment %} Search Modal {% endcomment %}
+{% if settings.header_search %}
+<div id="search-ctl" class="theme-ctl">
+  <div class="inner">
+    <span class="overlay"></span>
+    <div class="ctl-actions">
+      <a class="close-ctl" href="javascript:;" data-ctl-close=""><i class="zmdi zmdi-close"></i></a>
+    </div>
+    <div class="container">
+      <div class="wrapper">
+        <h2 class="title2 h1">{{ 'search.general.title' | t }}</h2>
+        <div class="widget">
+          <form action="/search" method="get" class="search-form" role="search">
+            <input type="hidden" name="type" value="product">
+            
+            <div class="group-input">      
+              <input type="search" name="q" autocomplete="off" required="required" />
+              <span class="highlight"></span>
+              <span class="bar"></span>
+              <label>{{ 'search.general.placeholder' | t }}</label>
+              <button type="submit"><i class="zmdi"></i></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% comment %} Cart Success Modal {% endcomment %}
+<div id="cart-ctl" class="theme-ctl theme-ctl2">
+  <div class="inner">
+    <span class="overlay"></span>
+    <div class="central">
+      <div class="item">
+        <div class="heading">{{ 'general.modal.add_to_cart_message' | t }}</div>
+        <div class="cols">
+          <div class="img">
+            <a class="product-link" href="#"><img class="product-img" src="{{'No_Image.png' | asset_url}}" alt="" /></a>
+          </div>
+          <div class="info">
+            <div class="product-title"><a class="product-link" href="#"></a></div>
+            <div class="product-price"></div>
+          </div>
+          <div class="detail">
+            <div class="product-qty">{{ 'general.modal.quantify' | t }} <span></span></div>
+            <div class="product-total">{{ 'general.modal.total' | t }} <span></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="cart">
+        <div class="product-subtotal">{{ 'general.modal.subtotal' | t }} <span></span></div>
+        <div class="cart-text">{{ 'general.modal.cart_text' | t }}&nbsp;</div>
+        <div>
+          <button type="button" class="btn" onclick="roar.closeThemeCtl2();">{{ 'general.modal.continue_shopping' | t }}</button>
+          <a class="btn btn-1 ripple" href="/cart">{{ 'general.modal.go_to_cart' | t }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% comment %} Wishlist Success Modal {% endcomment %}
+<div id="wishlist-ctl" class="theme-ctl theme-ctl2">
+  <div class="inner">
+    <span class="overlay"></span>
+    <div class="central">
+      <div class="item">
+        <div class="heading">{{ 'general.modal.add_to_wishlist_message' | t }}</div>
+        <div class="cols">
+          <div class="img">
+            <a class="product-link" href="#"><img class="product-img" src="{{'No_Image.png' | asset_url}}" alt="" /></a>
+          </div>
+          <div class="info">
+            <div class="product-title"><a class="product-link" href="#"></a></div>
+            <div class="product-price"></div>
+          </div>
+        </div>
+      </div>
+      <div class="cart">
+        <div class="product-subtotal"></div>
+        <div class="cart-text">{{ 'general.modal.wishlist_text' | t }}&nbsp;</div>
+        <div>
+          <button type="button" class="btn" onclick="roar.closeThemeCtl2();">{{ 'general.modal.continue_shopping' | t }}</button>
+          <a class="btn btn-1 ripple" href="{{pages[settings.wishlist_page].url}}">{{ 'general.modal.go_to_wishlist' | t }}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% comment %} Error Modal {% endcomment %}
+<div id="error-ctl" class="theme-ctl theme-ctl2">
+  <div class="inner">
+    <span class="overlay"></span>
+    <div class="central">
+      <div class="item">
+        <div class="heading"></div>
+        <div class="message"></div>
+      </div>
+      <div class="cart">
+        <button type="button" class="btn" onclick="roar.closeThemeCtl2();">{{ 'general.modal.continue_shopping' | t }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% comment %} Size Chart {% endcomment %}
+{% if settings.product_size_chart != blank %}
+<div id="sizechart-ctl" class="theme-ctl">
+  <div class="inner">
+    <span class="overlay"></span>
+    <div class="ctl-actions">
+      <a class="close-ctl" href="javascript:;" data-ctl-close=""><i class="zmdi zmdi-close"></i></a>
+    </div>
+    <div class="container">
+      {{pages[settings.product_size_chart].content}}
+    </div>
+  </div>
+</div>
+{% endif %}

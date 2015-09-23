@@ -1,0 +1,191 @@
+/*
+ * jQuery FlexSlider v2.2.0
+ * http://www.woothemes.com/flexslider/
+ *
+ * Copyright 2012 WooThemes
+ * Free to use under the GPLv2 license.
+ * http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * Contributing author: Tyler Smith (@mbmufffin)
+ */
+
+
+/* Browser Resets
+*********************************/
+.flex-container a:active,
+.flexslider a:active,
+.flex-container a:focus,
+.flexslider a:focus  {outline: none;}
+.slides,
+.flex-control-nav,
+.flex-direction-nav {margin: 0; padding: 0; list-style: none;}
+
+/* FlexSlider Necessary Styles
+*********************************/
+.flexslider {margin: 0; padding: 0;}
+.flexslider .slides > li {padding:0; display: none; -webkit-backface-visibility: hidden;} /* Hide the slides before the JS is loaded. Avoids image jumping */
+.flexslider .slides img {width: 100%; display: block;}
+.flex-pauseplay span {text-transform: capitalize;}
+
+/* Clearfix for the .slides element */
+.slides:after {content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;}
+html[xmlns] .slides {display: block;}
+* html .slides {height: 1%;}
+
+/* No JavaScript Fallback */
+/* If you are not using another script, such as Modernizr, make sure you
+ * include js that eliminates this class on page load */
+.no-js .slides > li:first-child {display: block;}
+
+/* FlexSlider Default Theme
+*********************************/
+.flexslider {position: relative;z-index:5;}
+.flex-viewport { max-height: 2000px; -webkit-transition: all 1s ease; -moz-transition: all 1s ease; -o-transition: all 1s ease; transition: all 1s ease; }
+.loading .flex-viewport { max-height: 300px; }
+.flexslider .slides { zoom: 1; }
+.carousel li { margin-right: 5px; }
+{% if settings.slideshow_mask %}
+.flexslider .slides .slider-mask{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background-color: {{settings.slideshow_mask_colour}};
+  opacity: {{settings.slideshow_mask_opacity}};
+  filter: alpha(opacity={{settings.slideshow_mask_opacity | times:100}});
+}
+{% endif %}
+
+/* Direction Nav */
+.flex-direction-nav {height: 0;}
+.flex-direction-nav a  { 
+  font-size: 0; 
+  text-decoration:none; 
+  display: block; 
+  font-size: 32px;
+  width: 38px;
+  height: 38px;
+  margin: -19px 0 0; 
+  position: absolute; 
+  top: 50%; 
+  z-index: 10; 
+  overflow: hidden; 
+  opacity: 0; 
+  filter: alpha(opacity=0);
+  cursor: pointer; 
+  color: {{settings.slideshow_navs_colour}}; 
+  border: 2px solid {{settings.slideshow_navs_colour}}; 
+  background-color: transparent; 
+  text-align: center; 
+  -webkit-transition: all .25s ease; 
+  -moz-transition: all .25s ease; 
+  transition: all .25s ease; 
+  border-radius: 50%!important;
+  
+  &:hover{
+    color: darken({{settings.slideshow_navs_colour}}, 100%);
+    background-color: {{settings.slideshow_navs_colour}}; 
+  }
+}
+.flex-direction-nav .flex-prev { left: 20px;}
+.flex-direction-nav .flex-next { right: 20px;}
+.flexslider:hover .flex-direction-nav a,
+.flexslider:hover .flex-control-paging li a{ opacity: 1; filter: alpha(opacity=100);}
+.flex-direction-nav .flex-disabled { opacity: 0!important; filter:alpha(opacity=0)!important; cursor: default; }
+.flex-direction-nav a:before  { 
+  display: block;
+  font-family: "Material-Design-Iconic-Font";
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  display: block;
+  line-height: 34px;
+  content: '\f2fa';
+}
+.flex-direction-nav a.flex-next:before  { content: '\f2fb'; }
+
+/* Pause/Play */
+.flex-pauseplay a { display: block; width: 20px; height: 20px; position: absolute; bottom: 5px; left: 10px; filter: alpha(opacity=80); opacity: 0.8; z-index: 10; overflow: hidden; cursor: pointer; color: #000; }
+.flex-pauseplay a:before  { font-family: "FontAwesome"; font-size: 20px; display: inline-block; content: '\f004'; }
+.flex-pauseplay a:hover  { opacity: 1; filter: alpha(opacity=100); }
+.flex-pauseplay a.flex-play:before { content: '\f003'; }
+
+/* Control Nav */
+.flex-control-nav {width: 100%; position: absolute; bottom: 30px; text-align: center; z-index: 10;}
+.flex-control-nav li {margin: 0 3px; display: inline-block; zoom: 1; *display: inline;}
+.flex-control-paging li a {
+  height: 12px;
+  width: 12px;
+  border: 2px solid #fff;
+  display: block;
+  float: left;
+  border-radius: 50%!important;
+  margin-left: 5px;
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
+  text-indent: -9999em;
+  font-size: 0;
+  opacity:0;
+  filter: alpha(opacity=0);
+}
+.flex-control-paging li:first-child a{margin-left:0;}
+.flex-control-paging li a:hover { 
+  background: #fff;
+}
+.flex-control-paging li a.flex-active { 
+  cursor: default; 
+  background: #fff;
+}
+
+.flex-control-thumbs {margin: 5px 0 0; position: static; overflow: hidden;}
+.flex-control-thumbs li {width: 25%; float: left; margin: 0;}
+.flex-control-thumbs img {width: 100%; display: block; opacity: .7; filter: alpha(opacity=70); cursor: pointer;}
+.flex-control-thumbs img:hover {opacity: 1;filter: alpha(opacity=100);}
+.flex-control-thumbs .flex-active {opacity: 1;filter: alpha(opacity=100); cursor: default;}
+
+@media screen and (max-width: 860px) {  
+  .touch #home-slider .flex-direction-nav{
+    display: none!important;
+  }
+}
+.flexslider .caption{position:absolute;}
+.flexslider .caption.header{z-index:10;opacity:0;filter: alpha(opacity=0);top:25%;left:auto;text-align:center;max-width:100%;width:100%;line-height:1;}
+.flexslider .caption.header h2{text-transform: uppercase; letter-spacing: 0.1em; font-weight: bold; line-height:1;padding:0 0 30px;display:block;position:relative; margin: 0;}
+.flexslider .caption.sub{left:0;position:relative;white-space:normal;padding:0;position:relative;}
+.flexslider .caption.header .caption-background{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.flexslider .caption.header .caption-content{
+  position: relative;
+  z-index: 2;
+  line-height: 1;
+  white-space: normal;
+}
+.flexslider .caption.header .caption-link{
+  line-height: normal;
+}
+#home-slider-overlay{
+  position: absolute;
+  z-index: 200;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#home-slider-overlay span{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -20px;
+  margin-left: -20px;
+  width: 40px;
+  height: 40px;
+  background: {{settings.b_scaffolding_bg}} url({{'loader.gif' | asset_url}}) no-repeat center;
+}

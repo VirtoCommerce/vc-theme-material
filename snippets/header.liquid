@@ -1,0 +1,209 @@
+{% if settings.top_show %}
+<div class="header-top">
+  <div class="container">
+    <div class="content">{{settings.top_content}}
+      <a href="{{settings.top_linkto}}" class="link">{{settings.top_action}}</a>
+      <a href="javascript:;" class="close"><i class="zmdi zmdi-close"></i></a>
+    </div>
+  </div>
+  <script>
+    jQuery(document).ready(function() {
+      var $_popup_cookie = jQuery.cookie('popup_top_cookie');
+      if ($_popup_cookie == undefined){
+        jQuery('.header-top').show();
+        jQuery('.header-top .close').click(function(e) {
+          jQuery('.header-top').slideUp();
+          jQuery.cookie('popup_top_cookie', 'yes', { path: '/', expires: 1 });
+        });
+      }
+    });
+  </script>
+</div>
+{% endif %}
+<div id="header_nav" class="{{settings.header_style}}">
+  {% if settings.header_style == 'style1' %}
+  <span class="top-bar-arrow act"></span>
+  <div class="container">
+    {% if settings.header_message or settings.header_deal %}
+    <div class="site-right">
+      <ul class="top-nav1">
+        {% if settings.header_message %}
+        <li class="site-message">
+          {{settings.header_message_content}}
+        </li>
+        {% endif %}
+        {% if settings.header_deal and settings.header_deal_expires != blank %}
+        <li class="site-hotdeal">
+          <a href="{{settings.header_deal_link}}">{{settings.header_deal_title}} <span class="hotdeal"></span></a>
+          {% assign offerDay = settings.header_deal_expires | split: '-' %}
+          <script type="text/javascript">
+            jQuery(document).ready(function($){
+              if( !$('html').hasClass('ie8') ){
+                var currentDay = new Date();
+                var offerDay = new Date( {{offerDay[2]}}, {{offerDay[0]}} - 1, {{offerDay[1]}} );
+
+                if(currentDay < offerDay)
+                  $('.site-hotdeal .hotdeal').countdown({until: offerDay, compact: true});
+                else
+                  $('.site-hotdeal .hotdeal').parent().hide();
+              }
+            });
+          </script>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+    {% endif %}
+    <div class="site-wrapper">
+      <div id="site-more">
+        {% if settings.header_menu or settings.header_social %}
+        <div class="site-links">
+          <ul class="top-nav2">
+            {% if settings.header_menu %}
+            {% assign list = linklists[settings.header_menu_linklist] %}
+            {% for link in list.links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+            {% endfor %}
+            {% endif %}
+            {% if settings.show_multiple_currencies %}
+            <li>{% include 'currencies-switcher' with 'dropdown' %}</li>
+            {% endif %}
+            {% if settings.header_social %}
+            <li class="social-media">
+              <ul class="list-inline">
+                {% if settings.header_social_facebook %}<li><a target="_blank" href="{{ settings.social_icons_facebook_link }}" class="social-icon facebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>{% endif %}
+                {% if settings.header_social_twitter %}<li><a target="_blank" href="{{ settings.social_icons_twitter_link }}" class="social-icon twitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>{% endif %}
+                {% if settings.header_social_pinterest %}<li><a target="_blank" href="{{ settings.social_icons_pinterest_link }}" class="social-icon pinterest" title="Pinterest"><i class="fa fa-pinterest"></i></a></li>{% endif %}
+                {% if settings.header_social_google %}<li><a target="_blank" href="{{ settings.social_icons_google_link }}" class="social-icon google" title="Google Plus"><i class="fa fa-google-plus"></i></a></li>{% endif %}
+                {% if settings.header_social_youtube %}<li><a target="_blank" href="{{ settings.social_icons_youtube_link }}" class="social-icon youtube" title="Youtube"><i class="fa fa-youtube"></i></a></li>{% endif %}
+                {% if settings.header_social_youtube %}<li><a target="_blank" href="{{ settings.social_icons_vimeo_link }}" class="social-icon vimeo" title="Vimeo"><i class="fa fa-vimeo-square"></i></a></li>{% endif %}
+                {% if settings.header_social_flickr %}<li><a target="_blank" href="{{ settings.social_icons_vimeo_link }}" class="social-icon flickr" title="Flickr"><i class="fa fa-flickr"></i></a></li>{% endif %}
+                {% if settings.header_social_instagram %}<li><a target="_blank" href="{{ settings.social_icons_instagram_link }}" class="social-icon instagram" title="Instagram"><i class="fa fa-instagram"></i></a></li>{% endif %}
+                {% if settings.header_social_tumblr %}<li><a target="_blank" href="{{ settings.social_icons_tumblr_link }}" class="social-icon tumblr" title="Tumblr"><i class="fa fa-tumblr"></i></a></li>{% endif %}
+                {% if settings.header_social_rss %}<li><a target="_blank" href="{{ settings.social_icons_rss_link }}" class="social-icon rss" title="RSS Feed"><i class="fa fa-rss"></i></a></li>{% endif %}
+              </ul>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+        {% endif %}
+        {% if settings.header_customer or settings.header_cart %}
+        <div class="site-links">
+          <ul class="top-nav3">
+            {% if settings.header_customer %}
+            <li class="account-dropdown nav-dropdown-parent">
+              {% include 'customer-links' %}
+            </li>
+            {% endif %}
+            {% if settings.header_cart %}
+            <li class="mini-cart nav-dropdown-parent">
+              <div class="cart-inner">
+                <a href="/cart" class="cart-link">
+                  <strong class="cart-name">{{'general.cart_info.cart' | t}}</strong> 
+                  <span class="cart-price">/ <span class="amount">{{cart.total_price | money | replace:'.00',''}}</span></span>
+                  <div class="cart-icon">
+                    <strong>{{cart.item_count}}</strong>
+                    <span class="cart-icon-handle"></span>
+                  </div>
+                </a>
+              </div>
+              <div class="nav-dropdown">
+                <div class="nav-dropdown-inner">
+                  {% include 'cart-sidebar' %}
+                </div>
+              </div>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+      <div id="site-logo">
+        <div class="template-logo" style="margin-right:{{settings.logo_margin_right | plus:0 | append:'px'}};margin-top:{{settings.logo_margin_top | plus:0 | append:'px'}};margin-left:{{settings.logo_margin_left | plus:0 | append:'px'}};margin-bottom:{{settings.logo_margin_bottom | plus:0 | append:'px'}};">
+          <a href="{{shop.url}}" title="{{ shop.name | escape }}">
+            {% if settings.logo_image == "logo.png" %}
+            <img class="img-responsive normal_logo" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}"{% if settings.logo_image_width != blank %} style="width:{{settings.logo_image_width | plus:0 | append:'px'}}"{% endif %} />
+            {% else %}
+            {{ settings.logo_text | escape }}
+            {% endif %}
+
+            {% if settings.logo_image == "logo.png" and settings.logo2x_image_enable %}
+            <img class="img-responsive retina_logo" src="{{ 'logo2x.png' | asset_url }}" alt="{{ shop.name | escape }}" style="width:{{settings.retina_logo_width | plus:0 | append:'px'}};max-height:{{settings.retina_logo_height | plus:0 | append:'px'}}; height: auto !important;" />
+            {% endif %}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%comment%} Navigation {%endcomment%}
+  {% include 'navigation' %}
+  
+  {% elsif settings.header_style == 'style2' %}
+  <span class="top-bar-arrow act"></span>
+  <div id="top-bar">
+    <div class="container">
+      {% if settings.header_message %}
+      <div class="left-text pull-left">
+        <div class="html"><b>{{settings.header_message_content}}</b></div>
+      </div>
+      {% endif %}
+      <div class="right-text pull-right">
+        <ul id="menu-top-bar-menu" class="top-bar-nav">
+          {% if settings.header_menu %}
+          {% assign list = linklists[settings.header_menu_linklist] %}
+          {% for link in list.links %}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {% endfor %}
+          {% endif %}
+          {% if settings.show_multiple_currencies %}
+          <li>{% include 'currencies-switcher' with 'dropdown' %}</li>
+          {% endif %}
+          {% if settings.header_social %}
+          <li class="social-media">
+            <ul class="list-inline">
+              {% if settings.header_social_facebook %}<li><a target="_blank" href="{{ settings.social_icons_facebook_link }}" class="social-icon facebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>{% endif %}
+                {% if settings.header_social_twitter %}<li><a target="_blank" href="{{ settings.social_icons_twitter_link }}" class="social-icon twitter" title="Twitter"><i class="fa fa-twitter"></i></a></li>{% endif %}
+                {% if settings.header_social_pinterest %}<li><a target="_blank" href="{{ settings.social_icons_pinterest_link }}" class="social-icon pinterest" title="Pinterest"><i class="fa fa-pinterest"></i></a></li>{% endif %}
+                {% if settings.header_social_google %}<li><a target="_blank" href="{{ settings.social_icons_google_link }}" class="social-icon google" title="Google Plus"><i class="fa fa-google-plus"></i></a></li>{% endif %}
+                {% if settings.header_social_youtube %}<li><a target="_blank" href="{{ settings.social_icons_youtube_link }}" class="social-icon youtube" title="Youtube"><i class="fa fa-youtube"></i></a></li>{% endif %}
+                {% if settings.header_social_youtube %}<li><a target="_blank" href="{{ settings.social_icons_vimeo_link }}" class="social-icon vimeo" title="Vimeo"><i class="fa fa-vimeo-square"></i></a></li>{% endif %}
+                {% if settings.header_social_flickr %}<li><a target="_blank" href="{{ settings.social_icons_vimeo_link }}" class="social-icon flickr" title="Flickr"><i class="fa fa-flickr"></i></a></li>{% endif %}
+                {% if settings.header_social_instagram %}<li><a target="_blank" href="{{ settings.social_icons_instagram_link }}" class="social-icon instagram" title="Instagram"><i class="fa fa-instagram"></i></a></li>{% endif %}
+                {% if settings.header_social_tumblr %}<li><a target="_blank" href="{{ settings.social_icons_tumblr_link }}" class="social-icon tumblr" title="Tumblr"><i class="fa fa-tumblr"></i></a></li>{% endif %}
+                {% if settings.header_social_rss %}<li><a target="_blank" href="{{ settings.social_icons_rss_link }}" class="social-icon rss" title="RSS Feed"><i class="fa fa-rss"></i></a></li>{% endif %}
+            </ul>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="navigation_wrapper">
+      <div id="site-logo">
+        <div class="template-logo" style="margin-right:{{settings.logo_margin_right | plus:0 | append:'px'}};margin-top:{{settings.logo_margin_top | plus:0 | append:'px'}};margin-left:{{settings.logo_margin_left | plus:0 | append:'px'}};margin-bottom:{{settings.logo_margin_bottom | plus:0 | append:'px'}};">
+          <a href="{{shop.url}}" title="{{ shop.name | escape }}">
+            {% if settings.logo_image == "logo.png" %}
+            <img class="img-responsive normal_logo" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}"{% if settings.logo_image_width != blank %} style="width:{{settings.logo_image_width | plus:0 | append:'px'}}"{% endif %} />
+            {% else %}
+            {{ settings.logo_text | escape }}
+            {% endif %}
+
+            {% if settings.logo_image == "logo.png" and settings.logo2x_image_enable %}
+            <img class="img-responsive retina_logo" src="{{ 'logo2x.png' | asset_url }}" alt="{{ shop.name | escape }}" style="width:{{settings.retina_logo_width | plus:0 | append:'px'}};max-height:{{settings.retina_logo_height | plus:0 | append:'px'}}; height: auto !important;" />
+            {% endif %}
+          </a>
+        </div>
+      </div>
+      <div id="site-navigation-wrap">
+        <div class="navigation">
+          {%comment%} Navigation {%endcomment%}
+          {% include 'navigation' %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>

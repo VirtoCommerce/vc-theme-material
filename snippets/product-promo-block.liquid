@@ -1,0 +1,54 @@
+{% if settings.product_promo_block_enabel %}
+<div class="promotion hidden-xs">
+  <div class="container">
+    {% if settings.product_promo_block_heading != blank %}
+    <h2 class="title animated">
+      {{ settings.product_promo_block_heading }}
+    </h2>
+    {% endif %}
+    <div id="promotion">
+      <div class="row">
+        {% for i in (1..3) %}
+        {% assign heading = 'product_promo_block_heading_' | append: i %}
+        {% assign caption = 'product_promo_block_caption_' | append: i %}
+        {% assign icon = 'product_promo_block_icon_' | append: i %}
+        {% assign action = 'product_promo_block_action_' | append: i %}
+
+        <div class="promo-item animated col-sm-4">
+          <div class="inner">
+            <div class="boxes_icon">
+              <div class="inner_icon">
+                <span class="icon">
+                  {{settings[icon]}}
+                </span>
+              </div>
+            </div>
+
+            <div class="boxes_content">
+              <div class="boxes_title">
+                {% if settings[action] != blank %}
+                <a href="{{settings[action]}}">{{settings[heading]}}</a>
+                {% else %}
+                {{settings[heading]}}
+                {% endif %}
+              </div>
+
+              {% if settings[caption] != blank %}
+              <div class="content_icon_box">
+                {{settings[caption]}}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% if settings.product_promo_block_action != blank %}
+      <div class="promo-btn animated">
+        <a href="{{settings.product_promo_block_url}}" class="btn ripple">{{settings.product_promo_block_action}}</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endif %}

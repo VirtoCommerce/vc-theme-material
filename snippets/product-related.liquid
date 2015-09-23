@@ -1,0 +1,57 @@
+{% assign variant_tmp = prod.selected_or_first_available_variant  %}
+{% for variant in prod.variants %}
+{% if variant.available == true and variant.price < variant_tmp.price %}
+{% assign variant_tmp = variant %}	
+{% endif %}
+{% endfor %}
+
+<div class="product style2">
+  <div class="product-container">
+    <div class="product-wrap">
+      <div class="product-image">
+        <div class="wrap">
+          <a href="{{prod.url | within: collection}}">
+            <img src="{{ prod.featured_image | product_img_url: settings.wrapper_img_size }}" class="main-image img-responsive" alt="{{ prod.title }}" />
+          </a>
+        </div>
+      </div>
+      <div class="product-content">
+        <div class="table">
+          <div class="product-inner">
+            <div class="overlay"></div>
+            
+            <div class="product-title">
+              <a href="{{ prod.url | within: collection }}" title="{{ prod.title }}">
+                {{ prod.title }}
+              </a>
+            </div>
+
+            {% if settings.reviews_enable %}
+            <div class="isreview">
+              <span class="shopify-product-reviews-badge" data-id="{{ prod.id }}"></span>
+            </div>
+            {% endif %}
+
+            <div class="price-val product-price">
+              {% if prod.available %}
+
+              <span class="price">{{ variant_tmp.price | money }}</span>
+
+              {% if variant_tmp.compare_at_price > variant_tmp.price %}
+              <del class="price_compare"> {{ variant_tmp.compare_at_price | money }}</del>
+              {% endif %}
+
+              {% else %}
+              <span class="sold_out">{{'products.product.sold_out' | t}}</span>
+              {% endif %}
+            </div>
+            
+            <div class="product-btn">
+              <a href="{{ prod.url | within: collection }}"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.show_details' | t}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

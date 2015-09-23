@@ -1,0 +1,97 @@
+{% comment %} Media Social Icons {% endcomment %}
+{% if settings.social_icons_show %}
+<div id="widget-social" class="social-icons">
+  <ul class="list-inline">
+    {% if settings.social_icons_facebook_show %}
+    <li>
+      <a target="_blank" href="{{ settings.social_icons_facebook_link }}" class="social-wrapper facebook">
+        <span class="social-icon">
+          <i class="fa fa-facebook"></i>
+        </span>
+      </a>
+    </li>
+    {% endif %}
+    {% if settings.social_icons_twitter_show %}
+    <li>
+      <a target="_blank" href="{{ settings.social_icons_twitter_link }}" class="social-wrapper twitter">
+        <span class="social-icon">
+          <i class="fa fa-twitter"></i>
+        </span>
+      </a>
+    </li>
+    {% endif %}
+    {% if settings.social_icons_pinterest_show %}
+    <li>
+      <a target="_blank" href="{{ settings.social_icons_pinterest_link }}" class="social-wrapper pinterest">
+        <span class="social-icon">
+          <i class="fa fa-pinterest"></i>
+        </span>
+      </a>
+    </li>
+    {% endif %}
+    {% if settings.social_icons_google_show %}
+    <li>
+      <a target="_blank" href="{{ settings.social_icons_google_link }}" class="social-wrapper google">
+        <span class="social-icon">
+          <i class="fa fa-google-plus"></i>
+        </span>
+      </a>
+    </li>
+    {% endif %}
+    {% if settings.social_icons_youtube_show %}
+    <li>
+      <a target="_blank" href="{{ settings.social_icons_youtube_link }}" class="social-wrapper youtube">
+        <span class="social-icon">
+          <i class="fa fa-youtube"></i>
+        </span>
+      </a>
+    </li>
+    {% endif %}
+    {% if settings.social_icons_vimeo_show %}
+    <li>
+      <a target="_blank" href="{{ settings.social_icons_vimeo_link }}" class="social-wrapper vimeo">
+        <span class="social-icon">
+          <i class="fa fa-vimeo-square"></i>
+        </span>
+      </a>
+    </li>
+    {% endif %}
+    {% if settings.social_icons_flickr_show %}
+    <li>
+      <a target="_blank" href="{{ settings.social_icons_flickr_link }}" class="social-wrapper flickr">
+        <span class="social-icon">
+          <i class="fa fa-flickr"></i>
+        </span>
+      </a>
+    </li>
+    {% endif %}
+    {% if settings.social_icons_instagram_show %}
+    <li>
+      <a target="_blank" href="{{ settings.social_icons_instagram_link }}" class="social-wrapper instagram">
+        <span class="social-icon">
+          <i class="fa fa-instagram"></i>
+        </span>
+      </a>
+    </li>
+    {% endif %}
+    {% if settings.social_icons_tumblr_show %}
+    <li>
+      <a target="_blank" href="{{ settings.social_icons_tumblr_link }}" class="social-wrapper tumblr">
+        <span class="social-icon">
+          <i class="fa fa-tumblr"></i>
+        </span>
+      </a>
+    </li>
+    {% endif %}
+    {% if settings.social_icons_rss_show %}
+    <li>
+      <a target="_blank" href="{{ settings.social_icons_rss_link }}" class="social-wrapper rss">
+        <span class="social-icon">
+          <i class="fa fa-rss"></i>
+        </span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}

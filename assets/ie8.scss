@@ -1,0 +1,11 @@
+#content{overflow: hidden;}
+.blog-posts .blog-post{position: relative;}
+.blog-posts .blog-post .blog-sidebar{position: absolute; top: 0; left: 0;}
+.blog-posts .blog-post .blog-content{width: 100%; padding-left: 150px;}
+.static-surround video, .static-surround .static-wrap .static-control{display:none;}
+.static-surround .static-wrap .static-img{display:block;}
+#product .product-images{width:100%;padding-right:320px;}
+#product .product-sidebar{position:absolute;}
+#product .wrap .wrap-one{width:100%;padding-right:320px;}
+.cart-page .cart-items .cart-right .qty{width: 142px;}
+.container{max-width: 1170px;}

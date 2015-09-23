@@ -1,0 +1,13 @@
+{% if shop.products_count < 1 %}
+
+<div class="container">
+  <div class="row">
+    
+    <div class="col-md-24 align-center">
+      <h2 class="align-center">Welcome to your store!</h2>
+      <p>It looks like you don't have any products yet, would you like to <a href="/admin/products/new">create some now</a>?</p>
+    </div>
+    
+  </div>
+</div>
+{% endif %}

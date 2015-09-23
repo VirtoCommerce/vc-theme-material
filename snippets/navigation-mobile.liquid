@@ -1,0 +1,14 @@
+<div class="is-mobile visible-xs visible-sm">
+  <div class="menu-mobile">
+    <div class="is-mobile-nav">
+      <div class="nav_close" data-toggle="offcanvas">
+        <button type="button" class="zmdi zmdi-close"></button>
+      </div>
+      <ul class="mobile_nav">
+        {% for link in linklists[settings.nav_linklist].links %}
+        {% include 'navigation-mobile-link' with 'top' %}
+        {% endfor %}
+      </ul>       
+    </div>
+  </div>
+</div>

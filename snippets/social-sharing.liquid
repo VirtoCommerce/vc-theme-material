@@ -1,0 +1,58 @@
+{% if settings.share_facebook or settings.share_twitter or settings.share_pinterest or settings.share_fancy or settings.share_google %}
+
+{% assign is_product = true %}
+{% if template contains 'article' or template contains 'blog' %}
+{% capture permalinkURL %}{{ shop.url }}{{ article.url }}{% endcapture %}
+{% capture shareTitle %}{{ article.title }}{% endcapture %}
+{% assign is_product = false %}
+
+{% else %}
+{% capture permalinkURL %}{{ shop.url }}{{ product.url }}{% endcapture %}
+{% capture shareTitle %}{{ product.title }}{% endcapture %}
+
+{% endif %}
+
+<div class="social-icons" data-permalink="{{ permalinkURL }}">
+  <ul class="list-inline">
+    {% if settings.share_facebook %}
+    <li>
+      <a target="_blank" href="//www.facebook.com/sharer.php?u={{ permalinkURL }}" class="social-wrapper">
+        <span class="social-icon"><i class="fa fa-facebook"></i></span>
+      </a>
+    </li>
+    {% endif %}
+
+    {% if settings.share_twitter %}
+    <li>
+      <a target="_blank" href="//twitter.com/share?url={{ permalinkURL }}&amp;text={{ shareTitle }}" class="social-wrapper">
+        <span class="social-icon"><i class="fa fa-twitter"></i></span>
+      </a>
+    </li>
+    {% endif %}
+    
+    {% if settings.share_pinterest and is_product %}
+    <li>
+      <a target="_blank" href="//pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media=http:{{ product.featured_image | img_url: 'original' }}&amp;description={{ product.title | escape }}" class="social-wrapper">
+        <span class="social-icon"><i class="fa fa-pinterest"></i></span>
+      </a>
+    </li>
+    {% endif %}
+
+    {% if settings.share_google %}
+    <li>
+      <a target="_blank" href="//plus.google.com/share?url={{ permalinkURL }}" class="social-wrapper">
+        <span class="social-icon"><i class="fa fa-google-plus"></i></span>
+      </a>
+    </li>
+    {% endif %}
+
+    {% if template contains 'product' %}
+    <li>
+      <a href="mailto:?body={{product.title}} ({{shop.url}}{{product.url}})" class="social-wrapper">
+        <span class="social-icon"><i class="fa fa-envelope-o"></i></span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}

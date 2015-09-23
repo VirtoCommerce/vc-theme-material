@@ -1,0 +1,118 @@
+{% if settings.slideshow_placement == 'within-container' %}
+<div class="container">
+  {% endif %}
+  <div class="row-fluid">
+    {% if settings.slide_active_1 or settings.slide_active_2 or settings.slide_active_3 or settings.slide_active_4 or settings.slide_active_5 %}
+    <div id="home-slider" class="{{settings.slideshow_placement}} flexslider{% if settings.slideshow_scale %} scale{% endif %}">
+      <ul class="slides">
+        {% assign count = 0 %}
+        {% for i in (1..5) %}
+        {% assign show = 'slide_active_' | append: i %}
+
+        {% if settings[show] %}
+        {% assign count = count | plus:1 %}
+        {% assign link = 'slide_link_' | append: i %}
+        {% assign image = 'slide_image_' | append: i %}
+        {% assign video = 'slide_video_' | append: i %}
+        {% assign title = 'slide_heading_' | append: i %}
+        {% assign title2 = 'slide_heading_color_' | append: i %}
+        {% assign title3 = 'slide_heading_size_' | append: i %}
+        {% assign caption = 'slide_caption_' | append: i %}
+        {% assign caption2 = 'slide_caption_color_' | append: i %}
+        {% assign caption3 = 'slide_caption_size_' | append: i %}
+        {% assign cta = 'slide_call_to_action_' | append: i %}
+        {% assign position = 'slide_position_' | append: i %}
+        {% assign exchange = 'slide_exchange_' | append: i %}
+        {% assign border = 'slide_border_' | append: i %}
+        {% assign badge = 'slide_badge_' | append: i %}
+        <li>
+          <div class="slide-body">
+            <div class="slide-banner" style="background-image:url({{ image | append: '.jpg' | asset_url }});">
+              {% if settings[cta] == empty %}
+              <a href="{{settings[link]}}">
+                {% endif %}
+
+                {% if settings.slideshow_mask %}
+                <span class="slider-mask"></span>
+                {% endif %}
+
+                <img class="slide-img" src="{{ image | append: '.jpg' | asset_url }}" alt="{{settings[title]}}" />
+                {% if settings[video] != blank %}
+                <video class="slide-video" poster="{{ image | append: '.jpg' | asset_url }}" preload="auto" autoplay="" loop="loop" muted="muted">
+                  <source src="{{settings[video]}}" type="video/mp4">
+                </video>
+                {% endif %}
+
+                {% if settings[cta] == empty %}
+              </a>
+              {% endif %}
+
+              {% if settings[position] %}
+              {% assign temp = 'slide_top_' | append: i %}
+              {% assign pos_top = settings[temp] %}
+
+              {% assign temp = 'slide_top2_' | append: i %}
+              {% assign pos_top2 = settings[temp] %}
+
+              {% assign temp = 'slide_left_' | append: i %}
+              {% assign pos_left = settings[temp] %}
+
+              {% assign temp = 'slide_left2_' | append: i %}
+              {% assign pos_left2 = settings[temp] %}
+
+              {% assign temp = 'slide_align_' | append: i %}
+              {% assign pos_align = settings[temp] %}
+              {% endif %}
+              
+              {% assign temp = 'slide_width_' | append: i %}
+              {% assign pos_width = settings[temp] %}
+              <div class="slide-caption caption header"{% if settings[position] %} data-position="1" data-{{pos_top2}}="{{pos_top|plus:0}}" data-{{pos_left2}}="{{pos_left|plus:0}}" data-width="{{pos_width|plus:0}}" data-align="{{pos_align}}"{% endif %}>
+
+                {% if  settings[badge] %}
+                <div class="slide-badge-wrapper">
+                  <img src="{{ 'slide_badge_' | append: i | append: '.png' | asset_url }}"/>
+                </div>
+                {% else %}
+                {% if settings[cta] != empty or settings[title] != empty or settings[caption] != empty %}
+
+                <div class="caption sub"{% if settings[position] == false and pos_width != blank %} style="max-width:{{pos_width}}px;"{% endif %}>
+
+                  {% if settings[exchange] == true and settings[title] != empty %}
+                  <h2 class="caption-content" data-min="{{settings.general_font_size | plus:0}}" data-max="{{settings[title3] | plus:0}}" style="color:{{settings[title2]}};font-size:{{settings[title3] | plus:0}}px;">
+                    {{ settings[title] }}
+                  </h2>
+                  {% endif %}
+                  
+                  {% if settings[caption] != empty %}
+                  <div class="caption-content" data-min="{{settings.general_font_size | plus:0}}" data-max="{{settings[caption3] | plus:0}}" style="color:{{settings[caption2]}};font-size:{{settings[caption3] | plus:0}}px;">
+                    {{ settings[caption] }}
+                  </div>
+                  {% endif %}
+                  
+                  {% if settings[exchange] == false and settings[title] != empty %}
+                  <h2 class="caption-content" data-min="{{settings.general_font_size | plus:0}}" data-max="{{settings[title3] | plus:0}}" style="color:{{settings[title2]}};font-size:{{settings[title3] | plus:0}}px;">
+                    {{ settings[title] }}
+                  </h2>
+                  {% endif %}
+
+                  {% if settings[cta] != empty %}
+                  <div class="caption-link">
+                    <a class="ripple btn btn-1" href="{{settings[link]}}">{{settings[cta]}}</a>
+                  </div>
+                  {% endif %}
+                </div>
+                {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+  {% if settings.slideshow_placement == 'within-container' %}
+</div>
+{% endif %}

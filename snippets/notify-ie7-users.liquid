@@ -1,0 +1,27 @@
+<script type="text/javascript">
+  // Notification for IE7 users
+  function notifyIE7Users(){
+    if( $('html').hasClass('ie7') ){
+      {% assign page_temp = pages[settings.notify_ie8_page].url %}
+      {% if page_temp != blank %}
+      $.ajax({
+        type: 'GET',
+        url: '{{page_temp}}',
+        beforeSend: function() {
+      },
+             success: function(data) {
+
+        var filteredData = $(data).find("#col-main > .page");
+
+        $('body').html(filteredData.html()).show();
+      },
+        dataType: "html"
+    });
+    {% else %}
+    var notify = '<h1>Unsupported Browser</h1>';
+    $('body').html(notify).show();
+    {% endif %}
+  }
+  }
+  notifyIE7Users();
+</script>

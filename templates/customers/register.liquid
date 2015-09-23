@@ -1,0 +1,53 @@
+<div class="central">
+  <div id="col-main" class="clearfix">
+    <div id="customer-register">
+      <h2 class="page-title">{{ 'customer.register.title' | t }}</h2>
+
+      {% form 'create_customer' %}
+
+      {% if form.errors %}
+      <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        {{ form.errors | default_errors }}
+      </div>
+      {% endif %}
+      
+      <div class="group-input">      
+        <input type="text" name="customer[first_name]" id="first_name" />
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>{{ 'customer.register.first_name' | t }}</label>
+      </div>
+
+      <div class="group-input">      
+        <input type="text" name="customer[last_name]" id="last_name" />
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>{{ 'customer.register.last_name' | t }}</label>
+      </div>
+
+      <div class="group-input{% if form.errors contains 'email' %} error{% endif %}">      
+        <input type="email" required="required" value="{{ form.email }}" name="customer[email]" id="email" />
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>{{ 'customer.register.email' | t }} *</label>
+      </div>
+
+      <div class="group-input{% if form.errors contains 'password' %} error{% endif %}">      
+        <input type="password" required="required" name="customer[password]" id="password" />
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>{{ 'customer.register.password' | t }} *</label>
+      </div>
+
+      <div class="control-group">
+        <button class="btn btn-1 ripple" type="submit">{{'customer.register.submit' | t}}</button>
+      </div>
+
+      <div class="login-account">
+        <a href="/account/login" id="login-btn">{{'customer.register.login_html' | t}}</a>
+      </div>
+      {% endform %}
+    </div>
+  </div>
+</div>

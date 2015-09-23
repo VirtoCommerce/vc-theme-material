@@ -1,0 +1,107 @@
+{% comment %} ----- Feedback ----- {% endcomment %}
+{% if settings.feedback_enable %}
+<div class="{% if settings.home_contact_enable == false %}widget-wrapper {% endif %}feedback clearfix">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8">
+        {% if settings.feedback_touch_heading != blank %}
+        <div class="title">{{settings.feedback_touch_heading}}</div>
+        {% endif %}
+        
+        {% if settings.feedback_touch_message != blank %}
+        <div class="message">{{settings.feedback_touch_message}}</div>
+        {% endif %}
+        
+        <ul class="get_touch list-unstyled">
+          {% if settings.feedback_touch_address != blank %}
+          <li class="address"><i class="fa fa-home"></i> {{settings.feedback_touch_address}}</li>
+          {% endif %}
+
+          {% if settings.feedback_touch_phone != blank %}
+          <li class="phone"><i class="fa fa-phone"></i> {{settings.feedback_touch_phone}}</li>
+          {% endif %}
+
+          {% if settings.feedback_touch_email != blank %}
+          <li class="email"><i class="fa fa-envelope"></i> <a href="mailto:{{settings.feedback_touch_email}}">{{settings.feedback_touch_email}}</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      <div class="col-sm-16">
+        <div class="title">{{'general.feedback.feedback_text' | t}}</div>
+        <div class="row feedback_form">
+          <div class="col-sm-12">
+            <p>
+              <input id="feedback_name" class="btn-block" type="text" placeholder="{{'general.feedback.your_name' | t}}" />
+            </p>
+            <p>
+              <input id="feedback_email" class="btn-block" type="text" placeholder="{{'general.feedback.your_email' | t}}" />
+            </p>
+            <p>
+              <input id="feedback_phone" class="btn-block" type="text" placeholder="{{'general.feedback.your_phone' | t}}" />
+            </p>
+          </div>
+          <div class="col-sm-12">
+            <p>
+              <textarea id="feedback_message" class="btn-block" placeholder="{{'general.feedback.your_message' | t}}"></textarea>
+            </p>
+          </div>
+        </div>
+        <div class="feedback_action">
+          <button type="button" id="feedback_submit" class="btn-arrow btn btn-1"><i class="icomoon-arrow-right"></i> {{'general.feedback.submit_button' | t}}</button>
+          <div class="feedback_notify"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  jQuery('#feedback_submit').click(function() {
+    var invalid = false;
+    
+    if(!jQuery('#feedback_email').val()){
+      jQuery('#feedback_email').parent().addClass('error');
+      invalid = true;
+    }
+    else
+      jQuery('#feedback_email').parent().removeClass('error');
+    
+    if(!jQuery('#feedback_message').val()){
+      jQuery('#feedback_message').parent().addClass('error');
+      invalid = true;
+    }
+    else
+      jQuery('#feedback_message').parent().removeClass('error');
+    
+    if(invalid)
+      return false;
+    else{
+      /* Build the Shopify Parameters */
+      var action  = '/contact?';
+      action += encodeURIComponent('form_type') +'='+ encodeURIComponent('contact');
+      action += '&'+ encodeURIComponent('utf8') +'='+ encodeURIComponent('✓');
+      action += '&'+ encodeURIComponent('contact[name]') +'='+ encodeURIComponent(jQuery('#feedback_name').val());
+      action += '&'+ encodeURIComponent('contact[email]') +'='+ encodeURIComponent(jQuery('#feedback_email').val());
+      action += '&'+ encodeURIComponent('contact[phone]') +'='+ encodeURIComponent(jQuery('#feedback_phone').val());
+      action += '&'+ encodeURIComponent('contact[body]') +'='+ encodeURIComponent(jQuery('#feedback_message').val());
+
+      /* Submit the form */
+      jQuery.ajax({
+        type: "POST",
+        async: true,
+        url: action,
+        beforeSend: function() {
+          jQuery('#feedback_submit').val('{{'general.feedback.submit_waiting' | t}}');
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          jQuery('#feedback_submit').val('{{'general.feedback.submit_button' | t}}');
+          jQuery('.feedback_notify').html('{{'general.feedback.error_text' | t}}');
+        },
+        success: function(response) {
+          jQuery('#feedback_submit').val('{{'general.feedback.submit_button' | t}}');
+          jQuery('.feedback_notify').html('{{'general.feedback.thank_you_text' | t}}');
+        }
+      });
+    }
+  });
+</script>
+{% endif %}

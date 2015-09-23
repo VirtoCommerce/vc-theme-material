@@ -1,0 +1,393 @@
+{% comment %} Sanity check to prevent infinite recursion {% endcomment %}
+{% assign sanity = sanity | plus: 1 %}
+
+{% if sanity < 1000 %}
+{% capture link_handle %}{{ link.title | handle }}{% endcapture %}
+{% assign hasChildren = false %}
+{% if linklists[link_handle] and linklists[link_handle].links.size > 0 %}
+{% assign hasChildren = true %}
+{% endif %}
+
+{% assign isTop = false %}
+{% if navigation-link == 'top' %}
+{% assign isTop = true %}
+{% endif %}
+
+{% assign isMega = false %}
+{% if isTop %}
+{% assign affixMenu = 'mega_menu' %}
+{% for i in (1..5) %}
+
+{% assign tmp = 'mega_menu' | append:i | append:'_trigger' %}
+{% assign menu_trigger = settings[tmp] | handle %}
+{% if menu_trigger == link_handle %}
+{% assign isMega = true %}
+{% assign affixMenu = 'mega_menu' | append:i | append:'_' %}
+{% assign tmp = affixMenu | append:'style' %}
+{% assign mega_style = settings[tmp] %}
+{% break %}
+{% endif %}
+
+{% endfor %}
+{% endif %}
+
+<li class="hidden-xs{% if link.active %} active{% endif %}{% if isMega %} is-mega {{mega_style}}{% endif %}{% if hasChildren %} dropdown-parent{% unless isTop %}-submenu{% endunless %}{% endif %}">
+  <a href="{{link.url}}">
+    <span>{{link.title}}</span>{% if hasChildren or isMega %}<i class="zmdi zmdi-chevron-down"></i>{% endif %}
+  </a>
+  
+  {% if isMega %}
+  {% case mega_style %}
+  {% when 'style_1' %}
+  {% assign tmp = affixMenu | append:'height' %}
+  {% assign minHeight = settings[tmp] %}
+  <div class="mega-menu style_1">
+    <div class="container">
+      <div class="wrap" style="min-height: {{minHeight | default:400 | plus:0}}px;">
+        <div class="sup-title">
+          {% assign tmp = affixMenu | append:'trigger_title' %}
+          {% if settings[tmp] != blank %}
+          {{settings[tmp]}}
+          {% else %}
+          {{link.title}}
+          {% endif %}
+        </div>
+        <ul class="inner">
+          {% assign count = 0 %}
+          {% for j in (1..10) %}
+          {% assign tmp = affixMenu | append: j %}
+          {% assign temp = settings[tmp] %}
+          {% assign nav = linklists[temp] %}
+          {% if nav.handle != blank %}
+          {% assign count = count | plus:1 %}
+          <li class="item{% if count == 1 %} hover{% endif %}">
+            {% assign tmp1 = affixMenu | append:'title_' | append: j %}
+            {% assign tmp2 = affixMenu | append:'link_' | append: j %}
+            <a href="{{settings[tmp2]}}">{{settings[tmp1]}}{% if nav.links.size > 0 %}<i class="zmdi zmdi-caret-right"></i>{% endif %}</a>
+
+            {% if nav.links.size > 0 %}
+            <div class="mega-menu-content" style="min-height: {{minHeight | default:400 | plus:0}}px;">
+              <div class="wrap">
+                <ul class="child">
+                  {% for l in nav.links %}
+                  <li>
+                    <a href="{{l.url}}">{{l.title}}</a>
+                  </li>
+                  {% endfor %}
+                </ul>
+                {% assign tmp3 = affixMenu | append:'img_' | append: j %}
+                {% if settings[tmp3] %}
+                {% assign embed = affixMenu | append:'embed_' | append: j %}
+                <div class="img-visual">
+                  <div class="img-wrap">
+                    {% if settings[embed] != blank %}
+                    {{settings[embed]}}
+                    {% else %}
+                    {% assign img = affixMenu | append:'img_' | append: j | append: '.jpg' %}
+                    <a href="{{settings[tmp2]}}">
+                      <img src="{{img | asset_url}}" alt="{{settings[tmp1]}}" />
+
+                      <div class="img-bg">
+                        <span class="img-cpt animated">{{ 'collections.general.shop_the' | t }} {{settings[tmp1]}}</span>
+                      </div>
+                    </a>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            {% endif %}
+          </li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% when 'style_2' %}
+  <div class="mega-menu style_2">
+    <div class="wrap container">
+      <ul class="inner row">
+        {% for j in (1..10) %}
+        {% assign tmp = affixMenu | append: j %}
+        {% assign temp = settings[tmp] %}
+        {% assign nav = linklists[temp] %}
+        {% if nav.handle != blank %}
+        <li class="item">
+          {% assign tmp1 = affixMenu | append:'title_' | append: j %}
+          {% assign tmp2 = affixMenu | append:'link_' | append: j %}
+          <a href="{{settings[tmp2]}}">{{settings[tmp1]}}</a>
+          
+          {% if nav.links.size > 0 %}
+          <div class="mega-menu-content">
+            <div class="wrap">
+              <ul class="child">
+                {% assign tmp3 = affixMenu | append:'img_' | append: j %}
+                {% if settings[tmp3] %}
+                <li class="img-visual">
+                  {% assign img = tmp3 | append: '.jpg' %}
+                  <a href="{{settings[tmp2]}}">
+                    <img src="{{img | asset_url}}" alt="{{settings[tmp1]}}" />
+
+                    <div class="img-bg">
+                      <span class="img-cpt animated">{{ 'collections.general.shop_the' | t }} {{settings[tmp1]}}</span>
+                    </div>
+                  </a>
+                </li>
+                {% endif %}
+                {% for l in nav.links %}
+                <li>
+                  <a href="{{l.url}}">{{l.title}}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          {% endif %}
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% when 'style_3' %}
+  {% assign tmp = affixMenu | append:'height' %}
+  {% assign minHeight = settings[tmp] %}
+  <div class="mega-menu style_3">
+    <div class="container">
+      <div class="wrap" style="min-height: {{minHeight | default:400 | plus:0}}px;">
+        <div class="sup-title">
+          {% assign tmp = affixMenu | append:'trigger_title' %}
+          {% if settings[tmp] != blank %}
+          {{settings[tmp]}}
+          {% else %}
+          {{link.title}}
+          {% endif %}
+        </div>
+        <ul class="inner">
+          {% assign count = 0 %}
+          {% for j in (1..10) %}
+          {% assign tmp = affixMenu | append: j %}
+          {% assign temp = settings[tmp] %}
+          {% assign nav = linklists[temp] %}
+          {% if nav.handle != blank %}
+          {% assign count = count | plus:1 %}
+          <li class="item{% if count == 1 %} hover{% endif %}">
+            {% assign tmp1 = affixMenu | append:'title_' | append: j %}
+            {% assign tmp2 = affixMenu | append:'link_' | append: j %}
+            <a href="{{settings[tmp2]}}">{{settings[tmp1]}}{% if nav.links.size > 0 %}<i class="zmdi zmdi-caret-right"></i>{% endif %}</a>
+
+            {% if nav.links.size > 0 %}
+            <div class="mega-menu-content" style="min-height: {{minHeight | default:400 | plus:0}}px;">
+              <div class="wrap">
+                <div class="child">
+                  {% for l in nav.links %}
+                  {% if l.type == 'product_link' %}
+                  {% assign product = l.object %}
+                  {% assign variant_tmp = product.selected_or_first_available_variant  %}
+                  {% for variant in product.variants %}
+                  {% if variant.available == true and variant.price < variant_tmp.price %}
+                  {% assign variant_tmp = variant %}	
+                  {% endif %}
+                  {% endfor %}
+                  <div class="product {{settings.wrapper_style}}">
+                    <div class="product-container">
+                      <div class="product-wrap">
+                        <div class="product-image">
+                          <div class="wrap">
+                            <a href="{{product.url | within: collection}}">
+                              <img src="{{ product.featured_image | product_img_url: settings.wrapper_img_size }}" class="main-image img-responsive" alt="{{ product.title }}" />
+                            </a>
+                          </div>
+                        </div>
+
+                        <div class="product-content">
+                          <div class="product-inner">
+                            <div class="product-title">
+                              <a href="{{ product.url | within: collection }}" title="{{ product.title }}">
+                                {{ product.title }}
+                              </a>
+                            </div>
+
+                            {% if settings.reviews_enable %}
+                            <div class="isreview">
+                              <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                            </div>
+                            {% endif %}
+
+                            <div class="price-val product-price">
+                              {% if product.available %}
+
+                              <span class="price">{{ variant_tmp.price | money }}</span>
+
+                              {% if variant_tmp.compare_at_price > variant_tmp.price %}
+                              <del class="price_compare"> {{ variant_tmp.compare_at_price | money }}</del>
+                              {% endif %}
+
+                              {% else %}
+                              <span class="sold_out">{{'products.product.sold_out' | t}}</span>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+                {% assign tmp3 = affixMenu | append:'img_' | append: j %}
+                {% if settings[tmp3] %}
+                {% assign embed = affixMenu | append:'embed_' | append: j %}
+                <div class="img-visual">
+                  <div class="img-wrap">
+                    {% if settings[embed] != blank %}
+                    {{settings[embed]}}
+                    {% else %}
+                    {% assign img = affixMenu | append:'img_' | append: j | append: '.jpg' %}
+                    <a href="{{settings[tmp2]}}">
+                      <img src="{{img | asset_url}}" alt="{{settings[tmp1]}}" />
+
+                      <div class="img-bg">
+                        <span class="img-cpt animated">{{ 'collections.general.shop_the' | t }} {{settings[tmp1]}}</span>
+                      </div>
+                    </a>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            {% endif %}
+          </li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% when 'style_4' %}
+  <div class="mega-menu style_4">
+    <div class="wrap container">
+      <div class="row">
+        <div class="col-sm-7">
+          <ul class="inner row">
+            {% assign count = 0 %}
+            {% for j in (1..10) %}
+            {% assign tmp = affixMenu | append: j %}
+            {% assign temp = settings[tmp] %}
+            {% assign nav = linklists[temp] %}
+            {% if nav.handle != blank %}
+            <li class="item">
+              {% assign tmp1 = affixMenu | append:'title_' | append: j %}
+              {% assign tmp2 = affixMenu | append:'link_' | append: j %}
+              <a href="{{settings[tmp2]}}">{{settings[tmp1]}}</a>
+
+              {% if nav.links.size > 0 %}
+              <div class="mega-menu-content">
+                <div class="wrap">
+                  <ul class="child">
+                    {% assign tmp3 = affixMenu | append:'img_' | append: j %}
+                    {% if settings[tmp3] %}
+                    <li class="img-visual hide">
+                      {% assign img = tmp3 | append: '.jpg' %}
+                      {% capture img_visual %}
+                      <a href="{{settings[tmp2]}}" data-id="{{j}}">
+                        <img src="{{img | asset_url}}" alt="{{settings[tmp1]}}" />
+
+                        <div class="img-bg">
+                          <span class="img-cpt animated">{{ 'collections.general.shop_the' | t }} {{settings[tmp1]}}</span>
+                        </div>
+                      </a>
+                      {% endcapture %}
+                      {{img_visual}}
+                      {% if count == 0 %}
+                      {% assign img_visual_first = img_visual %}
+                      {% assign count = count | plus:1 %}
+                      {% endif %}
+                    </li>
+                    {% endif %}
+                    {% for l in nav.links %}
+                    <li>
+                      <a href="{{l.url}}">{{l.title}}</a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              {% endif %}
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="col-sm-5">
+          <div class="img-visual img-visual-first">
+            {{img_visual_first}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% when 'style_5' %}
+  {% assign tmp = affixMenu | append:'width' %}
+  {% assign minWidth = settings[tmp] %}
+  {% assign tmp = affixMenu | append:'height' %}
+  {% assign minHeight = settings[tmp] %}
+  <div id="mega-menu-{{link.handle}}" class="mega-menu style_5" style="min-width: {{minWidth | default:400 | plus:0}}px; min-height: {{minHeight | default:400 | plus:0}}px;">
+    <div class="wrap">
+      <ul class="inner">
+        {% assign count = 0 %}
+        {% for j in (1..10) %}
+        {% assign tmp = affixMenu | append: j %}
+        {% assign temp = settings[tmp] %}
+        {% assign nav = linklists[temp] %}
+        {% if nav.handle != blank %}
+        <li class="item">
+          {% assign tmp1 = affixMenu | append:'title_' | append: j %}
+          {% assign tmp2 = affixMenu | append:'link_' | append: j %}
+          <a href="{{settings[tmp2]}}">{{settings[tmp1]}}</a>
+          
+          {% if nav.links.size > 0 %}
+          <div class="mega-menu-content">
+            <div class="wrap">
+              {% assign tmp3 = affixMenu | append:'img_' | append: j %}
+              {% assign img = tmp3 | append: '.jpg' %}
+              {% if settings[tmp3] and count == 0 %}
+              {% assign mega_bg_first = img | asset_url %}
+              {% assign count = count | plus:1 %}
+              {% endif %}
+              <ul class="child">
+                {% for l in nav.links %}
+                <li>
+                  <a href="{{l.url}}">{{l.title}}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          {% endif %}
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+    {% if mega_bg_first != blank %}
+    <style>
+      #mega-menu-{{link.handle}}{ background-image:url({{mega_bg_first}}); }
+    </style>
+    {% endif %}
+  </div>
+  {% endcase %}
+  {% endif %}
+  
+  {% if hasChildren and isMega == false %}
+  <ul class="dropdown-menu" style="display:none;">
+    {% for link in linklists[link_handle].links %}
+    {% include 'navigation-link' with 'child' %}
+    {% endfor %}
+  </ul>
+  {% endif %}
+</li>
+{% endif %}

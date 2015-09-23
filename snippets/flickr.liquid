@@ -1,0 +1,19 @@
+{{ "jflickrfeed.js" | asset_url | script_tag }}
+<div id="flickr-{{flickr}}" class="photo_list list-inline"></div>
+{% if settings.bottom_social_gallery != blank and settings.bottom_social_gallery_link != blank %}
+<a target="_blank" class="btn ripple btn-1" href="{{settings.bottom_social_gallery_link}}">{{settings.bottom_social_gallery}}</a>
+{% endif %}
+<script>
+  jQuery(document).ready(function($) {
+    $('#flickr-{{flickr}}').jflickrfeed({
+      limit: {{settings.bottom_social_limit}},
+      qstrings: {
+        id: '{{settings.flickr_id}}'
+	  },
+	  itemTemplate: '<div class="wrap animated"><a target="_blank" href="{flickr}link{/flickr}" title="{flickr}title{/flickr}">' +
+					   '<img src="{flickr}image{/flickr}" alt="{flickr}title{/flickr}" />' +
+					'<span class="hover_border"></span></a></div>'
+	}, function(data) {
+	});
+  });
+</script>

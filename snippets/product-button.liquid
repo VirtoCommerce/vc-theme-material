@@ -1,0 +1,55 @@
+{% if settings.share_facebook or settings.share_twitter or settings.share_pinterest or settings.share_fancy or settings.share_google %}
+{% capture permalinkURL %}{{ shop.url }}{{ prod.url }}{% endcapture %}
+{% capture shareTitle %}{{ prod.title }}{% endcapture %}
+<div class="social-sharing btns" data-permalink="{{ permalinkURL }}">
+  <div class="table">
+    <div class="social-icons">
+      <ul class="list-inline">
+        {% if settings.share_facebook %}
+        <li>
+          <a target="_blank" href="//www.facebook.com/sharer.php?u={{ permalinkURL }}" class="social-wrapper">
+            <span class="social-icon"><i class="icomoon-facebook"></i></span>
+          </a>
+        </li>
+        {% endif %}
+
+        {% if settings.share_twitter %}
+        <li>
+          <a target="_blank" href="//twitter.com/share?url={{ permalinkURL }}&amp;text={{ shareTitle }}" class="social-wrapper">
+            <span class="social-icon"><i class="icomoon-twitter"></i></span>
+          </a>
+        </li>
+        {% endif %}
+
+        {% if settings.share_pinterest %}
+        <li>
+          <a target="_blank" href="//pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media=http:{{ prod.featured_image | img_url: 'original' }}&amp;description={{ prod.title | escape }}" class="social-wrapper">
+            <span class="social-icon"><i class="icomoon-pinterest"></i></span>
+          </a>
+        </li>
+        {% elsif settings.share_google %}
+        <li>
+          <a target="_blank" href="//plus.google.com/share?url={{ permalinkURL }}" class="share">
+            <span class="social-icon"><i class="icomoon-googleplus"></i></span>
+          </a>
+        </li>
+        {% endif %}
+        
+        {% if prod.url contains 'products' %}
+        <li>
+          <a class="cart-toggle social-wrapper" data-once="{% if prod.variants.size > 1 %}false{% else %}true{% endif %}"{% if prod.variants.size > 1 %} data-handle="{{prod.handle}}" data-id="{{prod.id}}"{% endif %} href="javascript:;">
+            <span class="social-icon"><i class="icomoon-cart"></i></span>
+          </a>
+        </li>
+        {% else %}
+        <li>
+          <a href="{{prod.url}}" class="share">
+            <span class="social-icon"><i class="icomoon-arrow-right"></i></span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endif %}

@@ -1,0 +1,22 @@
+{% if settings.collection_default %}
+{% assign temp = settings.collection_default_use %}
+{% assign coll = collections[temp] %}
+{% assign products   = coll.products %}
+{% if products.size > 0 %}
+<div class="default-products clearfix">
+  {% if settings.collection_default_heading != blank %}
+  <div class="title title_center">
+    <span>{{ settings.collection_default_heading }}</span>
+  </div>
+  {% endif %}
+
+  <div id="default-products" class="cat-grid clearfix">
+    {% for product in products limit: settings.collection_default_number %}
+    <div class="product_item animated">
+      {% include 'product-item' %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endif %}

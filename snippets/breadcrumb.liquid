@@ -1,0 +1,85 @@
+<div id="breadcrumb" class="breadcrumb">
+  <div class="breadcrumb-detail clearfix">
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+      <a itemprop="url" href="/" class="homepage-link">
+        <span itemprop="title" class="hide">{{ shop.name | escape }}</span>
+        {{ 'general.breadcrumbs.home' | t }} 
+      </a>
+    </span>
+    {% if template contains "product" %}
+    {% if collection %}            
+    <i class="fa fa-angle-right"></i>
+    {% if collection.handle %}
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="hide">
+      <a href="{{collection.url}}" itemprop="url">
+        <span itemprop="title">{{ collection.title }}</span>
+      </a>
+    </span>
+    {{ collection.title | link_to: collection.url }}
+    {% endif %}
+    {% else %}
+    <i class="fa fa-angle-right"></i>
+    {{ product.type | link_to_type }}
+    {% endif %}
+    <i class="fa fa-angle-right"></i>
+    <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="hide">
+      <a href="{{product.url}}" itemprop="url">
+        <span itemprop="title">{{ product.title }}</span>
+      </a>
+    </span>
+    <span class="page-name">{{ product.title }}</span>
+    {% elsif template contains "blog" %}
+    {% if current_tags.size > 0 %}
+    <i class="fa fa-angle-right"></i>
+    {{ blog.title | link_to: blog.url }}
+    <i class="fa fa-angle-right"></i>
+    <span class="page-name">
+      {% for tag in current_tags %}
+      {% if forloop.index > 1 %} + {% endif %}{{ tag }}
+      {% endfor %}
+    </span>
+    {% elsif blog.handle %}
+    <i class="fa fa-angle-right"></i>
+    <span class="page-name">{{ blog.title }}</span>
+    {% else %}
+    <i class="fa fa-angle-right"></i>
+    <span class="page-name">{{ page_title }}</span>
+    {% endif %}
+    {% elsif template == "article" %}
+    <i class="fa fa-angle-right"></i>
+    {{ blog.title | link_to: blog.url }}
+    <i class="fa fa-angle-right"></i>
+    <span class="page-name">{{ article.title }}</span>
+    {% elsif template == "collection" or template contains "collection." %}
+    {% if current_tags.size > 0 %}
+    <i class="fa fa-angle-right"></i>
+    {{ collection.title | link_to: collection.url }}
+    <i class="fa fa-angle-right"></i>
+    <span class="page-name">
+      {% for tag in current_tags %}
+      {% if forloop.index > 1 %} + {% endif %}
+      {% if settings.collection_sidebar_filters == 'groups' %}
+      {% if tag contains '_' %}
+      {% capture cat %}{% assign cat_grp = tag | split: '_' %}{{ cat_grp.first }}{% endcapture %}
+      {{cat | capitalize}}: {{ tag | remove_first: cat | remove: '_' }}
+      {% else %}
+      {{ tag }}
+      {% endif %}
+      {% else %}
+      {{ tag }}
+      {% endif %}
+      {% endfor %}
+    </span>
+    {% elsif collection.handle %}
+    <i class="fa fa-angle-right"></i>
+    <span class="page-name">{{ collection.title }}</span>
+    {% else %}
+    <i class="fa fa-angle-right"></i>
+    <span class="page-name">{{ page_title }}</span>
+    {% endif %}
+    {% else %}
+    <i class="fa fa-angle-right"></i>
+    <span class="page-name">{{ page_title }}</span>
+    {% endif %}
+  </div>
+</div>

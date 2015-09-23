@@ -1,0 +1,19 @@
+<div id="home-video">
+  <div class="video_width">
+    <h1 class="video_heading">{{settings.video_heading}}</h1>
+    <p class="video_caption">{{settings.video_caption}}</p>
+    {% if settings.video_call_to_action != blank and settings.video_url != blank %}
+    <div class="video_action">
+      <a class="btn-arrow btn btn-1" href="{{settings.video_url}}"><i class="icomoon-arrow-right"></i> {{settings.video_call_to_action}}</a>
+    </div>
+    {% endif %}
+  </div>
+  
+  <div class="img-video">
+    <img src="{{'video_image.jpg' | asset_url}}" alt="" />
+  </div>
+
+  <video poster="{{'video_image.jpg' | asset_url}}" class="bg-video js-is-active" autoplay="true" muted="" loop="" volume="0" canplay="false">
+    <source src="{{settings.video_link}}" type="video/mp4" />
+  </video>
+</div>

@@ -1,0 +1,34 @@
+{% if settings.collection_slider %}
+<div id="collection-slider" class="flexslider">
+  <ul class="slides">
+    {% for i in (1..5) %}
+    {% assign show = 'collection_slider_' | append: i %}
+    {% if settings[show] %}
+    {% assign link = 'collection_slider_link_' | append: i %}
+    {% assign image = 'collection_slider_img_' | append: i %}
+    <li>
+      <div class="slide-body">
+        <a href="{{settings[link]}}">
+          <img src="{{ image | append: '.jpg' | asset_url }}" alt="" />
+        </a>
+      </div>
+    </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+{{ 'jquery.flexslider-min.js' | asset_url | script_tag }}
+<script>
+  jQuery("#collection-slider").flexslider({
+    animation: "fade",
+    prevText: "",
+    nextText: "",
+    slideshow: true,
+    controlNav: true,
+    directionNav: false,
+    start: function(e) {
+      jQuery("body").removeClass("loading")
+    }
+  });
+</script>
+{% endif %}

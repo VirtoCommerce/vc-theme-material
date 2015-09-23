@@ -1,0 +1,68 @@
+{% if settings.sidebar_blog_placement == 'left' %}
+<div id="sidebar" class="col-sm-3{% if settings.sidebar_blog_mobile %} hidden-xs{% endif %}">
+  {% include 'sidebar-blog' %}
+</div>
+{% endif %}
+
+<div id="col-main" class="blog-page{% if settings.sidebar_blog_placement != 'none' %} col-sm-9{% else %} col-sm-12{% endif %}">
+  {% paginate blog.articles by settings.blog_pagination_limit %}
+
+  {% if blog.articles.size > 0 %}
+  <div class="blog-posts">
+    {% for article in blog.articles %}
+    <article class="blog-post clearfix">
+      <div class="blog-head">
+        {% if article.excerpt contains "<iframe" %}
+        {% assign src = article.excerpt | split: 'src="' %}
+        {% assign src = src[1] | split: '"' | first %}
+        {% if src %}
+        <div class="excerpt responsive-video">
+          <iframe width="100%" scrolling="no" frameborder="no" src="{{ src }}"></iframe>
+        </div>
+        {% endif %}
+        {% endif %}
+        {% if article.excerpt contains "<img" %}
+        {% assign src = article.excerpt | split: 'src="' %}
+        {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn' | replace: 'http:http://', 'http://' | remove: 'https:'  %}
+        {% if src %}
+        <div class="excerpt responsive-img">
+          <a href="{{ article.url }}">
+            <img alt="{{article.title}}" src="{{ src }}" />
+          </a>
+        </div>
+        {% endif %}
+        {% endif %}
+        
+        <h2 data-role="title"><a href="{{ article.url }}">{{ article.title | escape }}</a></h2>
+        <span class="date">{{ article.published_at | date: "%b, %d" }}</span>
+        {% if settings.social_sharing_blog %}
+        <div class="blog-qshare">
+          <a href="javascript:;" class="zmdi zmdi-share"></a>
+          {% include 'social-sharing' %}
+        </div>
+        {% endif %}
+      </div>
+      <div class="blog-content">
+        <p>{{ article.content | strip_html | truncatewords: 60 }}</p>
+      </div>
+      <a href="{{ article.url }}" class="btn btn-1 ripple">{{'blogs.article.read_more' | t}}</a>
+    </article>
+    {% endfor %}
+  </div>
+
+  {% include 'pagination' %}
+
+  {% else %}
+  <p>
+    {{'blogs.article.no_acticles' | t}}
+  </p>
+  {% endif %}
+
+  {% endpaginate %}
+</div>
+
+{% if settings.sidebar_blog_placement == 'right' %}
+<div id="sidebar" class="col-sm-3{% if settings.sidebar_blog_mobile %} hidden-xs{% endif %}">
+  {% include 'sidebar-blog' %}
+</div>
+{% endif %}

@@ -1,0 +1,74 @@
+{% if settings.wrapper_style == 'style1' %}
+<div class="product style1">
+  <div class="product-container">
+    <div class="product-buttons">
+      <div class="sharing-ctl other">
+        <a href="javascript:void(0);">
+          <i class="zmdi zmdi-share"></i>
+        </a>
+        {% include 'social-sharing' %}
+      </div>
+    </div>
+
+    <div class="product-wrap">
+      <div class="product-image">
+        <div class="wrap">
+          <a href="{{product.url}}">
+            <img src="{{'No_Image.png' | asset_url}}" alt="{{ product.title }}" />
+          </a>
+        </div>
+      </div>
+
+      <div class="product-content">
+        <div class="product-inner">
+          <div class="product-title">
+            <a href="{{ product.url }}" title="{{ product.title }}">
+              {{ product.title }}
+            </a>
+          </div>
+        </div>
+        <div class="product-action">
+          <a href="{{product.url}}" class="btn btn-1 btn-block">{{'products.product.show_details' | t}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="product style2">
+  <div class="product-container">
+    <div class="product-buttons">
+      <div class="sharing-ctl other">
+        <a href="javascript:void(0);">
+          <i class="zmdi zmdi-share"></i>
+        </a>
+        {% include 'social-sharing' %}
+      </div>
+    </div>
+
+    <div class="product-wrap">
+      <div class="product-image">
+        <div class="wrap">
+          <a href="{{product.url}}">
+            <img src="{{'No_Image.png' | asset_url}}" alt="{{ product.title }}" />
+          </a>
+        </div>
+      </div>
+
+      <div class="product-content">
+        <div class="product-inner">
+          <div class="product-title">
+            <a href="{{ product.url }}" title="{{ product.title }}">
+              {{ product.title }}
+            </a>
+          </div>
+        </div>
+        <div class="product-action other">
+          <span class="line"></span>
+          <a href="{{product.url}}" class="btn-details"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.show_details' | t}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

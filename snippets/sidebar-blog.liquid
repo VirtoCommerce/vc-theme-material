@@ -1,0 +1,84 @@
+{% comment %} ----- Blog Search ----- {% endcomment %}
+{% if settings.blog_search_show %}
+<div class="widget-wrapper blog-search">
+  <form action="/search" method="get">
+    <input type="hidden" name="type" value="article" />
+    <div class="group-input">      
+      <input type="search" name="q" accesskey="4" autocomplete="off" />
+      <span class="highlight"></span>
+      <span class="bar"></span>
+      <label>{{settings.blog_search_placeholder}}</label>
+      <button type="submit"><i class="zmdi"></i></button>
+    </div>
+  </form>
+</div>
+{% endif %}
+
+
+{% comment %} ----- Recent Articles ----- {% endcomment %}
+{% if settings.blog_recent_show %}
+<div class="widget-wrapper">
+  {% if settings.blog_recent_heading != blank %}
+  <div class="title">
+    {{settings.blog_recent_heading}}
+  </div>
+  {% endif %}
+  <ul class="list-unstyled list-styled">
+    {% for article in blog.articles limit:settings.blog_recent_number %}
+      <li>
+        <div class="stitle">{{ article.title | link_to: article.url }}</div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+
+{% comment %} ----- Blog Tags ----- {% endcomment %}
+{% if settings.blog_tags_show %}
+{% if blog.all_tags.size > 0 %}
+<div class="widget-wrapper">
+  {% if settings.blog_tags_heading != blank %}
+  <div class="title">
+    {{settings.blog_tags_heading}}
+  </div>
+  {% endif %}
+  <ul class="list-inline blog-tags">
+    {% for tag in blog.all_tags %}
+    {% if current_tags contains tag %}
+    <li class="active">
+      <i class="fa fa-tag"></i>
+      {{ tag | link_to_remove_tag: tag }}
+    </li>
+    {% else %}
+    <li>
+      <i class="fa fa-tag"></i>
+      {{ tag | link_to_add_tag: tag }}
+    </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+{% endif %}
+
+
+{% comment %} ----- Social Widget ----- {% endcomment %}
+{% if settings.blog_social_visible != 'none' %}
+
+<div class="widget-wrapper">
+  {% if settings.blog_social_heading != blank %}
+  <div class="title">
+    {{settings.blog_social_heading}}
+  </div>
+  {% endif %}
+  
+  {% case settings.blog_social_visible %}
+  {% when 'twitter' %}
+  {% include 'twitter' %}
+
+  {% when 'facebook' %}
+  {% include 'facebook' %}
+  {% endcase %}
+</div>
+{% endif %}

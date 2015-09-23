@@ -1,0 +1,305 @@
+<div class="box-wrap">
+  {% if settings.slideshow_show %}
+  {% include 'home-slider' %}
+  {% elsif settings.video_active %}
+  {% include 'home-video' %}
+  {% endif %}
+</div>
+
+<div id="col-main" class="clearfix">
+  {% comment %} ----- Home page content ----- {% endcomment %}
+  {% if settings.show_page_home  %}
+  <div class="container home-content clearfix">
+    {% if settings.page_home_heading != blank %}
+    <h2 class="title title_center">
+      <span>{{ settings.page_home_heading }}</span>
+    </h2>
+    {% endif %}
+    <div class="row">
+      <div class="col-md-6 animated">
+        {{ pages[settings.page_home].content }}
+      </div>
+      <div class="col-md-6 animated">
+        {% if settings.page_home_url != blank %}
+        <a href="{{settings.page_home_url}}">
+          <img src="{{'page_home_img.png' | asset_url}}" alt="{{settings.page_home_heading}}" />
+        </a>
+        {% else %}
+        <img src="{{'page_home_img.png' | asset_url}}" alt="{{settings.page_home_heading}}" />
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  
+  {% include 'if-shop-has-no-products' %}
+  
+  {% comment %} ----- Spcial Offers ----- {% endcomment %}
+  {% if settings.special_offers %}
+  <div class="container special-offers clearfix">
+    {% if settings.special_offers_heading != blank %}
+    <h2 class="title title_center">
+      <span>{{ settings.special_offers_heading }}</span>
+    </h2>
+    {% endif %}
+    <div id="special-offers" class="row clearfix">
+      <div class="col-sm-4 col-xs-6 offer">
+        <div class="offer-wrap">
+          <div class="offer-img">
+            <a href="{{settings.offer_link_1}}">
+              <img src="{{'offer_image_1.jpg' | asset_url}}" alt="{{settings.offer_caption_1}}" />
+              <div class="img" style="background-image:url({{'offer_image_1.jpg' | asset_url}});"></div>
+              <div class="offer-bg">
+                <span class="offer-cpt animated">{{settings.offer_caption_1}}</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 col-xs-6 offer">
+        <div class="offer-wrap">
+          <div class="offer-img">
+            <a href="{{settings.offer_link_2}}">
+              <img src="{{'offer_image_2.jpg' | asset_url}}" alt="{{settings.offer_caption_2}}" />
+              <div class="img" style="background-image:url({{'offer_image_2.jpg' | asset_url}});"></div>
+              <div class="offer-bg">
+                <span class="offer-cpt animated">{{settings.offer_caption_2}}</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 col-xs-6 offer">
+        <div class="offer-wrap">
+          <div class="offer-img">
+            <a href="{{settings.offer_link_3}}">
+              <img src="{{'offer_image_3.jpg' | asset_url}}" alt="{{settings.offer_caption_3}}" />
+              <div class="img" style="background-image:url({{'offer_image_3.jpg' | asset_url}});"></div>
+              <div class="offer-bg">
+                <span class="offer-cpt animated">{{settings.offer_caption_3}}</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  
+  {% comment %} ----- Featured Products ----- {% endcomment %}
+  {% if settings.featured_products_home %}
+  <div class="container featured-products clearfix">
+    {% if settings.featured_products_home_heading != blank %}
+    <h2 class="title title_center">
+      <span>{{ settings.featured_products_home_heading }}</span>
+    </h2>
+    {% endif %}
+    <div class="owl-row">
+      <div id="featured-products" class="clearfix">
+        {% assign collection = collections[settings.featured_products_home_collection] %}
+        {% for product in collection.products limit: settings.featured_products_home_num %}
+        <div class="product_item animated">
+          {% include 'product-item' %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  
+  {% comment %} ----- Featured Collections ----- {% endcomment %}
+  {% if settings.featured_collections_home %}
+  <div class="container featured-collections clearfix">
+    {% if settings.featured_collections_heading != blank %}
+    <h2 class="title title_center">
+      <span>{{ settings.featured_collections_heading }}</span>
+    </h2>
+    {% endif %}
+    <div class="owl-row">
+      <div id="featured-collections" class="all-collections clearfix">
+        {% for i in (1..10) %}
+        {% assign tmp = 'featured_collections_home_' | append: i %}
+        {% assign tmp_col = settings[tmp] %}
+        {% assign collection = collections[tmp_col] %}
+
+        {% if collection and collection.handle != blank %}
+        {% unless collection.handle == 'frontpage' or collection.handle == 'all' %}
+        <div class="collection-item animated">
+          {% include 'collection-item' %}
+        </div>
+        {% endunless %}
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  
+  {% comment %} ----- Static Block ----- {% endcomment %}
+  {% include 'static-block' %}
+  
+  {% comment %} ----- Lookbook widget ----- {% endcomment %}
+  {% if settings.lookbook_enabel %}
+  <div class="widget-lookbook">
+    <div class="lookbook-carousel">
+      {% for i in (1..10) %}
+      {% assign show = 'lookbook_img_' | append:i %}
+      {% if settings[show] %}
+      <div class="lookbook">
+        <img src="{{show | append:'.png' | asset_url}}" alt="" />
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% if settings.lookbook_content_placement != 'none' %}
+    <div class="lookbook-content {{settings.lookbook_content_placement}}">
+      {% if settings.lookbook_content_text != blank %}
+      <h2 class="block-title animated moveUp" data-size="{{settings.lookbook_content_size | plus:0}}">
+        {{settings.lookbook_content_text}}
+      </h2>
+      {% endif %}
+
+      {% if settings.lookbook_call_to_action != blank %}
+      <div class="lookbook-btn animated moveUp">
+        <a href="{{settings.lookbook_linkto}}" title="{{settings.lookbook_call_to_action}}" class="btn ripple">{{settings.lookbook_call_to_action}}</a>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+  
+  {% comment %} ----- The Collection ----- {% endcomment %}
+  {% if settings.the_collection %}
+  <div class="container the-collection">
+    <h2 class="title title_center">
+      {% if settings.the_collection_heading != blank %}
+      <span>{{settings.the_collection_heading}}</span>
+      {% endif %}
+      <div class="filter">
+        <div>
+          <select id="category_filter">
+            {% assign collection = collections['all'] %}
+            {% assign collection_name = '' %}
+            {% assign first = true %}
+            {% assign templates = '' %}
+            {% for i in (1..10) %}
+            {% assign tmp = 'the_collection_home_' | append: i %}
+            {% assign tmp_col = settings[tmp] %}
+            {% assign img = 'the_collection_home_' | append: i | append:'.jpg' %}
+            {% assign tmp = 'the_collection_home_name_' | append: i %}
+            {% assign name = settings[tmp] %}
+            {% assign collection_tmp = collections[tmp_col] %}
+            {% if collection_tmp and collection_tmp.handle != blank %}
+            {% unless collection_tmp.handle == 'frontpage' or collection_tmp.handle == 'all' %}
+            <option data-handle="{{collection_tmp.handle}}" value="{{collection_tmp.url}}">{{collection_tmp.title}}</option>
+            {% capture templates %}{{templates}}<script id="collection-template-{{collection_tmp.handle}}" type="text/template"><div class="product_item large animated"><a href="{{collection_tmp.url}}"><img src="{{img | asset_url}}" alt="{{collection_tmp.title}}" /><div class="caption"><h2>{% if name != blank %}{{name}}{% else %}{{collection_tmp.title}}{% endif %}</h2></div></a></div></script>{% endcapture %}
+            {% if first %}
+            {% assign collection = collection_tmp %}
+            {% assign collection_name = name %}
+            {% assign first = false %}
+            {% endif %}
+            {% endunless %}
+            {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+    </h2>
+    <div id="the-collection">
+      <div class="cat-templates hidden">
+        {{templates}}
+      </div>
+      {% paginate collection.products by settings.collection_pagination_limit %}
+      <div class="cat-grid">
+        <div class="product_item large animated">
+          <a href="{{collection.url}}">
+            <img src="{{'the_collection_home_1.jpg' | asset_url}}" alt="{{collection.title}}" />
+            <div class="caption">
+              <h2>{% if collection_name != blank %}{{collection_name}}{% else %}{{collection.title}}{% endif %}</h2>
+            </div>
+          </a>
+        </div>
+        {% for product in collection.products %}
+        <div class="product_item animated">
+          {% include 'product-item' %}
+        </div>
+        {% endfor %}
+      </div>
+      {% if settings.collection_infinite_scoll %}
+      <div class="advanced-pagination">
+        <div class="infinite_scoll">
+          {% if paginate.next %}
+          {% assign next_url = collection.url | append:paginate.next.url %}
+          {% include 'spinner2' with next_url %}
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% endpaginate %}
+    </div>
+  </div>
+  {% endif %}
+  
+  {% comment %} ----- Promotion Block ----- {% endcomment %}
+  {% include 'promo-block' %}
+  
+  {% comment %} ----- Blog Block ----- {% endcomment %}
+  {% include 'blog-block' %}
+  
+  {% comment %} ----- Our Partners ----- {% endcomment %}
+  {% if settings.partner_show %}
+  <div class="container our-partner clearfix">
+    {% if settings.partner_heading != blank %}
+    <h2 class="title title_center">
+      <span>{{ settings.partner_heading }}</span>
+    </h2>
+    {% endif %}
+    <div class="owl-row">
+      <div id="our-partner" class="clearfix">
+        {% for i in (1..10) %}
+        {% assign show = 'partner_' | append: i %}
+
+        {% if settings[show] %}
+        {% assign image = 'partner_image_' | append: i | append:'.png' %}
+        {% assign link = 'partner_link_' | append: i %}
+        <div class="partner animated">
+          <a href="{{settings[link]}}">
+            <img src="{{image | asset_url}}" alt="" />
+            <span class="hover_border"></span>
+          </a>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  
+  {% comment %} ----- Photo widget ----- {% endcomment %}
+  {% if settings.bottom_social_visible != 'none' %}
+  <div id="widget-photos">
+    <div class="container">
+      {% if settings.bottom_social_heading != blank %}
+      <div class="title">
+        {{settings.bottom_social_heading}}
+
+        {% if settings.bottom_social_caption != blank %}
+        <div class="caption">{{settings.bottom_social_caption}}</div>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {% case settings.bottom_social_visible %}
+
+      {% when 'instagram' %}
+      {% include 'instafeed' with 'bottom' %}
+
+      {% when 'flickr' %}
+      {% include 'flickr' with 'bottom' %}
+
+      {% endcase %}
+    </div>
+  </div>
+  {% endif %}
+</div>

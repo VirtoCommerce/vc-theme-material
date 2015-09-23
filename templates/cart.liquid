@@ -1,0 +1,154 @@
+<div id="col-main" class="cart-page container">
+  {% if cart.items == empty %}
+  <div class="empty">
+    <p>{{ 'cart.general.empty' | t }} {{ 'cart.general.continue_browsing_html' | t }}</p>
+  </div>
+  {% else %}
+  <form action="/cart" method="post" id="cartform" class="clearfix">
+    <div class="row">
+      <div class="col-sm-8 col-md-9 col-left">
+        <div class="cart-header">
+          <div class="btn1">
+            <a href="/collections/all">{{ 'cart.general.continue_shopping' | t }}</a>
+          </div>
+          <div class="btn2">
+            You have {{cart.item_count}} {{cart.item_count | pluralize: 'item', 'items'}} in your cart
+          </div>
+          <div class="btn3">
+            <a href="/cart/clear">{{ 'cart.general.empty_cart' | t }}</a>
+          </div>
+        </div>
+        <div class="cart-items">
+          {% for item in cart.items %}
+          <div class="cart-item">
+            <div class="inner">
+              <div class="cart-left tip_holder_big">
+                <a href="{{item.url }}">
+                  <img src="{{ item | img_url: 'medium' }}"  alt="{{ item.title | escape }}" />
+                </a>
+                <div class="tip_holder_small">
+                  <div class="magnifier">
+                    <div class="size-limiter">
+                      <img src="{{ item | img_url: 'large' }}" alt="" />
+                    </div>
+                    <strong>{{ item.product.title }}</strong>
+                    <div class="info">
+                      <div class="meta">
+                        {% if item.product.variants.size > 1 %}
+                        <div class="meta1">{{ item.variant.title }}</div>
+                        {% endif %}
+                        <div class="meta2">{{ 'cart.general.quantity' | t }} x {{ item.quantity }}</div>
+                      </div>
+                      <div class="price">{{ item.price | money }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cart-right">
+                <div class="wrap">
+                  <div class="product-title">
+                    <a href="{{item.url }}">
+                      <span>{{ item.product.title }}</span>
+                      {% if item.product.variants.size > 1 %}
+                      <span class="variant_title"> - {{ item.variant.title }}</span>
+                      {% endif %}
+                      {% for p in item.properties %}
+                      {% unless p.last == blank %}
+                      {{ p.first }}:
+                      {% if p.last contains '/uploads/' %}
+                      <a class="lightbox" href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                      {% else %}
+                      {{ p.last }}
+                      {% endif %}
+                      <br />
+                      {% endunless %}
+                      {% endfor %}
+                    </a>
+                  </div>
+                  <div class="cart-group cart-qty">
+                    <div class="product-price">{{ item.price | money }}</div>
+                    <div class="product-qty">
+                      <div class="group-input">      
+                        <input type="number" step="1" min="0" id="updates_{{ item.id }}" name="updates[]" value="{{ item.quantity }}" size="4" />
+                        <span class="bar"></span>
+                      </div>
+                      <button type="submit" id="update-cart" class="btn" name="update">
+                        {{ 'cart.general.update' | t }}
+                      </button>
+                    </div>
+                  </div>
+                  <a class="cart-remove" href="/cart/change?line={{ forloop.index }}&quantity=0" title="{{ 'cart.general.remove' | t }}">
+                    <i class="zmdi zmdi-close"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="col-sm-4 col-md-3 col-right">
+        <div class="widget">
+          <div class="cart-header">
+            <div class="btn2 title">
+              {{ 'cart.general.subtotal' | t }}
+            </div>
+          </div>
+          <div class="cart-items">
+            <div class="cart-item">
+              <div class="title">
+                <div class="subtotal">{{ cart.total_price | money }}</div>
+              </div>
+
+              {% if settings.allow_add_note %}
+              <div id="checkout-addnote">
+                <div class="group-input">      
+                  <textarea id="note" rows="3" class="input" name="note">{{ cart.note }}</textarea>
+                  <span class="bar"></span>
+                  <label>{{ 'cart.general.note' | t }}</label>
+                </div>
+              </div>
+              {% endif %}
+              
+              {% if settings.cart_terms_conditions != blank %}
+              {% assign tmp = settings.cart_terms_conditions %}
+              {% assign page = pages[tmp] %}
+              <div class="terms_conditions">
+                <input type="checkbox" id="agree" />
+                <label for="agree">
+                  I agree with the <a href="{{page.url}}">{{page.title | downcase}}</a>.
+                </label>
+              </div>
+              <script>
+                $('body').on('click', '[name="checkout"], [name="goto_pp"], [name="goto_gc"]', function() {
+                  if (jQuery('#agree').is(':checked')) {
+                    jQuery(this).submit();
+                  }
+                  else {
+                    alert("You must agree with the terms and conditions of sales to check out.");
+                    return false;
+                  }
+                });
+              </script>
+              {% endif %}
+
+              <div id="checkout-proceed" class="control-group">
+                <button class="btn btn-1 btn-block big ripple" type="submit" id="update-cart" name="checkout">{{ 'cart.general.checkout' | t }}</button>
+                {% if additional_checkout_buttons %}
+                <div id="additional-checkout-buttons">
+                  <span id="additional-checkout-buttons-label">{{'cart.general.checkout_using' | t}}:</span>
+                  {{ content_for_additional_checkout_buttons }}
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% include 'shipping-calculator' %}
+      </div>
+    </div>
+  </form>
+  {% endif %}
+  {% include 'cart-collection' %}
+</div>

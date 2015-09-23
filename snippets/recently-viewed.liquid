@@ -1,0 +1,86 @@
+{% if settings.viewed_enable %}
+{{ '//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js' | script_tag }}
+{{ 'jquery.products.min.js' | asset_url | script_tag }}
+
+<div id="recently-viewed-container" class="widget-wrapper">
+  <div class="title {% if settings.product_style == 'style1' %}title_left{% else %}title_center{% endif %}">
+    <span>{{settings.viewed_heading}}</span>
+  </div>
+  <div id="recently-viewed-wrapper" class="row">
+    <div id="recently-viewed-products" class="{{settings.product_style}} collection clearfix">
+    </div>
+  </div>
+</div>
+
+{% raw %}
+<script id="recently-viewed-product-template" type="text/x-jquery-tmpl">
+<div class="product_item animated">
+  <div class="product style2">
+    <div class="product-container">
+      <div class="product-wrap">
+        <div class="product-image">
+          <div class="wrap">
+            <a href="${url}">
+              <img alt="${title}" src="${Shopify.Products.resizeImage(featured_image, "large")}" class="main-image img-responsive" />
+            </a>
+          </div>
+        </div>
+        <div class="product-content">
+          <div class="table">
+            <div class="product-inner">
+              <div class="overlay"></div>
+
+              <div class="product-title">
+                <a href="${url}" title="${title}">${title}</a>
+              </div>
+
+              <div class="isreview">
+                <span class="shopify-product-reviews-badge" data-id="${id}"></span>
+              </div>
+
+              <div class="price-val product-price">
+              {{if available}}
+                <span class="on_price price">${price}</span>
+
+                {{if compare_at_price > price}}
+                <del class="on_price price_compare"> <span class="money">${compare_at_price}</del></span>
+                {{/if}}
+
+              {{else}}
+                  <span class="sold_out">Sold out</span>
+              {{/if}}
+              </div>
+              <div class="product-btn">
+                <a href="${url}"><i class="zmdi zmdi-format-list-bulleted"></i> <span>Details</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</script>
+{% endraw %}
+
+<script type="text/javascript">
+  Shopify.Products.showRecentlyViewed( { 
+    howManyToShow: {{settings.viewed_number_of}},
+    onComplete: function() {
+      
+      jQuery("#recently-viewed-products .sold_out").html("{{'products.product.sold_out' | t}}");
+      jQuery("#recently-viewed-products .product-btn span").html("{{'products.product.show_details' | t}}");
+      jQuery('#recently-viewed-products .on_price').each(function(){
+        var t = jQuery(this);
+        var p = t.text();
+
+        t.html(Shopify.formatMoney(p, window.money_format))
+      });
+  	  roar.handleReviews();
+    
+  	  if(window.show_multiple_currencies)
+        currenciesCallbackSpecial('#recently-viewed-products span.money');
+    } 
+  });
+</script>
+{% endif %}

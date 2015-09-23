@@ -1,0 +1,73 @@
+{% if settings.product_size_chart != blank %}
+
+{% assign is_home = false %}
+{% if template contains 'index' and settings.one_product_home_show %}
+{% assign collection = collections[settings.one_product_home_collection] %}
+{% assign product = collection.products.first %}
+{% assign is_home = true %}
+{% endif %}
+
+{% if template contains 'product' or is_home == true %}
+{% assign size_options = 'size,taille' | split: ',' %}
+{% assign size_chart_text_link = 'products.product.size_chart' | t %}
+{% assign has_size = false %}
+{% assign size_index = 0 %}
+{% for option in product.options %}  
+  {% assign downcased_option = option | downcase %}
+  {% if has_size == false and size_options contains downcased_option %}
+    {% assign has_size = true %}
+    {% assign size_index = forloop.index0 %}
+  {% endif %}
+{% endfor %}
+{% if has_size %}
+<script>
+// buildSelectors(index)
+// create and return new selector element for given option
+Shopify.OptionSelectors.prototype.buildSelectors = function() {
+  // build selectors
+  for (var i = 0; i < this.product.optionNames().length; i++) {
+    var sel = new Shopify.SingleOptionSelector(this, i, this.product.optionNames()[i], this.product.optionValues(i));
+    sel.element.disabled = false;
+    this.selectors.push(sel);
+  }
+
+  // replace existing selector with new selectors, new hidden input field, new hidden messageElement
+  var divClass = this.selectorDivClass;
+  var optionNames = this.product.optionNames();
+  var elements = Shopify.map(this.selectors, function(selector) {
+    var div = document.createElement('div');
+    var classDiv = divClass;
+    if (typeof selector.name != 'undefined'){
+      var temp = selector["name"].name || selector.name;
+      classDiv = divClass + ' ' + temp.toLowerCase();
+    }
+    div.setAttribute('class', classDiv);
+    // create label if more than 1 option (ie: more than one drop down)
+    if (optionNames.length > 1 || (optionNames.length >= 1 && $.browser.msie && $.browser.version == 7)) {
+
+      // create and appened a label into div
+      var label = document.createElement('label');
+      label.htmlFor = selector.element.id;
+      label.innerHTML = selector["name"].name || selector.name;
+      div.appendChild(label);
+    } 
+
+    div.appendChild(selector.element);
+    if (selector.index === {{size_index}}) {
+      var sizeChart = jQuery('<a id="size-chart-trigger" href="#size-chart">' + {{size_chart_text_link | json}} + '</a>');
+      sizeChart.click(function() {
+        jQuery.fancybox({content: jQuery("#size-chart").html()});
+        return false;
+      });
+      jQuery(selector.element).after(sizeChart);
+    }
+    return div;
+  });
+
+  return elements;
+};
+</script>
+{% endif %}
+{% endif %}
+<div id="size-chart" style="display:none">{{ pages[settings.product_size_chart].content }}</div>
+{% endif %}

@@ -1,0 +1,501 @@
+{% if settings.header_font == '1' %}
+@import url(//fonts.googleapis.com/css?family={{settings.header_font_1 | replace: ' ', '+'}}:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=cyrillic-ext,greek-ext,latin,latin-ext,cyrillic,greek,vietnamese);
+{% endif %}
+{% if settings.general_font == '1' %}
+@import url(//fonts.googleapis.com/css?family={{settings.general_font_1 | replace: ' ', '+'}}:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=cyrillic-ext,greek-ext,latin,latin-ext,cyrillic,greek,vietnamese);
+{% endif %}
+
+{% assign header_font = '"' | append: settings.header_font_1 | append: '"' | append: ', sans-serif' %}
+{% assign general_font = '"' | append: settings.general_font_1 | append: '"' | append: ', sans-serif' %}
+
+{% if settings.header_font == "1" %}
+{% assign header_font = '"' | append: settings.header_font_1 | append: '"' | append: ', sans-serif' %}
+{% else %}
+{% assign header_font = settings.header_font_0 %}
+{% endif %}
+
+{% if settings.general_font == "1" %}
+{% assign general_font = '"' | append: settings.general_font_1 | append: '"' | append: ', sans-serif' %}
+{% else %}
+{% assign general_font = settings.general_font_0 %}
+{% endif %}
+
+/* CUSTOM LAYOUT */
+{% if settings.selector_use %}
+::selection{ 
+  background-color: {{settings.selector_bg}}; 
+  color: {{settings.selector_colour}}; 
+}
+::-moz-selection{
+  background-color: {{settings.selector_bg}}; 
+  color: {{settings.selector_colour}}; 
+}
+{% endif %}
+body{
+  padding-bottom: 0;
+  font-family: {{general_font}};
+  background-color: {{settings.b_scaffolding_bg}};
+}
+body,
+label,
+button,
+select, 
+textarea, 
+input[type="text"], 
+input[type="password"], 
+input[type="datetime"], 
+input[type="datetime-local"], 
+input[type="date"], 
+input[type="month"], 
+input[type="time"], 
+input[type="week"], 
+input[type="number"], 
+input[type="email"], 
+input[type="url"], 
+input[type="search"], 
+input[type="tel"], 
+input[type="color"], 
+.uneditable-input{
+  color: {{ settings.b_scaffolding_color }};
+  font-size: {{settings.general_font_size | plus:0 | append:'px'}};
+}
+/*
+** Input settings
+*/
+/*
+** Input settings
+*/
+textarea, 
+input[type="text"], 
+input[type="password"], 
+input[type="datetime"], 
+input[type="datetime-local"], 
+input[type="date"], 
+input[type="month"], 
+input[type="time"], 
+input[type="week"], 
+input[type="number"], 
+input[type="email"], 
+input[type="url"], 
+input[type="search"], 
+input[type="tel"], 
+input[type="color"], 
+.uneditable-input{
+  -webkit-appearance: none;
+  color: {{settings.b_forms_phd_txt}};
+  outline: none!important;
+  height: 28px;
+  padding: 0 12px!important;
+  line-height: 20px;
+  font-weight: normal;
+  vertical-align: top;
+  background-color: {{settings.b_forms_input_bg}};
+  background-image: none;
+  filter: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  border: 1px solid {{settings.b_forms_input_border}};
+  margin-bottom: 15px;
+}
+textarea:focus, 
+input[type="text"]:focus, 
+input[type="password"]:focus,
+input[type="datetime"]:focus, 
+input[type="datetime-local"]:focus, 
+input[type="date"]:focus, 
+input[type="month"]:focus, 
+input[type="time"]:focus,
+input[type="week"]:focus, 
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus, 
+input[type="search"]:focus, 
+input[type="tel"]:focus, 
+input[type="color"]:focus, 
+.uneditable-input:focus{
+  border-color: {{settings.b_forms_actions_bg}};
+  outline: 0;
+  outline: thin dotted \9;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+select {
+  width: 244px!important;
+  background-color: {{settings.b_forms_input_bg}};
+  background-image: none !important;
+  filter: none !important;
+  border: 1px solid {{settings.b_forms_input_border}};
+  outline: none;
+  height: 30px !important;
+  line-height: 20px;
+}
+select:focus{
+  outline-offset: -2px;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
+  border-color: {{settings.b_forms_actions_bg}};
+  outline: 0 !important;
+}
+table{
+  background-color: transparent;
+}
+input[type="checkbox"]{
+  vertical-align: middle;
+}
+
+#buttons input, 
+#cancel-purchase a,
+#discounts-body input[type="submit"],
+#create-account-btn{
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  -ms-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+#buttons input, 
+#cancel-purchase a,
+#discounts-body input[type="submit"],
+#create-account-btn{
+  background-image: none;
+  filter: none;
+  padding: 7px 14px;
+  font-family: {{header_font}};
+  cursor: pointer;
+  outline: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  -webkit-border-radius: 0!important;
+  -moz-border-radius: 0!important;
+  border-radius: 0!important;
+  -webkit-text-shadow: none;
+  -moz-text-shadow: none;
+  text-shadow: none;
+  
+  font-weight: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+#cancel-purchase a,
+#create-account-btn{
+  background: {{settings.btn_btn_bg}};
+  color: {{settings.btn_btn_txt}};
+  border: 1px solid {{settings.btn_btn_border}};
+  font-size: {{settings.btn_btn_font_size | plus:1 | append:'px'}};
+  
+  *position: relative;
+  *bottom: 8px;
+}
+#cancel-purchase a:hover,
+#cancel-purchase a:focus,
+#cancel-purchase a:active,
+#create-account-btn:hover{
+  background: {{settings.btn_btn_bg_hover}};
+  color: {{settings.btn_btn_txt_hover}};
+  border: 1px solid {{settings.btn_btn_border_hover}};
+  
+  outline: none;
+}
+
+
+#buttons input,
+#discounts-body input[type="submit"]{
+  background: {{settings.btn_btn1_bg}};
+  color: {{settings.btn_btn1_txt}};
+  border: 1px solid {{settings.btn_btn1_border}};
+  font-size: {{settings.btn_btn1_font_size | plus:1 | append:'px'}};
+}
+#buttons input:hover,
+#buttons input:focus,
+#buttons input:active,
+#discounts-body input[type="submit"]:hover,
+#discounts-body input[type="submit"]:focus,
+#discounts-body input[type="submit"]:active{
+  background: {{settings.btn_btn1_bg_hover}};
+  color: {{settings.btn_btn1_txt_hover}};
+  border: 1px solid {{settings.btn_btn1_border_hover}};
+  
+  outline: none;
+}
+#discounts-body input[type="submit"]{
+  font-size: {{settings.btn_btn1_font_size | minus:2 | append:'px'}};
+}
+
+{% if settings.logo_image == 'logo.png' %}
+#logo{
+  background: url({{'logo.png' | asset_url}}) no-repeat center;
+  height: 100px;
+  background-color: {{settings.header_bg}};
+}
+{% else %}
+#logo{
+  height: 100px;
+  background-color: {{settings.header_bg}};
+}
+{% endif %}
+
+#container,
+#container.slim{
+  width: 960px;
+  font-size: 100%;
+  margin-top: 0;
+}
+#header,
+#main,
+#footer,
+#container.slim #header,
+#container.slim #main,
+#container.slim #footer{
+  width: 100%;
+  background: transparent;
+  
+  padding-left: 0;
+  padding-right: 0;
+}
+#header{
+  padding-top: 0;
+}
+#header h1{
+  padding-left: 0;
+  font-weight: normal;
+  border: 0;
+  margin-bottom: 20px;
+}
+#footer{
+  background: {{settings.sidebar_background}}!important;
+  color: {{settings.sidebar_text_colour}};
+  font-size: {{settings.general_font_size | plus:0 | append:'px'}};
+  padding: 25px 5px 40px 5px;
+}
+#content{
+  padding: 0;
+  min-height: 200px;
+}
+#billing-is-shipping label,
+#marketing-box label{
+  display: inline;
+}
+#overview{
+  background: transparent;
+  border-bottom: 0;
+  margin-bottom: 35px;
+  padding-left: 0;
+  padding-right: 0;
+}
+#products{
+  border-right: 0;
+}
+#thumbs div{
+  border: 0;
+  margin-right: 10px;
+}
+#thumbs img{
+  border: 1px solid {{settings.b_tables_border}};
+  margin-right: 5px;
+  float: left;
+}
+#overview .hint,
+#thumbs span,
+#thumbs h3 span{
+  color: {{settings.product_price_colour}};
+}
+#thumbs h3{
+  line-height: 14px;
+  font-size: 13px;
+  font-weight: normal;
+}
+#cost, #order-num{
+  font-family: {{header_font}};
+  color: {{settings.product_price_colour}};
+  font-size: 30px;
+  line-height: 40px;
+  font-weight: bold;
+  text-shadow: none;
+}
+#addresses{
+  background: transparent;
+  margin-top: 68px;
+}
+#buttons{
+  background: transparent;
+  border: 0;
+  padding: 30px 0 10px;
+}
+.group{
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+#tagline{
+  border-bottom: 1px solid {{settings.b_tables_border}};
+  padding: 20px 0;
+  text-transform: uppercase;
+}
+#tagline .title{
+  font-size: 24.5px;
+  line-height: 30px;
+}
+
+.address-notification{
+  background-color: {{settings.b_states_alerts_success_bg}};
+  border-color: {{settings.b_states_alerts_success_bg}};
+  color: {{settings.b_states_alerts_success_txt}};
+  padding: 10px 0;
+}
+.field-with-errors{
+  background-color: {{settings.b_states_alerts_error_bg}};
+  border-color: {{settings.b_states_alerts_error_bg}};
+  color: {{settings.b_states_alerts_error_txt}};
+}
+.gright{
+  width: 49%;
+  padding-left: 0;
+  margin-left: 0;
+  float: right;
+}
+#email{
+  padding: 0;
+  background: transparent;
+  border: 0;
+  margin-bottom: 50px;
+}
+#email input{
+  font-size: 100%;
+}
+
+.slim #overview,
+#marketing-box,
+#payment-method,
+#payment,
+#products,
+#email,
+.gleft,
+.gright{
+  position: relative;
+  margin-bottom: 25px;
+}
+.slim #overview h2,
+#marketing-box h3,
+#payment-method h3,
+#payment h3,
+#products h2,
+#email label,
+.gleft h3, 
+.gright h3{
+  font-family: {{header_font}};
+  text-transform: uppercase;
+  line-height: 1;
+  font-size: {{settings.general_heading_size | plus:0 | append:'px'}};
+  font-weight: {{settings.general_heading_style}};
+  color: {{settings.general_heading_colour}};
+  margin: 0 0 20px 0;
+  position: relative;
+  overflow: hidden;
+  border: 0;
+}
+.slim #overview h2:after,
+#marketing-box h3:after,
+#payment-method h3:after,
+#payment h3:after,
+#products h2:after,
+#email label:after,
+.gleft h3:after, 
+.gright h3:after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  z-index: 1;
+  margin-left: 10px;
+  border-bottom: 1px solid;
+  opacity: 0.2;
+}
+span.sign-in-message{
+  display: block;
+  margin-left: 0;
+  margin-top: 10px;
+}
+.multiple_address_selection td,
+.form td{
+  padding-left: 0;
+}
+.form td[colspan="2"]{
+  width: 100%!important;
+}
+.form td.lbl{
+  width: 100px;
+  vertical-align: middle;
+}
+.form td.lbl label{
+  margin-bottom: 15px;
+  line-height: 20px;
+}
+.form ul.inline li{
+  padding-left: 0;
+}
+.form ul.inline li,
+#billing_address_province_li{
+  width: 100%!important;
+}
+#shipping_address_province_li,
+#billing_address_province_li{
+  margin-top: 10px;
+}
+.form ul.inline li label,
+#billing_address_province_li label {
+  display: inline-block;
+  width: 129px;
+  padding-right: 2px;
+  line-height: 30px;
+  vertical-align: middle;
+  margin: 0;
+}
+input[type="text"],
+#email input{
+  width: 218px!important;
+  
+  line-height: 20px;
+}
+#payment-method{
+  margin-top: 55px;
+}
+#payment-methods li{
+  padding-left: 0;
+}
+img.credit-card{
+  margin-left: 0;
+}
+.field-with-errors .error-message{
+  font-weight: normal;
+}
+
+@-moz-document url-prefix() {
+  .form ul.inline li label,
+  #billing_address_province_li label {
+    width: 100px!important;
+  }
+}
+label{
+  display: block;
+  margin-bottom: 5px;
+  font-weight: normal;
+}
+#payment-methods li label{
+  display: inline-block;
+}
+#payment-methods input{
+  margin-top: 0;
+}
+#billing_address_selector,
+#shipping_address_selector{
+  width: 100%!important;
+}

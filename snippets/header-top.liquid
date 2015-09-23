@@ -1,0 +1,132 @@
+<div id="slidingbar-wrap" class="hidden-xs hidden-sm">
+  <div id="slidingbar-area">
+    <div id="slidingbar">
+      <div class="container">
+        <div class="row">
+          {% if settings.sliding_img_show %}
+          <div class="col-md-3">
+            <div class="slidingbar-widget text_info">
+              <div class="slidingbar-widget-container">
+                <a href="{{settings.sliding_img_link}}">
+                  <img src="{{'sliding_img_upload.jpg' | asset_url}}" alt="{{settings.sliding_img_heading}}" />
+                  {% if settings.sliding_img_heading != blank %}
+                  <div class="caption">
+                    <h2>{{settings.sliding_img_heading}}</h2>
+                  </div>
+                  {% endif %}
+                </a>
+              </div>
+              <div style="clear:both;"></div>
+            </div>
+          </div>
+          {% endif %}
+          {% if settings.sliding_list_show %}
+          <div class="col-md-3">
+            <div class="slidingbar-widget list_info">
+              {% if settings.sliding_list_heading != blank %}
+              <h5 class="title">{{settings.sliding_list_heading}}</h5>
+              {% endif %}
+              <div class="slidingbar-widget-container">
+                {% assign sliding_tmp = settings.sliding_link_list %}
+                {% assign sliding_list = linklists[sliding_tmp] %}
+                <ul class="list-unstyled list-styled">
+                  {% for link in sliding_list.links %}
+                  <li>
+                    <a href="{{ link.url }}">{{ link.title | escape }}</a>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div style="clear:both;"></div>
+            </div>
+          </div>
+          {% endif %}
+          {% if settings.sliding_text_show or settings.sliding_social_icons_show %}
+          <div class="col-md-3">
+            {% if settings.sliding_text_show %}
+            <div class="slidingbar-widget contact_info">
+              {% if settings.sliding_text_heading != blank %}
+              <h5 class="title">{{settings.sliding_text_heading}}</h5>
+              {% endif %}
+              <div class="slidingbar-widget-container">
+                {{settings.sliding_text_desc}}
+              </div>
+              <div style="clear:both;"></div>
+            </div>
+            {% endif %}
+
+            {% if settings.sliding_social_icons_show %}
+            <div class="slidingbar-widget social_info">
+              {% if settings.sliding_social_icons_heading != blank %}
+              <h5 class="title">{{settings.sliding_social_icons_heading}}</h5>
+              {% endif %}
+              <div class="slidingbar-widget-container">
+                {% include 'social-media' %}
+              </div>
+              <div style="clear:both;"></div>
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+          {% if settings.sliding_feedback %}
+          <div class="col-md-3">
+            <div class="slidingbar-widget feedback_info">
+              {% if settings.sliding_feedback_heading != blank %}
+              <h5 class="title">{{settings.sliding_feedback_heading}}</h5>
+              {% endif %}
+              <div class="slidingbar-widget-container">
+                {% form 'contact' %}
+                <div class="group-input">      
+                  <input id="feedback_name" placeholder="{{ 'contact.form.name' | t }} *" required="required" type="text" id="name" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.first_name }} {{ customer.last_name }}{% endif %}" name="contact[name]" />
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                </div>
+                <div class="group-input">      
+                  <input id="feedback_email" placeholder="{{ 'contact.form.email' | t }} *" required="required" type="email" id="email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" name="contact[email]" />
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                </div>
+                <div class="group-input">      
+                  <textarea id="feedback_message" placeholder="{{ 'contact.form.message' | t }} *" required="required" id="message" cols="40" rows="5" class="input" name="contact[answer]">{{ form.body }}</textarea>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                </div>
+                <button id="feedback_submit" type="submit" class="ripple btn btn-1">
+                  {{ 'contact.form.send' | t }}
+                </button>
+                <div class="feedback_notify"></div>
+                {% endform %}
+                <script>
+                  jQuery('.feedback_info form.contact-form').submit(function(event){
+                    var form = jQuery('.feedback_info form');
+                    jQuery.ajax({
+                      type: "POST",
+                      async: true,
+                      url: '/contact',
+                      data: form.serialize(),
+                      beforeSend: function() {
+                        jQuery('.feedback_notify').hide();
+                        jQuery('#feedback_submit').html("{{settings.sliding_feedback_waiting | replace:'"','\"'}}");
+                      },
+                      error: function(t) {
+                        jQuery('#feedback_submit').html("{{ 'contact.form.send' | t }}");
+                        jQuery('.feedback_notify').show().html("{{settings.sliding_feedback_error | replace:'"','\"'}}");
+                      },
+                      success: function(response) {
+                        jQuery('#feedback_submit').html("{{ 'contact.form.send' | t }}");
+                        jQuery('.feedback_notify').show().html("{{settings.sliding_feedback_thankyou | replace:'"','\"'}}");
+                      }
+                    });    
+                    event.preventDefault();
+                  });
+                </script>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="sb-toggle-wrapper"><span class="sb-toggle"></span></div>
+  </div>
+</div>

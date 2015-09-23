@@ -1,0 +1,17 @@
+{% capture collection_title %}{{ collection.title | escape }}{% endcapture %}
+<div class="collection-wrap">
+  <div class="collection-image">
+    <a href="{{ collection.url }}">
+      {% if collection.image %}
+      <img src="{{ collection.image.src | collection_img_url: 'large' }}" alt="{{ collection_title }}" />
+      {% else %}
+      <img src="{{ collection.products.first.featured_image | product_img_url: 'large' }}" alt="{{ collection_title }}" />
+      {% endif %}
+      
+      <div class="caption">
+        <h2>{{ collection_title }}</h2>
+        <p class="count">{{ collection.products_count }} {{ collection.products_count | pluralize: 'collections.general.product', 'collections.general.products' | t }}</p>
+      </div>
+    </a>
+  </div>
+</div>

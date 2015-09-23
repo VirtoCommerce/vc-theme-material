@@ -1,0 +1,21 @@
+{{ 'instafeed.min.js' | asset_url | script_tag }}
+<div id="instagram_list_{{instafeed}}" class="photo_list list-inline"></div>
+{% if settings.bottom_social_gallery != blank and settings.bottom_social_gallery_link != blank %}
+<a target="_blank" class="btn ripple btn-1" href="{{settings.bottom_social_gallery_link}}">{{settings.bottom_social_gallery}}</a>
+{% endif %}
+<script>
+  jQuery(document).ready(function($) {
+    var feed = new Instafeed({
+      get: "user",
+      target: "instagram_list_{{instafeed}}",
+      accessToken: "{{settings.instagram_token}}",
+      userId: {{settings.instagram_userid}},
+      clientId: "{{settings.instagram_id}}",
+      limit: {{settings.bottom_social_limit}},
+      resolution: "thumbnail",
+      resolution2: "standard_resolution",
+      template: '<div class="wrap animated"><a target="_blank" href="\{\{link\}\}"><img src="\{\{image\}\}" alt="\{\{caption\}\}" /><span class="hover_border"></span></a></div>'
+    });
+    feed.run();
+  });
+</script>
