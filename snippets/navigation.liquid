@@ -30,45 +30,33 @@
           <i class="zmdi zmdi-search"></i>
         </a>
         {% endif %}
-        {% if shop.customer_accounts_enabled %}
         <div class="more-ctl nav-dropdown-parent">
           <i class="zmdi zmdi-more-vert"></i>
 
           <div class="nav-dropdown">
             <div class="nav-dropdown-inner">
               <ul class="list-unstyled">
-                {% if customer %}
-                <li>
-                  {% assign page_tmp = pages[settings.wishlist_page] %}
-                  <a href="{{page_tmp.url}}">{{'general.top.wishlist' | t}}</a>
-                </li>
-                <li>
-                  <a href="/account">{{ 'general.top.my_account' | t }}</a>
-                </li>
-                <li>
-                  <a href="/account/logout">{{ 'general.top.logout' | t }}</a>
-                </li>
-                {% else %}
-                <li>
-                  <a href="/account/login">{{'general.top.wishlist' | t}}</a>
-                </li>
-                <li>
-                  <a href="/account/login">{{ 'customer.login.sign_in' | t }}</a>
-                </li>
-                <li>
-                  <a href="/account/register">{{ 'general.top.register' | t }}</a>
-                </li>
-                {% endif %}
+                  <li ng-if="customer && customer.UserName != 'Anonymous'">
+                      <a href="{{ 'account' | absolute_url }}">{{ 'general.top.my_account' | t }}</a>
+                  </li>
+                  <li ng-if="customer && customer.UserName != 'Anonymous'">
+                      <a href="{{ 'account/logout' | absolute_url }}">{{ 'general.top.logout' | t }}</a>
+                  </li>
+                  <li ng-if="customer && customer.UserName == 'Anonymous'">
+                      <a href="{{ 'account/login' | absolute_url }}">{{ 'customer.login.sign_in' | t }}</a>
+                  </li>
+                  <li ng-if="customer && customer.UserName == 'Anonymous'">
+                      <a href="{{ 'account/register' | absolute_url }}">{{ 'general.top.register' | t }}</a>
+                  </li>
               </ul>
             </div>
           </div>
         </div>
-        {% endif %}
         <div class="mini-cart nav-dropdown-parent">
           <div class="cart-inner">
             <div class="cart-link">
               <div class="cart-icon">
-                <strong>{{cart.item_count}}</strong>
+                <strong ng-bind="cart.ItemsCount"></strong>
                 <span class="cart-icon-handle"></span>
               </div>
             </div>
