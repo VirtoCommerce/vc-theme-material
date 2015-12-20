@@ -52,7 +52,7 @@
             </div>
           </div>
         </div>
-        <div class="mini-cart nav-dropdown-parent">
+        <div class="mini-cart nav-dropdown-parent" ng-class="{ 'active': isCartModalVisible || isUpdating }" ng-click="isCartModalVisible ? hideCartModal() : showCartModal()">
           <div class="cart-inner">
             <div class="cart-link">
               <div class="cart-icon">
@@ -61,7 +61,7 @@
               </div>
             </div>
           </div>
-          <div class="nav-dropdown">
+          <div class="nav-dropdown" ng-style="isCartModalVisible || isUpdating ? { 'opacity': '1', 'visibility': 'visible' } : { 'opacity': '0', 'visibility': 'hidden' }">
             <div class="nav-dropdown-inner">
               {% include 'cart-sidebar' %}
             </div>
