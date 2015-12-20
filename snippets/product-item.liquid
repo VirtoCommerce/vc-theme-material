@@ -78,15 +78,13 @@
           {% if product.variants.size > 1 %}
           <a href="{{ product.url | within: collection }}" class="btn btn-1 ripple choose-options btn-block"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.select_options' | t}}</a>
           {% else %}
-          <form action="/cart/add" method="post" enctype="multipart/form-data">
             <input type="hidden" name="quantity" value="1" />
             <select class="hide" name="id">
               {% for variant in product.variants %}
               <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
               {% endfor %}
             </select>
-            <button type="submit" class="btn btn-1 ripple add-to-cart btn-block"><i class="zmdi zmdi-shopping-cart"></i> {{'products.product.add_to_cart' | t}}</button>
-          </form>
+            <button type="button" class="btn btn-1 ripple add-to-cart btn-block" ng-click="addToCart('{{ product.id }}', 1)"><i class="zmdi zmdi-shopping-cart"></i> {{'products.product.add_to_cart' | t}}</button>
           {% endif %}
           {% else %}
           <a href="{{ product.url | within: collection }}" class="btn btn-1 ripple choose-options btn-block"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.show_details' | t}}</a>
@@ -101,15 +99,13 @@
           {% if product.variants.size > 1 %}
           <a href="{{ product.url | within: collection }}" class="choose-options btn-cart"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.select_options' | t}}</a>
           {% else %}
-          <form action="/cart/add" method="post" enctype="multipart/form-data">
             <input type="hidden" name="quantity" value="1" />
-            <button type="submit" class="add-to-cart btn-cart"><i class="zmdi zmdi-shopping-cart"></i> {{'products.product.add_to_cart' | t}}</button>
+            <button type="button" class="add-to-cart btn-cart" ng-click="addToCart('{{ product.id }}', 1)"><i class="zmdi zmdi-shopping-cart"></i> {{'products.product.add_to_cart' | t}}</button>
             <select class="hide" name="id">
               {% for variant in product.variants %}
               <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
               {% endfor %}
             </select>
-          </form>
           {% endif %}
           {% else %}
           <a href="{{ product.url | within: collection }}" class="choose-options btn-cart"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.show_details' | t}}</a>
@@ -166,7 +162,7 @@
 
         <div class="section border-bottom">
         {% if product.available %}
-        <form class="product-form" id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}">
+        <div class="product-form" id="product-form">
           <div id="product-variants">
             <select id="product-select" name="id" style="display: none;">
               {% for variant in product.variants %}
@@ -186,9 +182,9 @@
               <input type="number" title="{{'products.product.quantity' | t}}" step="1" min="1" size="4" id="quantity" name="quantity" value="1" />
               <span class="bar"></span>
             </div>
-            <button type="submit" class="btn btn-1 ripple add-to-cart" name="add" id="add" data-addtocart="{{'products.product.add_to_cart' | t}}" data-unavailable="{{'products.product.unavailable' | t}}" data-soldout="{{'products.product.sold_out' | t}}">{{'products.product.add_to_cart' | t}}</button>
+            <button type="button" class="btn btn-1 ripple add-to-cart" name="add" id="add" ng-click="addToCart('{{ product.id }}', 1)">{{'products.product.add_to_cart' | t}}</button>
           </div>
-        </form>
+        </div>
         {% if settings.allow_wishlist %}
         <div class="product-wishlist wishlist-{{product.id}}"></div>
         {% endif %}
