@@ -10,7 +10,7 @@
       <div class="wrapper">
         <h2 class="title2 h1">{{ 'search.general.title' | t }}</h2>
         <div class="widget">
-          <form action="/search" method="get" class="search-form" role="search">
+          <form action="{{ '/search' | absolute_url }}" method="get" class="search-form" role="search">
             <input type="hidden" name="type" value="product">
             
             <div class="group-input">      
