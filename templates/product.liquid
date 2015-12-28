@@ -79,7 +79,7 @@
               </div>
 
               {% if product.available %}
-              <div class="product-form" id="product-form" data-product-id="{{product.id}}">
+              <form class="product-form" id="product-form" action="{{ 'cart/add' | absolute_url }}" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}">
                 <div id="product-variants">
                   <select id="product-select" name="id" style="display: none;">
                     {% for variant in product.variants %}
@@ -103,9 +103,9 @@
                     <input type="number" title="{{'products.product.quantity' | t}}" step="1" min="1" size="4" id="quantity" name="quantity" value="1" />
                     <span class="bar"></span>
                   </div>
-                  <button type="button" class="btn btn-1 ripple add-to-cart" name="add" id="add" ng-click="addToCart('{{ product.id }}', 1)">{{'products.product.add_to_cart' | t}}</button>
+                  <button type="submit" class="btn btn-1 ripple add-to-cart" name="add" id="add" data-addtocart="{{'products.product.add_to_cart' | t}}" data-unavailable="{{'products.product.unavailable' | t}}" data-soldout="{{'products.product.sold_out' | t}}">{{'products.product.add_to_cart' | t}}</button>
                 </div>
-              </div>
+              </form>
               {% if settings.allow_wishlist %}
               <div class="product-buttons">
                 <div class="product-wishlist wishlist-{{product.id}}">

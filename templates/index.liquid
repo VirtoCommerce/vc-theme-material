@@ -21,7 +21,7 @@
       </div>
       <div class="col-md-6 animated">
         {% if settings.page_home_url != blank %}
-        <a href="{{settings.page_home_url}}">
+        <a href="{{settings.page_home_url | absolute_url}}">
           <img src="{{'page_home_img.png' | asset_url}}" alt="{{settings.page_home_heading}}" />
         </a>
         {% else %}
@@ -210,11 +210,10 @@
       <div class="cat-templates hidden">
         {{templates}}
       </div>
-        {{ collection.title }}
       {% paginate collection.products by settings.collection_pagination_limit %}
       <div class="cat-grid">
         <div class="product_item large animated">
-          <a href="{{ collection.url | absolute_url }}">
+          <a href="{{collection.url | absolute_url}}">
             <img src="{{'the_collection_home_1.jpg' | asset_url}}" alt="{{collection.title}}" />
             <div class="caption">
               <h2>{% if collection_name != blank %}{{collection_name}}{% else %}{{collection.title}}{% endif %}</h2>
@@ -265,7 +264,7 @@
         {% assign image = 'partner_image_' | append: i | append:'.png' %}
         {% assign link = 'partner_link_' | append: i %}
         <div class="partner animated">
-          <a href="{{settings[link]}}">
+          <a href="{{settings[link] | absolute_url}}">
             <img src="{{image | asset_url}}" alt="" />
             <span class="hover_border"></span>
           </a>

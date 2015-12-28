@@ -97,13 +97,14 @@
               {% include 'customer-links' %}
             </li>
             {% endif %}
+            {% if settings.header_cart %}
             <li class="mini-cart nav-dropdown-parent">
               <div class="cart-inner">
-                <a href="{{ 'cart' | absolute_url }}" class="cart-link">
+                <a href="/cart" class="cart-link">
                   <strong class="cart-name">{{'general.cart_info.cart' | t}}</strong> 
-                  <span class="cart-price">/ <span class="amount" ng-bind="cart.SubTotal.FormatedAmount"></span></span>
+                  <span class="cart-price">/ <span class="amount">{{cart.total_price | money | replace:'.00',''}}</span></span>
                   <div class="cart-icon">
-                    <strong ng-bind="cart.ItemsCount"></strong>
+                    <strong>{{cart.item_count}}</strong>
                     <span class="cart-icon-handle"></span>
                   </div>
                 </a>
@@ -114,6 +115,7 @@
                 </div>
               </div>
             </li>
+            {% endif %}
           </ul>
         </div>
         {% endif %}

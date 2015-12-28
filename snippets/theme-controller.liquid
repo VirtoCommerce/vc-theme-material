@@ -10,7 +10,7 @@
       <div class="wrapper">
         <h2 class="title2 h1">{{ 'search.general.title' | t }}</h2>
         <div class="widget">
-          <form action="{{ '/search' | absolute_url }}" method="get" class="search-form" role="search">
+          <form action="{{ 'search' | absolute_url }}" method="get" class="search-form" role="search">
             <input type="hidden" name="type" value="product">
             
             <div class="group-input">      
@@ -53,7 +53,7 @@
         <div class="cart-text">{{ 'general.modal.cart_text' | t }}&nbsp;</div>
         <div>
           <button type="button" class="btn" onclick="roar.closeThemeCtl2();">{{ 'general.modal.continue_shopping' | t }}</button>
-          <a class="btn btn-1 ripple" href="/cart">{{ 'general.modal.go_to_cart' | t }}</a>
+          <a class="btn btn-1 ripple" href="{{ 'cart' | absolute_url }}">{{ 'general.modal.go_to_cart' | t }}</a>
         </div>
       </div>
     </div>

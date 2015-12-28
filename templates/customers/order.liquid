@@ -1,6 +1,6 @@
 <div id="col-main" class="page-order widget-wrapper clearfix">
   <div class="crumbregion">
-    <div class="myaccount"><a href="/account">{{ 'customer.account.title' | t }}</a></div>
+    <div class="myaccount"><a href="{{ 'account' | absolute_url }}">{{ 'customer.account.title' | t }}</a></div>
     {% assign created_at = order.created_at | date: "%B %d, %Y %I:%M%p" %}
     <div class="note order_date">{{ 'customer.order.date' | t: date: created_at }}</div>
   </div>

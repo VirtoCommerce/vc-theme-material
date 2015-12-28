@@ -1,7 +1,7 @@
 <div id="breadcrumb" class="breadcrumb">
   <div class="breadcrumb-detail clearfix">
     <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-      <a itemprop="url" href="/" class="homepage-link">
+      <a itemprop="url" href="{{ '/' | absolute_url }}" class="homepage-link">
         <span itemprop="title" class="hide">{{ shop.name | escape }}</span>
         {{ 'general.breadcrumbs.home' | t }} 
       </a>
@@ -11,7 +11,7 @@
     <i class="fa fa-angle-right"></i>
     {% if collection.handle %}
     <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="hide">
-      <a href="{{collection.url}}" itemprop="url">
+      <a href="{{ collection.url | absolute_url }}" itemprop="url">
         <span itemprop="title">{{ collection.title }}</span>
       </a>
     </span>
@@ -23,7 +23,7 @@
     {% endif %}
     <i class="fa fa-angle-right"></i>
     <span itemscope itemtype="http://data-vocabulary.org/Breadcrumb" class="hide">
-      <a href="{{product.url}}" itemprop="url">
+      <a href="{{ product.url | absolute_url }}" itemprop="url">
         <span itemprop="title">{{ product.title }}</span>
       </a>
     </span>

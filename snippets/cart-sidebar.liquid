@@ -1,37 +1,43 @@
 <div class="cart-sidebar">
-    <div class="cart-loading">
-        {% include 'spinner' %}
+  <div class="cart-loading">
+    {% include 'spinner' %}
+  </div>
+  <div id="cart-info" class="cart-info">
+    {% if cart.items == empty %}
+    <div class="cart-empty">
+      {{ 'general.cart_info.cart_empty_html' | t }}
     </div>
-    <div id="cart-info" class="cart-info">
-        <div class="cart-empty" ng-if="cart.ItemsCount == 0">
-            {{ 'general.cart_info.cart_empty_html' | t }}
+    {% else %}
+    <ul class="list-unstyled">
+      {% for item in cart.items %}
+      <li>
+        <div class="remove"><a href="javascript:;" onclick="Shopify.removeItem('{{item.id}}')" title="{{ 'general.cart_info.remove_this_item' | t }}"><i class="zmdi zmdi-close"></i></a></div>
+        <div class="list_content">
+          <a href="{{item.url}}">
+            <span>{{ item.title }}</span>
+            {% if item.product.variants.size > 1 %}
+            <span class="variant_title"> - {{ item.variant.title }}</span>
+            {% endif %}
+          </a>
+          <div class="quantity">{{ item.quantity }} × <span class="amount">{{ item.price | money }}</span></div>
         </div>
-        <ul class="list-unstyled" ng-if="cart.ItemsCount > 0">
-            <li ng-repeat="lineItem in cart.Items">
-                <div class="remove">
-                    <a href="" title="{( lineItem.Name )}" ng-click="removeLineItem(lineItem.Id)">
-                        <i class="zmdi zmdi-close"></i>
-                    </a>
-                </div>
-                <div class="list_content">
-                    <a>
-                        <span ng-bind="lineItem.Name"></span>
-                    </a>
-                    <div class="quantity">{( lineItem.Quantity )} × <span class="amount" ng-bind="lineItem.SalePrice.FormatedAmount"></span></div>
-                </div>
-                <figure>
-                    <a class="cart_list_product_img">
-                        <img ng-src="{( lineItem.ImageUrl )}" />
-                    </a>
-                </figure>
-            </li>
-        </ul>
-        <div class="subtotal" ng-if="cart.ItemsCount > 0">
-            <span class="title">{{ 'general.cart_info.sub_total' | t }} <span class="amount" ng-bind="cart.SubTotal.FormatedAmount"></span></span>
-        </div>
-        <div class="buttons" ng-if="cart.ItemsCount > 0">
-            <a class="btn btn-1 btn-block ripple" href="{{ '/cart/checkout/#/customer-information' | absolute_url }}">{{ 'general.cart_info.checkout' | t }}</a>
-            <a class="btn-cart" href="{{ 'cart' | absolute_url }}">{{ 'general.cart_info.view_shopping_bag' | t }}</a>
-        </div>
+        <figure>
+          <a class="cart_list_product_img" href="{{ item.url}}">
+            <img src="{{ item.image.src }}"  alt="{{ item.title | escape }}" />
+          </a>
+        </figure>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <div class="subtotal">
+      <span class="title">{{ 'general.cart_info.sub_total' | t }} <span class="amount">{{ cart.total_price | money }}</span></span>
     </div>
+
+    <div class="buttons">
+      <a href="{{ 'checkout' | absolute_url }}" class="btn btn-1 btn-block ripple">{{ 'general.cart_info.checkout' | t }}</a>
+      <a href="{{ 'cart' |absolute_url }}" class="btn-cart">{{ 'general.cart_info.view_shopping_bag' | t }}</a>
+    </div>
+    {% endif %}
+  </div>
 </div>
