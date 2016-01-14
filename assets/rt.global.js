@@ -76,7 +76,7 @@ function addToCart(t) {
     }
     return window.ajax_add_to_cart ? void $.ajax({
         type: "POST",
-        url: "/storefront/Clothing/cart/add.js",
+        url: $("base").attr("href") + "cart/add.js",
         async: !0,
         data: o.serialize(),
         dataType: "json",
