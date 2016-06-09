@@ -37,28 +37,43 @@
           <div class="nav-dropdown">
             <div class="nav-dropdown-inner">
               <ul class="list-unstyled">
-                {% if customer %}
-                <li>
+                  <li ng-if="customer && customer.UserName != 'Anonymous'">
+                      <a href="{{ 'account' | absolute_url }}">{{ 'general.top.my_account' | t }}</a>
+                  </li>
+                  <li ng-if="customer && customer.UserName != 'Anonymous'">
+                      <a href="{{ 'account/logout' | absolute_url }}">{{ 'general.top.logout' | t }}</a>
+                  </li>
+                  <li ng-if="customer && customer.UserName == 'Anonymous'">
+                      <a href="{{ 'account/login' | absolute_url }}">{{ 'customer.login.sign_in' | t }}</a>
+                  </li>
+                  <li ng-if="customer && customer.UserName == 'Anonymous'">
+                      <a href="{{ 'account/register' | absolute_url }}">{{ 'general.top.register' | t }}</a>
+                  </li>
+
+                  {% comment %}
+                  {% if customer %}
+                  <li>
                   {% assign page_tmp = pages[settings.wishlist_page] %}
                   <a href="{{page_tmp.url}}">{{'general.top.wishlist' | t}}</a>
                 </li>
                 <li>
-                  <a href="/account">{{ 'general.top.my_account' | t }}</a>
+                  <a href="{{ 'account' | absolute_url }}">{{ 'general.top.my_account' | t }}</a>
                 </li>
                 <li>
-                  <a href="/account/logout">{{ 'general.top.logout' | t }}</a>
+                  <a href="{{ 'account/logout' | absolute_url }}">{{ 'general.top.logout' | t }}</a>
                 </li>
                 {% else %}
                 <li>
-                  <a href="/account/login">{{'general.top.wishlist' | t}}</a>
+                  <a href="{{ 'account/login' | absolute_url }}">{{'general.top.wishlist' | t}}</a>
                 </li>
                 <li>
-                  <a href="/account/login">{{ 'customer.login.sign_in' | t }}</a>
+                  <a href="{{ 'account/login' | absolute_url }}">{{ 'customer.login.sign_in' | t }}</a>
                 </li>
                 <li>
-                  <a href="/account/register">{{ 'general.top.register' | t }}</a>
+                  <a href="{{ 'account/register' | absolute_url }}">{{ 'general.top.register' | t }}</a>
                 </li>
                 {% endif %}
+                {% endcomment %}
               </ul>
             </div>
           </div>

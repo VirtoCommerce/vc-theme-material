@@ -78,7 +78,7 @@
           {% if product.variants.size > 1 %}
           <a href="{{ product.url | within: collection }}" class="btn btn-1 ripple choose-options btn-block"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.select_options' | t}}</a>
           {% else %}
-          <form action="/cart/add" method="post" enctype="multipart/form-data">
+          <form action="{{ 'cart/add' | absolute_url }}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="quantity" value="1" />
             <select class="hide" name="id">
               {% for variant in product.variants %}
@@ -101,7 +101,7 @@
           {% if product.variants.size > 1 %}
           <a href="{{ product.url | within: collection }}" class="choose-options btn-cart"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.select_options' | t}}</a>
           {% else %}
-          <form action="/cart/add" method="post" enctype="multipart/form-data">
+          <form action="{{ 'cart/add' | absolute_url }}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="quantity" value="1" />
             <button type="submit" class="add-to-cart btn-cart"><i class="zmdi zmdi-shopping-cart"></i> {{'products.product.add_to_cart' | t}}</button>
             <select class="hide" name="id">
@@ -166,7 +166,7 @@
 
         <div class="section border-bottom">
         {% if product.available %}
-        <form class="product-form" id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}">
+        <form class="product-form" id="product-form" action="{{ 'cart/add' | absolute_url }}" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}">
           <div id="product-variants">
             <select id="product-select" name="id" style="display: none;">
               {% for variant in product.variants %}

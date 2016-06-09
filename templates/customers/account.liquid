@@ -19,7 +19,7 @@
             <p>{{ customer.default_address.zip}}</p>
             <p>{{ customer.default_address.phone }}</p>
             {% endif %}
-            <a id="view_address" href="/account/addresses">{{ 'customer.account.view_addresses' | t }}</a>
+            <a id="view_address" href="{{ 'account/addresses' | absolute_url }}">{{ 'customer.account.view_addresses' | t }}</a>
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@
     <p>{{ 'cart.general.empty' | t }} {{ 'cart.general.continue_browsing_html' | t }}</p>
   </div>
   {% else %}
-  <form action="/cart" method="post" id="cartform" class="clearfix">
+  <form action="{{ 'cart' | absolute_url }}" method="post" id="cartform" class="clearfix">
     <div class="row">
       <div class="col-sm-8 col-md-9 col-left">
         <div class="cart-header">
@@ -15,7 +15,7 @@
             You have {{cart.item_count}} {{cart.item_count | pluralize: 'item', 'items'}} in your cart
           </div>
           <div class="btn3">
-            <a href="/cart/clear">{{ 'cart.general.empty_cart' | t }}</a>
+            <a href="{{ 'cart/clear' | absolute_url }}">{{ 'cart.general.empty_cart' | t }}</a>
           </div>
         </div>
         <div class="cart-items">
@@ -24,14 +24,14 @@
             <div class="inner">
               <div class="cart-left tip_holder_big">
                 <a href="{{item.url }}">
-                  <img src="{{ item | img_url: 'medium' }}"  alt="{{ item.title | escape }}" />
+                  <img src="{{ item.image.src }}"  alt="{{ item.title | escape }}" />
                 </a>
                 <div class="tip_holder_small">
                   <div class="magnifier">
                     <div class="size-limiter">
-                      <img src="{{ item | img_url: 'large' }}" alt="" />
+                      <img src="{{ item.image.src }}" alt="" />
                     </div>
-                    <strong>{{ item.product.title }}</strong>
+                    <strong>{{ item.title }}</strong>
                     <div class="info">
                       <div class="meta">
                         {% if item.product.variants.size > 1 %}
@@ -48,7 +48,7 @@
                 <div class="wrap">
                   <div class="product-title">
                     <a href="{{item.url }}">
-                      <span>{{ item.product.title }}</span>
+                      <span>{{ item.title }}</span>
                       {% if item.product.variants.size > 1 %}
                       <span class="variant_title"> - {{ item.variant.title }}</span>
                       {% endif %}
@@ -77,7 +77,8 @@
                       </button>
                     </div>
                   </div>
-                  <a class="cart-remove" href="/cart/change?line={{ forloop.index }}&quantity=0" title="{{ 'cart.general.remove' | t }}">
+                  {% assign remove_item_url = 'cart/change?line=' | append: forloop.index | append: '&quantity=0' %}
+                  <a class="cart-remove" href="{{ remove_item_url | absolute_url }}" title="{{ 'cart.general.remove' | t }}">
                     <i class="zmdi zmdi-close"></i>
                   </a>
                 </div>
@@ -145,7 +146,9 @@
             </div>
           </div>
         </div>
+        {% comment %}
         {% include 'shipping-calculator' %}
+        {% endcomment %}
       </div>
     </div>
   </form>

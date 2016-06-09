@@ -21,7 +21,7 @@
       </div>
       <div class="col-md-6 animated">
         {% if settings.page_home_url != blank %}
-        <a href="{{settings.page_home_url}}">
+        <a href="{{settings.page_home_url | absolute_url}}">
           <img src="{{'page_home_img.png' | asset_url}}" alt="{{settings.page_home_heading}}" />
         </a>
         {% else %}
@@ -46,7 +46,7 @@
       <div class="col-sm-4 col-xs-6 offer">
         <div class="offer-wrap">
           <div class="offer-img">
-            <a href="{{settings.offer_link_1}}">
+            <a href="{{ settings.offer_link_1 | absolute_url }}">
               <img src="{{'offer_image_1.jpg' | asset_url}}" alt="{{settings.offer_caption_1}}" />
               <div class="img" style="background-image:url({{'offer_image_1.jpg' | asset_url}});"></div>
               <div class="offer-bg">
@@ -59,7 +59,7 @@
       <div class="col-sm-4 col-xs-6 offer">
         <div class="offer-wrap">
           <div class="offer-img">
-            <a href="{{settings.offer_link_2}}">
+            <a href="{{ settings.offer_link_2 | absolute_url }}">
               <img src="{{'offer_image_2.jpg' | asset_url}}" alt="{{settings.offer_caption_2}}" />
               <div class="img" style="background-image:url({{'offer_image_2.jpg' | asset_url}});"></div>
               <div class="offer-bg">
@@ -72,7 +72,7 @@
       <div class="col-sm-4 col-xs-6 offer">
         <div class="offer-wrap">
           <div class="offer-img">
-            <a href="{{settings.offer_link_3}}">
+            <a href="{{ settings.offer_link_3 | absolute_url }}">
               <img src="{{'offer_image_3.jpg' | asset_url}}" alt="{{settings.offer_caption_3}}" />
               <div class="img" style="background-image:url({{'offer_image_3.jpg' | asset_url}});"></div>
               <div class="offer-bg">
@@ -192,8 +192,8 @@
             {% assign collection_tmp = collections[tmp_col] %}
             {% if collection_tmp and collection_tmp.handle != blank %}
             {% unless collection_tmp.handle == 'frontpage' or collection_tmp.handle == 'all' %}
-            <option data-handle="{{collection_tmp.handle}}" value="{{collection_tmp.url}}">{{collection_tmp.title}}</option>
-            {% capture templates %}{{templates}}<script id="collection-template-{{collection_tmp.handle}}" type="text/template"><div class="product_item large animated"><a href="{{collection_tmp.url}}"><img src="{{img | asset_url}}" alt="{{collection_tmp.title}}" /><div class="caption"><h2>{% if name != blank %}{{name}}{% else %}{{collection_tmp.title}}{% endif %}</h2></div></a></div></script>{% endcapture %}
+            <option data-handle="{{collection_tmp.handle}}" value="{{collection_tmp.url | absolute_url}}">{{collection_tmp.title}}</option>
+            {% capture templates %}{{templates}}<script id="collection-template-{{collection_tmp.handle}}" type="text/template"><div class="product_item large animated"><a href="{{collection_tmp.url | absolute_url}}"><img src="{{img | asset_url}}" alt="{{collection_tmp.title}}" /><div class="caption"><h2>{% if name != blank %}{{name}}{% else %}{{collection_tmp.title}}{% endif %}</h2></div></a></div></script>{% endcapture %}
             {% if first %}
             {% assign collection = collection_tmp %}
             {% assign collection_name = name %}
@@ -213,7 +213,7 @@
       {% paginate collection.products by settings.collection_pagination_limit %}
       <div class="cat-grid">
         <div class="product_item large animated">
-          <a href="{{collection.url}}">
+          <a href="{{collection.url | absolute_url}}">
             <img src="{{'the_collection_home_1.jpg' | asset_url}}" alt="{{collection.title}}" />
             <div class="caption">
               <h2>{% if collection_name != blank %}{{collection_name}}{% else %}{{collection.title}}{% endif %}</h2>
@@ -264,7 +264,7 @@
         {% assign image = 'partner_image_' | append: i | append:'.png' %}
         {% assign link = 'partner_link_' | append: i %}
         <div class="partner animated">
-          <a href="{{settings[link]}}">
+          <a href="{{settings[link] | absolute_url}}">
             <img src="{{image | asset_url}}" alt="" />
             <span class="hover_border"></span>
           </a>

@@ -11,10 +11,10 @@
     <ul class="list-unstyled">
       {% for item in cart.items %}
       <li>
-        <div class="remove"><a href="javascript:;" onclick="Shopify.removeItem({{item.variant_id}})" title="{{ 'general.cart_info.remove_this_item' | t }}"><i class="zmdi zmdi-close"></i></a></div>
+        <div class="remove"><a href="javascript:;" onclick="Shopify.removeItem('{{item.id}}')" title="{{ 'general.cart_info.remove_this_item' | t }}"><i class="zmdi zmdi-close"></i></a></div>
         <div class="list_content">
-          <a href="{{item.url }}">
-            <span>{{ item.product.title }}</span>
+          <a href="{{item.url}}">
+            <span>{{ item.title }}</span>
             {% if item.product.variants.size > 1 %}
             <span class="variant_title"> - {{ item.variant.title }}</span>
             {% endif %}
@@ -22,8 +22,8 @@
           <div class="quantity">{{ item.quantity }} × <span class="amount">{{ item.price | money }}</span></div>
         </div>
         <figure>
-          <a class="cart_list_product_img" href="{{item.url }}">
-            <img src="{{ item | img_url: 'small' }}"  alt="{{ item.title | escape }}" />
+          <a class="cart_list_product_img" href="{{ item.url}}">
+            <img src="{{ item.image.src }}"  alt="{{ item.title | escape }}" />
           </a>
         </figure>
       </li>
@@ -35,8 +35,8 @@
     </div>
 
     <div class="buttons">
-      <a href="/checkout" class="btn btn-1 btn-block ripple">{{ 'general.cart_info.checkout' | t }}</a>
-      <a href="/cart" class="btn-cart">{{ 'general.cart_info.view_shopping_bag' | t }}</a>
+      <a href="{{ 'cart/checkout/#/shipping-address' | absolute_url }}" class="btn btn-1 btn-block ripple">{{ 'general.cart_info.checkout' | t }}</a>
+      <a href="{{ 'cart' |absolute_url }}" class="btn-cart">{{ 'general.cart_info.view_shopping_bag' | t }}</a>
     </div>
     {% endif %}
   </div>

@@ -4,12 +4,12 @@
   <div class="nextprev">
     <div class="prod-dropdown">
       {% if collection.previous_product %}
-      <a class="prev btooltip" title="{{'products.general.previous_product' | t}}" href="{{collection.previous_product}}"><i class="fa fa-angle-left"></i></a>
+      <a class="prev btooltip" title="{{'products.general.previous_product' | t}}" href="{{collection.previous_product | absolute_url}}"><i class="fa fa-angle-left"></i></a>
       {% assign words = collection.previous_product | split:'/' %}
       {% assign word = words.last %}
 
       <div class="nav-dropdown">
-        <a href="{{collection.previous_product}}" data-fill-with-product="{{word}}">
+        <a href="{{collection.previous_product | absolute_url}}" data-fill-with-product="{{word}}">
           <script type="text/template"><img src="[img:medium]" title="[title]" /></script>
         </a>
       </div>
@@ -19,12 +19,12 @@
     </div>
     <div class="prod-dropdown">
       {% if collection.next_product %}
-      <a class="next btooltip" title="{{'products.general.next_product' | t}}" href="{{collection.next_product}}"><i class="fa fa-angle-right"></i></a>
+      <a class="next btooltip" title="{{'products.general.next_product' | t}}" href="{{collection.next_product | absolute_url}}"><i class="fa fa-angle-right"></i></a>
       {% assign words = collection.next_product | split:'/' %}
       {% assign word = words.last %}
 
       <div class="nav-dropdown">
-        <a href="{{collection.next_product}}" data-fill-with-product="{{word}}">
+        <a href="{{collection.next_product | absolute_url}}" data-fill-with-product="{{word}}">
           <script type="text/template"><img src="[img:medium]" title="[title]" /></script>
         </a>
       </div>
@@ -35,10 +35,10 @@
   </div>
   {% endif %}
   <div class="crumbs hidden-xs">
-    <a href="/">{{'general.breadcrumbs.home' | t}}</a>
+    <a href="{{ '/' | absolute_url }}">{{'general.breadcrumbs.home' | t}}</a>
     <span>/</span>
     {% if collection.handle %}
-    <a href="{{collection.url}}">{{ collection.title }}</a>
+    <a href="{{collection.url | absolute_url}}">{{ collection.title }}</a>
     {% else %}
     {{ product.vendor | link_to_vendor }}
     {% endif %}

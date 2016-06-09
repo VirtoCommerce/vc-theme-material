@@ -2,7 +2,7 @@
   <div id="col-main">
     <div id="customer-addresses" class="widget">
       <h2 class="page-title">{{ 'customer.addresses.title' | t }}
-        <span class="note"><a href="/account">{{ 'customer.account.title' | t }}</a></span>
+        <span class="note"><a href="{{ 'account' | absolute_url }}">{{ 'customer.account.title' | t }}</a></span>
       </h2>
       
       <a href="#" onclick="Shopify.CustomerAddress.toggleNewForm(); return false;" class="add-new-address">{{ 'customer.addresses.add_new' | t }}</a>

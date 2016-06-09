@@ -79,7 +79,7 @@
               </div>
 
               {% if product.available %}
-              <form class="product-form" id="product-form" action="/cart/add" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}">
+              <form class="product-form" id="product-form" action="{{ 'cart/add' | absolute_url }}" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}">
                 <div id="product-variants">
                   <select id="product-select" name="id" style="display: none;">
                     {% for variant in product.variants %}

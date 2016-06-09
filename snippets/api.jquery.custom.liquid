@@ -12,7 +12,7 @@
               $html += "<ul class=\"list-unstyled\">";
               jQuery.each(value, function(i, item) {
                 $html += "<li>";
-                $html += "<div class=\"remove\"><a href=\"javascript:;\" onclick=\"Shopify.removeItem("+ item.variant_id +")\" title=\"{{ 'general.cart_info.remove_this_item' | t }}\"><i class=\"zmdi zmdi-close\"></i></a></div>";
+                $html += "<div class=\"remove\"><a href=\"javascript:;\" onclick=\"Shopify.removeItem('"+ item.id +"')\" title=\"{{ 'general.cart_info.remove_this_item' | t }}\"><i class=\"zmdi zmdi-close\"></i></a></div>";
                 $html += "<div class=\"list_content\">";
                 $html += "<a href=\""+ item.url +"\">";
                 $html += "<span>"+ item.title +"</span>";
@@ -20,7 +20,7 @@
                 $html += "<div class=\"quantity\">"+ item.quantity +" × <span class=\"amount\">"+ Shopify.formatMoney(item.price, window.money_format) +"</span></div>";
                 $html += "</div>";
                 $html += "<figure>";
-                $html += "<a class=\"cart_list_product_img\" href=\""+ item.url +"\"><img src=\""+ Shopify.resizeImage(item.image, 'small') +"\"  alt=\""+ item.title +"\" /></a>";
+                $html += "<a class=\"cart_list_product_img\" href=\""+ item.url +"\"><img src=\""+ Shopify.resizeImage(item.image.src, 'original') +"\"  alt=\""+ item.title +"\" /></a>";
                 $html += "</figure>";
                 $html += "</li>";
               });
@@ -28,8 +28,8 @@
 
               $html += "<div class=\"subtotal\"><span class=\"title\">{{ 'general.cart_info.sub_total' | t }} <span class=\"amount\">"+ Shopify.formatMoney(cart.total_price, window.money_format) +"</span></span></div>";
               $html += "<div class=\"buttons\">";
-              $html += "<a href=\"/checkout\" class=\"btn btn-1 btn-block ripple\">{{ 'general.cart_info.checkout' | t }}</a>";
-              $html += "<a href=\"/cart\" class=\"btn-cart\">{{ 'general.cart_info.view_shopping_bag' | t }}</a>";
+              $html += "<a href=\"{{ 'cart/checkout' | absolute_url }}\" class=\"btn btn-1 btn-block ripple\">{{ 'general.cart_info.checkout' | t }}</a>";
+              $html += "<a href=\"{{ 'cart' | absolute_url }}\" class=\"btn-cart\">{{ 'general.cart_info.view_shopping_bag' | t }}</a>";
               $html += "</div>";
             }
             else {
@@ -57,7 +57,7 @@
     $('.cart-loading').addClass('is_loading');
     var params = {
       type: 'POST',
-      url: '/cart/change.js',
+      url: '{{ 'cart/change.js' | absolute_url }}',
       data:  'quantity=0&id='+variant_id,
       dataType: 'json',
       success: function(cart) { 
