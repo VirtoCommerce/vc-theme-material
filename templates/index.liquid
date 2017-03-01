@@ -230,8 +230,7 @@
       <div class="advanced-pagination">
         <div class="infinite_scoll">
           {% if paginate.next %}
-          {% assign next_url = collection.url | append:paginate.next.url %}
-          {% include 'spinner2' with next_url %}
+          {% include 'spinner2' with paginate.next.url %}
           {% endif %}
         </div>
       </div>
