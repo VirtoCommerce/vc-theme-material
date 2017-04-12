@@ -7,14 +7,14 @@
         <div class="inner">
           <div class="thumbnails">
             {% for image in product.images %}
-            <a class="thumbnail" href="{{ image | product_img_url:'master' }}" data-src="{{image | product_img_url:'grande'}}"><img src="{{ image | product_img_url:'small' }}" alt="{{product.title}}" /></a>
+            <a class="thumbnail" href="{{ image | product_img_url }}" data-src="{{image | product_img_url }}"><img src="{{ image | product_img_url }}" alt="{{product.title}}" /></a>
             {% endfor %}
           </div>
 
           {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
           <div class="main">
-            <div class="main-img-link product-image" href="{{featured_image | product_img_url:'master'}}" title="{{product.title}}">
-              <img itemprop="image" class="main-img" src="{{product.featured_image | product_img_url:'grande'}}" alt="{{product.title}}" />
+            <div class="main-img-link product-image" href="{{featured_image | product_img_url }}" title="{{product.title}}">
+              <img itemprop="image" class="main-img" src="{{product.featured_image | product_img_url }}" alt="{{product.title}}" />
               {% include 'spinner' %}
             </div>
           </div>
@@ -27,7 +27,7 @@
               jQuery('.gallery-icon').on('click', function(){
                 var gallery = [];
                 {% for image in product.images %}
-                gallery.push('{{ image | product_img_url: 'original' }}');
+                gallery.push('{{ image | product_img_url }}');
                              {% endfor %}
                              roar.showThemeGallery(gallery, jQuery(this));
                 return false;

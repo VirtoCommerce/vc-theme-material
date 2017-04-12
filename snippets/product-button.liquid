@@ -23,7 +23,7 @@
 
         {% if settings.share_pinterest %}
         <li>
-          <a target="_blank" href="//pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media=http:{{ prod.featured_image | img_url: 'original' }}&amp;description={{ prod.title | escape }}" class="social-wrapper">
+          <a target="_blank" href="//pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media=http:{{ prod.featured_image | img_url }}&amp;description={{ prod.title | escape }}" class="social-wrapper">
             <span class="social-icon"><i class="icomoon-pinterest"></i></span>
           </a>
         </li>
