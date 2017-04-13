@@ -33,7 +33,7 @@
         {% endif %}
         <div class="wrap">
           <a href="{{product.url | within: collection}}">
-            <img src="{{ product.featured_image | product_img_url: settings.wrapper_img_size }}" class="main-image img-responsive" alt="{{ product.title }}" />
+            <img src="{{ product.featured_image | product_img_url }}" class="main-image img-responsive" alt="{{ product.title }}" />
           </a>
         </div>
       </div>
@@ -128,14 +128,14 @@
       <div class="product-gallery col-sm-6">
         <div class="thumbnails">
           {% for image in product.images %}
-          <a class="thumbnail" href="{{image | product_img_url:'master'}}" data-src="{{image | product_img_url:'grande'}}">
-            <img src="{{image | product_img_url:'small'}}" title="{{product.alt}}" />
+          <a class="thumbnail" href="{{image | product_img_url }}" data-src="{{image | product_img_url }}">
+            <img src="{{image | product_img_url }}" title="{{product.alt}}" />
           </a>
           {% endfor %}
         </div>
         <div class="main">
-          <div class="main-img-link" href="{{product.featured_image | product_img_url:'master'}}" title="{{product.title}}">
-            <img class="main-img" src="{{product.featured_image | product_img_url:'grande'}}" alt="{{product.title}}" />
+          <div class="main-img-link" href="{{product.featured_image | product_img_url }}" title="{{product.title}}">
+            <img class="main-img" src="{{product.featured_image | product_img_url }}" alt="{{product.title}}" />
             {% include 'spinner' %}
           </div>
         </div>

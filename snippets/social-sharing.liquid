@@ -32,7 +32,7 @@
     
     {% if settings.share_pinterest and is_product %}
     <li>
-      <a target="_blank" href="//pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media=http:{{ product.featured_image | img_url: 'original' }}&amp;description={{ product.title | escape }}" class="social-wrapper">
+      <a target="_blank" href="//pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media=http:{{ product.featured_image | img_url }}&amp;description={{ product.title | escape }}" class="social-wrapper">
         <span class="social-icon"><i class="fa fa-pinterest"></i></span>
       </a>
     </li>

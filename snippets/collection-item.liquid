@@ -3,9 +3,9 @@
   <div class="collection-image">
     <a href="{{ collection.url | absolute_url}}">
       {% if collection.image %}
-      <img src="{{ collection.image.src | collection_img_url: 'large' }}" alt="{{ collection_title }}" />
+      <img src="{{ collection.image.src | collection_img_url }}" alt="{{ collection_title }}" />
       {% else %}
-      <img src="{{ collection.products.first.featured_image | product_img_url: 'large' }}" alt="{{ collection_title }}" />
+      <img src="{{ collection.products.first.featured_image | product_img_url }}" alt="{{ collection_title }}" />
       {% endif %}
       
       <div class="caption">
