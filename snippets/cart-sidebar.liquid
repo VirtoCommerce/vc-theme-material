@@ -23,7 +23,7 @@
         </div>
         <figure>
           <a class="cart_list_product_img" href="{{ item.url}}">
-            <img src="{{ item.image.src }}"  alt="{{ item.title | escape }}" />
+            <img ng-src="{{item.image.src | product_img_url: "50x50" }}" vc-fallback-image fallback-src="{{ item.image.src | product_img_url }}" alt="{{ item.title | escape }}" />
           </a>
         </figure>
       </li>
