@@ -49,7 +49,7 @@
           <ul>
             <li class="col-1">
               <a href="{{product.url | within: collection}}" class="product-image">
-                <img src="{{product.featured_image | product_img_url }}" alt="{{product.title}}" />
+                <img ng-src="{{product.featured_image | product_img_url: "280x280" }}" vc-fallback-image fallback-src="{{ product.featured_image | product_img_url }}" alt="{{product.title}}" />
               </a>
             </li>
             <li class="col-2"><a href="{{product.url | within: collection}}" class="product-title mtop">{{product.title}}{% if product.variants.size > 1 %} - {{variant_tmp.title}}{% endif %}</a></li>

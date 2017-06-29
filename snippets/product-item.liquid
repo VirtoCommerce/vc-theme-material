@@ -33,7 +33,7 @@
         {% endif %}
         <div class="wrap">
           <a href="{{product.url | within: collection}}">
-            <img src="{{ product.featured_image | product_img_url }}" class="main-image img-responsive" alt="{{ product.title }}" />
+			<img ng-src="{{ product.featured_image | product_img_url: "216x216" }}" vc-fallback-image fallback-src="{{ product.featured_image | product_img_url }}" class="main-image img-responsive" alt="{{ product.title }}" />
           </a>
         </div>
       </div>
@@ -129,7 +129,7 @@
         <div class="thumbnails">
           {% for image in product.images %}
           <a class="thumbnail" href="{{image | product_img_url }}" data-src="{{image | product_img_url }}">
-            <img src="{{image | product_img_url }}" title="{{product.alt}}" />
+            <img ng-src="{{image | product_img_url: "50x50" }}" vc-fallback-image fallback-src="{{ image | product_img_url }}" title="{{product.alt}}" />
           </a>
           {% endfor %}
         </div>
