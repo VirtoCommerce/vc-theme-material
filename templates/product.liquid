@@ -8,7 +8,7 @@
           <div class="thumbnails">
             {% for image in product.images %}			
             <a class="thumbnail" href="{{ image | product_img_url }}" data-src="{{image | product_img_url }}">
-			<img ng-src="{{ image | product_img_url: "50x50"  }}" vc-fallback-image fallback-src="{{ image | product_img_url }}" alt="{{product.title}}" /></a>
+			<img ng-src="{{ image | product_img_url: "50x50"  }}" fallback-src="{{ image | product_img_url }}" alt="{{product.title}}" /></a>
             {% endfor %}
           </div>
 
