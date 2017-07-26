@@ -11,7 +11,7 @@
       <div class="product-image">
         <div class="wrap">
           <a href="{{prod.url | within: collection}}">
-            <img src="{{ prod.featured_image | product_img_url }}" class="main-image img-responsive" alt="{{ prod.title }}" />
+            <img ng-src="{{ prod.featured_image | product_img_url: "280x280" }}" fallback-src="{{ prod.featured_image | product_img_url }}" class="main-image img-responsive" alt="{{ prod.title }}" />
           </a>
         </div>
       </div>

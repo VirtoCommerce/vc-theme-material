@@ -6,8 +6,9 @@
       <div class="product-gallery col-sm-6">
         <div class="inner">
           <div class="thumbnails">
-            {% for image in product.images %}
-            <a class="thumbnail" href="{{ image | product_img_url }}" data-src="{{image | product_img_url }}"><img src="{{ image | product_img_url }}" alt="{{product.title}}" /></a>
+            {% for image in product.images %}			
+            <a class="thumbnail" href="{{ image | product_img_url }}" data-src="{{image | product_img_url }}">
+			<img ng-src="{{ image | product_img_url: "50x50"  }}" fallback-src="{{ image | product_img_url }}" alt="{{product.title}}" /></a>
             {% endfor %}
           </div>
 
@@ -67,7 +68,7 @@
                 <div id="price" class="detail-price" itemprop="price">
                   {% if variant_tmp.compare_at_price > variant_tmp.price %}
                   <del class="price_compare"> {{ variant_tmp.compare_at_price | money }}</del>
-                  <span class="price_percentage">-{{ variant_tmp.compare_at_price | minus: variant_tmp.price | times: 100.0 | divided_by: variant_tmp.compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%</span>
+                  <span class="price_percentage">-{{ variant_tmp.compare_at_price | minus: variant_tmp.price | divided_by: variant_tmp.compare_at_price | times: 100 | ceil }}%</span>
                   {% endif %}
                   <div class="price">{{ variant_tmp.price | money }}</div>
                 </div>

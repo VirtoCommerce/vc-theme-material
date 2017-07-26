@@ -27,13 +27,13 @@
         {% if variant_tmp.compare_at_price > variant_tmp.price %}
         <div class="onsale">
           {% if settings.use_saleoff and variant_tmp.compare_at_price > variant_tmp.price %}
-          <span class="price_percentage">-{{ variant_tmp.compare_at_price | minus: variant_tmp.price | times: 100.0 | divided_by: variant_tmp.compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%</span>
+          <span class="price_percentage">-{{ variant_tmp.compare_at_price | minus: variant_tmp.price | divided_by: variant_tmp.compare_at_price | times: 100 | ceil }}%</span>
           {% endif %}
         </div>
         {% endif %}
         <div class="wrap">
           <a href="{{product.url | within: collection}}">
-            <img src="{{ product.featured_image | product_img_url }}" class="main-image img-responsive" alt="{{ product.title }}" />
+			<img ng-src="{{ product.featured_image | product_img_url: "216x216" }}" vc-fallback-image fallback-src="{{ product.featured_image | product_img_url }}" class="main-image img-responsive" alt="{{ product.title }}" />
           </a>
         </div>
       </div>
@@ -129,7 +129,7 @@
         <div class="thumbnails">
           {% for image in product.images %}
           <a class="thumbnail" href="{{image | product_img_url }}" data-src="{{image | product_img_url }}">
-            <img src="{{image | product_img_url }}" title="{{product.alt}}" />
+            <img ng-src="{{image | product_img_url: "50x50" }}" fallback-src="{{ image | product_img_url }}" title="{{product.alt}}" />
           </a>
           {% endfor %}
         </div>
