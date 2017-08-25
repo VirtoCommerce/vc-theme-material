@@ -2,7 +2,7 @@
 
 _Material theme_ for VirtoCommerce Storefront used by _Clothing_ sample store.
 
-![Material theme UI](https://user-images.githubusercontent.com/6369252/29491392-ef411564-8573-11e7-813c-7c56394ac19e.png)
+![Material theme UI](https://user-images.githubusercontent.com/6369252/29711886-87925e3c-89b0-11e7-91b5-c2cb73d957ea.png)
 
 ## Getting started
 
