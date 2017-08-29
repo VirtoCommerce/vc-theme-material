@@ -2,7 +2,7 @@
 
 _Material theme_ for VirtoCommerce Storefront used by _Clothing_ sample store.
 
-![Material theme UI](https://user-images.githubusercontent.com/6369252/29711886-87925e3c-89b0-11e7-91b5-c2cb73d957ea.png)
+![Material theme UI](https://user-images.githubusercontent.com/6369252/29847937-7986ae8a-8d37-11e7-98c0-872340acede8.jpg)
 
 ## Getting started
 
@@ -10,15 +10,20 @@ _Material theme_ for VirtoCommerce Storefront used by _Clothing_ sample store.
 2. Clone repo.
     1. In Visual Studio, go to `Team Explorer` → `Clone` → Enter https://github.com/VirtoCommerce/vc-material-theme.git as URL and `D:\vc-material-theme` (for example) as path.
     2. Or execute command `git clone https://github.com/VirtoCommerce/vc-material-theme.git "D:\vc-material-theme"` (where `D:\vc-material-theme` is path to folder where you want to clone repo).
-3. Link you theme repo to store. Execute `mklink /d "C:\vc-platform-master\VirtoCommerce.Platform.Web\App_Data\cms-content\Clothing\material" "D:\vc-material-theme"` (where `C:\vc-platform-master\VirtoCommerce.Platform.Web\App_Data\cms-content` is path to cms-content folder, which you configured on storefront installation in prerequisites step, `Clothing` is your store name, `material` is your theme name and `D:\vc-material-theme` is path to your theme repo).
-4. Make sure what your linked theme is set as default for your store. Go to platform, in menu select `More` → `Content`, select `Themes` for your store. If your theme does not appear here, create new theme with the same name as your theme. Now, right click on your theme and click `Set Active`.
-5. Open theme folder in your IDE
+3. Link you theme repo to store. Execute:<br/>
+`mklink /d "C:\vc-platform-master\VirtoCommerce.Platform.Web\App_Data\cms-content\Themes\Clothing\default" "D:\vc-material-theme"`<br/>
+`mklink /d "C:\vc-storefront-master\VirtoCommerce.Storefront\App_Data\cms-content\Themes\Clothing\default" "D:\vc-material-theme"`<br/>
+(where `C:\vc-platform-master\VirtoCommerce.Platform.Web\App_Data\cms-content` and `C:\vc-storefront-master\VirtoCommerce.Storefront\App_Data\cms-content` are paths to `cms-content` folders on platform and storefront, `Clothing` is your store name and `D:\vc-material-theme` is path to your theme repo).
+4. Open theme folder in your IDE
     1. In Visual Studio (including 2017) go to  `File` → `Open` → `Website`
     2. In Visual Studio Code, go to `File` → `Open` → `Folder`
     3. Select `D:\vc-material-theme` (where `D:\vc-material-theme` is path to folder where you want to clone repo) and open it.
-6. Install node.js dependencies.
+5. Install node.js dependencies.
     1. In Visual Studio all dependencies will be installed automatically. Just wait a few minutes.
     2. In Visual Studio Code and other editors, you need to run `npm install`to install Node.js dependencies.
+
+## Appendix: CMS Content folder structure
+<a href="https://user-images.githubusercontent.com/6369252/29847174-c7bff8c6-8d33-11e7-901a-c3a04789959e.png"><img src="https://user-images.githubusercontent.com/6369252/29847175-c7c03f16-8d33-11e7-92f2-384228f6202e.png" alt="CMS Content folder structure" width="768"></a>
 
 ## Prerequisites
 
