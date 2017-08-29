@@ -60,7 +60,7 @@
     "engines": {
         "node": ">4.0.0"
     },
-    "homepage": "https://github.com/VirtoCommerce/material-theme/"
+    "homepage": "https://github.com/VirtoCommerce/material-theme/",
     "repository": {
         "type": "git",
         "url": "https://github.com/VirtoCommerce/material-theme.git"
