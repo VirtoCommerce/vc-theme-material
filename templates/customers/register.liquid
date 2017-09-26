@@ -6,10 +6,22 @@
       {% form 'create_customer' %}
 
       {% if form.errors %}
+
       <div class="alert alert-error">
         <button type="button" class="close" data-dismiss="alert">×</button>
-        {{ form.errors | default_errors }}
+        {% for field in form.errors %}
+          {% if field == 'form' %}
+            <li>
+              {{ form.errors.messages[field] }}
+            </li>
+          {% else %}
+          {{ field | default_errors }}
+         
+         {% endif %}
+        
+        {% endfor %}
       </div>
+
       {% endif %}
       
       <div class="group-input">      
@@ -33,6 +45,13 @@
         <label>{{ 'customer.register.email' | t }} *</label>
       </div>
 
+      <div class="group-input{% if form.errors contains 'user_name' %} error{% endif %}">
+        <input type="text" name="customer[user_name]" id="user_name"/>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label for="user_name" class="hidden-label" value="">{{ 'customer.register.user_name' | t }} *</label>
+      </div> 
+      
       <div class="group-input{% if form.errors contains 'password' %} error{% endif %}">      
         <input type="password" required="required" name="customer[password]" id="password" />
         <span class="highlight"></span>

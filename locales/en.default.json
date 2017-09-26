@@ -446,7 +446,7 @@
             "cancel": "Return to Store",
             "guest_title": "Continue as a guest",
             "guest_continue": "Continue",
-            "register_html": "Don't have an account yet ?&nbsp; <a href=\"/account/register\" id=\"register-btn\">Create an account</a>",
+            "register_html": "Don't have an account yet ?&nbsp; <a href=\"account/register\" id=\"register-btn\">Create an account</a>",
             "guest_subtext": "Continue checkout as a guest. No sign-up required."
         },
         "orders": {
