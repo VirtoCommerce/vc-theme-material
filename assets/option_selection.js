@@ -125,6 +125,8 @@ Shopify.each = function(t, e) {
         a = o[n];
     null != a && this.optionExistInSelect(r, a) && (r.value = a)
   }
+  if (this.selectors.length < 1)
+      this.selectors[0] = {};
   return "undefined" != typeof jQuery ? jQuery(this.selectors[0].element).trigger("change", e) : this.selectors[0].element.onchange(e), !0
 }, Shopify.OptionSelectors.prototype.optionExistInSelect = function(t, e) {
   for (var o = 0; o < t.options.length; o++)
