@@ -8,25 +8,40 @@
       {% if form.errors %}
       <div class="alert alert-error">
         <button type="button" class="close" data-dismiss="alert">×</button>
-        {{ form.errors | default_errors }}
+        {% for field in form.errors %}
+          {% if field == 'form' %}
+            <li>
+              {{ form.errors.messages[field] | default_errors }}
+            </li>
+          {% else %}
+            {{ field | default_errors }}
+          {% endif %}
+        {% endfor %}
       </div>
       {% endif %}
 
+      <div class="group-input{% if form.errors contains 'user_name' %} error{% endif %}">
+        <input type="text"  required="required" name="customer[user_name]" id="user_name"/>
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label for="user_name" class="hidden-label" value="">{{ 'customer.register.user_name' | t }} *</label>
+      </div>
+
+      {% if form.email_needed %}
       <div class="group-input">
         <input type="email" required="required" name="customer[email]" id="customer_email" />
         <span class="highlight"></span>
         <span class="bar"></span>
         <label>{{ 'customer.login.email' | t }} *</label>
       </div>
-
-      {% if form.password_needed %}
+      {% endif %}
+      
       <div class="group-input">
         <input type="password" required="required" name="customer[password]" id="customer_password" />
         <span class="highlight"></span>
         <span class="bar"></span>
         <label>{{ 'customer.login.password' | t }} *</label>
       </div>
-      {% endif %}
 
       <div class="control-group">
         <button class="btn btn-1 ripple" type="submit">{{'customer.login.sign_in' | t}}</button>
@@ -34,7 +49,9 @@
 
       <div class="control-group">
         <div id="forgot_password">
-          <p class="action"><a href="#recover">{{ 'customer.login.forgot_password' | t }}</a></p>
+          <p class="action">
+            <a href="#recover">{{ 'customer.login.forgot_password' | t }}</a>
+          </p>
         </div>
       </div>
 
@@ -72,7 +89,7 @@
         <span class="bar"></span>
         <label>{{ 'customer.recover_password.email' | t }} *</label>
       </div>
-
+      
       <div class="control-group">
         <button class="btn btn-1 ripple" type="submit">{{ 'customer.recover_password.submit' | t }}</button>
         or <a class="cancel" href="javascript:;" onclick="showLoginForm();">{{ 'customer.recover_password.cancel' | t }}</a>
@@ -102,28 +119,28 @@
 
   <script type="text/javascript">
     jQuery('#forgot_password .action').click(function() {
-    showRecoverPasswordForm();
+      showRecoverPasswordForm();
     });
-    if(window.location.hash == '#recover'){
-    showRecoverPasswordForm();
+    if(window.location.hash == '#recover'){ 
+      showRecoverPasswordForm();
     }
-    else{
-    showLoginForm();
+    else{ 
+      showLoginForm();
     }
 
     function showRecoverPasswordForm() {
-    $('#recover-password').fadeIn();
-    $('#customer-login').hide();
-    window.location.hash = '#recover';
-    return false;
+      $('#recover-password').fadeIn();
+      $('#customer-login').hide();
+      window.location.hash = '#recover';
+      return false;
     }
 
     function showLoginForm() {
-    $('#recover-password').hide();
-    $('#customer-register').hide();
-    $('#customer-login').fadeIn();
-    window.location.hash = '';
-    return false;
+      $('#recover-password').hide();
+      $('#customer-register').hide();
+      $('#customer-login').fadeIn();
+      window.location.hash = '';
+      return false;
     }
   </script>
 </div>
