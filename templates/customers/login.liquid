@@ -4,21 +4,7 @@
       <h2 class="page-title">{{ 'customer.login.title' | t }}</h2>
 
       {% form 'customer_login' %}
-
-      {% if form.errors %}
-      <div class="alert alert-error">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        {% for field in form.errors %}
-          {% if field == 'form' %}
-            <li>
-              {{ form.errors.messages[field] | default_errors }}
-            </li>
-          {% else %}
-            {{ field | default_errors }}
-          {% endif %}
-        {% endfor %}
-      </div>
-      {% endif %}
+      {% include 'form-errors-custom' %}
 
       <div class="group-input{% if form.errors contains 'user_name' %} error{% endif %}">
         <input type="text"  required="required" name="customer[user_name]" id="user_name"/>
