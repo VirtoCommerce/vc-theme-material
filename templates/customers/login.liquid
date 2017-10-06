@@ -10,7 +10,7 @@
         <input type="text"  required="required" name="customer[user_name]" id="user_name"/>
         <span class="highlight"></span>
         <span class="bar"></span>
-        <label for="user_name" class="hidden-label" value="">{{ 'customer.register.user_name' | t }} *</label>
+        <label>{{ 'customer.register.user_name' | t }} *</label>
       </div>
 
       {% if form.email_needed %}
@@ -21,13 +21,15 @@
         <label>{{ 'customer.login.email' | t }} *</label>
       </div>
       {% endif %}
-      
-      <div class="group-input">
-        <input type="password" required="required" name="customer[password]" id="customer_password" />
-        <span class="highlight"></span>
-        <span class="bar"></span>
-        <label>{{ 'customer.login.password' | t }} *</label>
-      </div>
+
+      {% if form.password_needed %}
+          <div class="group-input">
+            <input type="password" required="required" name="customer[password]" id="customer_password" />
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <label>{{ 'customer.login.password' | t }} *</label>
+          </div>
+      {% endif %}
 
       <div class="control-group">
         <button class="btn btn-1 ripple" type="submit">{{'customer.login.sign_in' | t}}</button>

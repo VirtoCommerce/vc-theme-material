@@ -30,12 +30,11 @@
         <label for="email">{{ 'customer.register.email' | t }} *</label>
       </div>
 
-
       <div class="group-input{% if form.errors contains 'user_name' %} error{% endif %}">
         <input type="text" required="required" name="customer[user_name]" id="user_name"/>
         <span class="highlight"></span>
         <span class="bar"></span>
-        <label for="user_name" class="hidden-label" >{{ 'customer.register.user_name' | t }} *</label>
+        <label for="user_name">{{ 'customer.register.user_name' | t }} *</label>
       </div>
         
       <div class="group-input{% if form.errors contains 'password' %} error{% endif %}">      
