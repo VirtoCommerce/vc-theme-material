@@ -16,7 +16,8 @@
             <div class="grid">
                 {% for col_index in (0..1) %}
                     <div class="grid-item one-half">
-                        {% include 'bulk-order-fields-column', column_index: col_index %}
+                        {% assign column_index = col_index %}
+                        {% include 'bulk-order-fields-column' %}
                     </div>
                 {% endfor %}
             </div>

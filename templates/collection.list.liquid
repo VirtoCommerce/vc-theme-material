@@ -1,4 +1,4 @@
-{% paginate collection.products by 20 %}
+{{ paginator collection.products | paginate 20 }}
 
 {% include 'breadcrumb' %}
 
@@ -46,7 +46,7 @@
 
   </div>
 
-  {% if paginate.pages > 1 %}
+  {% if paginator.pages > 1 %}
   <div class="grid-item pagination-border-top">
     <div class="grid">
       <div class="grid-item{% if has_sidebar %} large--four-fifths push--large--one-fifth{% endif %}">
@@ -60,7 +60,6 @@
 
 </div>
 
-{% endpaginate %}
 <script>
     window.products = [];
     {% for product in collection.products %}

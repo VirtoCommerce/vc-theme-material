@@ -3,7 +3,7 @@
     <div id="customer-login">
       <h2 class="page-title">{{ 'customer.login.title' | t }}</h2>
 
-      {% form 'customer_login' %}
+      <form accept-charset="UTF-8" action="{{ '~/account/login' | absolute_url }}" method="post" id="customer_login" name="customer_login">
       {% include 'form-errors-custom' %}
 
       <div class="group-input{% if form.errors contains 'user_name' %} error{% endif %}">
@@ -52,7 +52,8 @@
         </div>
       </div>
       {% endif %}
-      {% endform %}
+      {{ antiforgery }}
+      </form>
     </div>
 
     <div id="recover-password" style="display:none;">
@@ -62,7 +63,7 @@
         {{ 'customer.recover_password.subtext' | t }}
       </p>
 
-      {% form 'recover_customer_password' %}
+      <form accept-charset="UTF-8" action="{{ '~/account/forgotpassword' | absolute_url }}" method="post" id="recover_customer_password" name="recover_customer_password">
 
       {% if form.errors %}
       <div class="alert alert-error">
@@ -82,7 +83,8 @@
         <button class="btn btn-1 ripple" type="submit">{{ 'customer.recover_password.submit' | t }}</button>
         or <a class="cancel" href="javascript:;" onclick="showLoginForm();">{{ 'customer.recover_password.cancel' | t }}</a>
       </div>
-      {% endform %}
+      {{ antiforgery }}
+      </form>
     </div>
 
     {% if shop.checkout.guest_login %}

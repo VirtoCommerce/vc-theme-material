@@ -27,7 +27,7 @@
       <div id="customer_orders">
         <h2 class="title">{{ 'customer.account.orders' | t }}</h2>
         <div class="wrap">
-          {% paginate customer.orders by 20 %}
+          {% paginator = customer.orders | paginate 20 %}
           {% if customer.orders.size != 0 %}
           <table class="table table-striped">
             <thead>
@@ -43,7 +43,7 @@
               {% for order in customer.orders %}
               <tr class="{% cycle 'odd', 'even' %} {% if order.cancelled %}cancelled_order{% endif %}">
                 <td>{{ order.name | link_to: order.customer_url }}</td>
-                <td><span class="note">{{ order.created_at | date: format: 'short' }}</span></td>
+                <td><span class="note">{{ order.created_at | date: 'short' }}</span></td>
                 <td><span class="status_{{ order.financial_status }}">{{ order.financial_status_label }}</span></td>
                 <td><span class="status_{{ order.fulfillment_status }}">{{ order.fulfillment_status_label }}</span></td>
                 <td><span class="total money">{{ order.total_price | money }}</span></td>
@@ -54,8 +54,7 @@
           {% else %}
           {{ 'customer.orders.none_html' | t }}
           {% endif %}
-          {% include 'pagination' %}
-          {% endpaginate %}
+          {% include 'pagination' %}          
         </div>
       </div>
     </div>

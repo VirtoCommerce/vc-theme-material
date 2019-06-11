@@ -5,7 +5,7 @@
 <a href="/account/login" class="account-link">{{'general.top.login' | t}}</a>
 <div class="nav-dropdown">
   <div class="nav-dropdown-inner">
-    {% form 'customer_login' %}
+    <form accept-charset="UTF-8" action="{{ '~/account/login' | absolute_url }}" method="post" id="customer_login" name="customer_login">
     <div class="group-input">      
       <input type="email" required="required" name="customer[email]" id="customer_email_box" />
       <span class="highlight"></span>
@@ -26,7 +26,8 @@
 s      <a href="Account/register">{{ 'general.top.register' | t }}</a>
       {% endif %}
     </div>
-    {% endform %}
+    {{ antiforgery }}
+    </form>
   </div>
 </div>
 {% endif %}

@@ -181,7 +181,10 @@
           <select id="category_filter">
             {% assign collection = collections['all'] %}
             {% assign collection_name = '' %}
-            {% assign first = true %}
+            {%comment%}
+            было просто first
+            {%endcomment%}
+            {% assign firstr = true %}
             {% assign templates = '' %}
             {% for i in (1..10) %}
             {% assign tmp = 'the_collection_home_' | append: i %}
@@ -194,10 +197,10 @@
             {% unless collection_tmp.handle == 'frontpage' or collection_tmp.handle == 'all' %}
             <option data-handle="{{collection_tmp.handle}}" value="{{collection_tmp.url | absolute_url}}">{{collection_tmp.title}}</option>
             {% capture templates %}{{templates}}<script id="collection-template-{{collection_tmp.handle}}" type="text/template"><div class="product_item large animated"><a href="{{collection_tmp.url | absolute_url}}"><img src="{{img | asset_url}}" alt="{{collection_tmp.title}}" /><div class="caption"><h2>{% if name != blank %}{{name}}{% else %}{{collection_tmp.title}}{% endif %}</h2></div></a></div></script>{% endcapture %}
-            {% if first %}
+            {% if firstr %}
             {% assign collection = collection_tmp %}
             {% assign collection_name = name %}
-            {% assign first = false %}
+            {% assign firstr = false %}
             {% endif %}
             {% endunless %}
             {% endif %}
@@ -210,7 +213,7 @@
       <div class="cat-templates hidden">
         {{templates}}
       </div>
-      {% paginate collection.products by settings.collection_pagination_limit %}
+      {% paginator =  collection.products | paginate settings.collection_pagination_limit %}
       <div class="cat-grid">
         <div class="product_item large animated">
           <a href="{{collection.url | absolute_url}}">
@@ -229,13 +232,12 @@
       {% if settings.collection_infinite_scoll %}
       <div class="advanced-pagination">
         <div class="infinite_scoll">
-          {% if paginate.next %}
-          {% include 'spinner2' with paginate.next.url %}
+          {% if paginator.next %}
+          {% include 'spinner2' with paginator.next.url %}
           {% endif %}
         </div>
       </div>
-      {% endif %}
-      {% endpaginate %}
+      {% endif %}      
     </div>
   </div>
   {% endif %}

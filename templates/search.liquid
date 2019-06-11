@@ -2,7 +2,7 @@
   <div class="central">
     <div class="search-form">
       {% capture search_title %}{{ search.terms | escape }}{% endcapture %}
-      <h2 class="title">{{ 'search.general.title' | t: title: search_title }}</h2>
+      <h2 class="title">{{ 'search.general.title' | t: search_title }}</h2>
 
       <div class="wrap">
         <form action="/search" method="get">
@@ -15,7 +15,7 @@
           </div>
         </form>
         {% if search.performed and search.results.size > 0 %}{% else %}
-        <p class="empty">{{ 'search.general.no_products' | t: title: search_title }}</p>
+        <p class="empty">{{ 'search.general.no_products' | t: search_title }}</p>
         {% endif %}
       </div>
     </div>
@@ -23,7 +23,7 @@
 
   <div id="sandBox" class="container">
     {% if search.performed and search.results.size > 0 %}
-    {% paginate search.results by settings.collection_pagination_limit %}
+    {{ paginator = search.results | paginate settings.collection_pagination_limit }}
 
     <div class="cat-grid">
       {% for product in search.results %}
@@ -38,8 +38,7 @@
     </div>
     
     {% include 'pagination' %}
-    
-    {% endpaginate %}
+        
     {% endif %}
   </div>
 </div>

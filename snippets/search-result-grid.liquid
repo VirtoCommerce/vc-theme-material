@@ -2,18 +2,25 @@
   {% assign grid_item_width = 'large--one-third medium--one-half' %}
 {% endunless %}
 
+
 {% unless current_collection %}
   {% assign current_collection = collection %}
 {% endunless %}
 
 {% assign on_sale = false %}
-{% if item.compare_at_price > item.price %}
+{% if item.compare_at_price.amount > item.price.actual_price.amount %}
   {% assign on_sale = true %}
 {% endif %}
 
-{% assign sold_out = true %}
-{% if item.available %}
-  {% assign sold_out = false %}
+{% assign unavailable = false %}
+{% assign sold_out = false %}
+
+{% if item.buyable and item.in_stock != true %}
+  {% assign sold_out = true %}
+{% endif %}
+
+{% if item.buyable != true  %}
+  {% assign unavailable = true %}
 {% endif %}
 
 {% assign image_size = settings.collection_prod_image_sizes %}
@@ -28,12 +35,15 @@
           {% if sold_out %}
             <div class="badge badge--sold-out"><span class="badge-label">{{ 'products.product.sold_out' | t }}</span></div>
           {% endif %}
-          <img ng-src="{{ item.featured_image.src | img_url: "168x168" }}" fallback-src="{{ item.featured_image.src | img_url }}" alt="{{ item.featured_image.alt | escape }}">
+          <img ng-src="{{ item.featured_image | img_url: "168x168" }}" fallback-src="{{ item.featured_image | img_url }}" alt="{{ item.featured_image.alt | escape }}">
         </div>
       </div>
 
       <p>{{ item.title }}</p>
+      {% assign product = item %}
+      {% include 'product-price' %}
 
+      {%comment%}
       <div class="product-item--price">
         <span class="h1 medium--left">
           {% include 'price' with item.price %}
@@ -47,6 +57,7 @@
           </span>
         {% endif %}
       </div>
+      {%endcomment%}
     {% else %}
       {% assign img_tag = '<' | append: 'img' %}
       {% if item.content contains img_tag %}

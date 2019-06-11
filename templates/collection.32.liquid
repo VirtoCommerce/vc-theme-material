@@ -4,7 +4,7 @@
 </div>
 {% endif %}
 
-{% paginate collection.products by 32 %}
+{{ paginator =  collection.products | paginate 32 }}
 <div id="col-main" class="collection-page{% if settings.sidebar_collection_placement != 'none' %} col-sm-9{% else %} col-sm-12{% endif %}">
   {% include 'collection-slider' %}
   <div id="sandBox">
@@ -41,7 +41,6 @@
     {% endif %}
   </div>
 </div>
-{% endpaginate %}
 
 {% if settings.sidebar_collection_placement == 'right' %}
 <div id="sidebar" class="col-sm-3{% if settings.sidebar_collection_mobile %} hidden-xs{% endif %}">

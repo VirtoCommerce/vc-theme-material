@@ -2,14 +2,14 @@
   <div class="crumbregion">
     <div class="myaccount"><a href="{{ 'account' | absolute_url }}">{{ 'customer.account.title' | t }}</a></div>
     {% assign created_at = order.created_at | date: "%B %d, %Y %I:%M%p" %}
-    <div class="note order_date">{{ 'customer.order.date' | t: date: created_at }}</div>
+    <div class="note order_date">{{ 'customer.order.date' | t: created_at }}</div>
   </div>
 
   {% if order.cancelled %}
   <div id="order_cancelled" class="flash notice">
     {% assign cancelled_at = order.cancelled_at | date: "%B %d, %Y %I:%M%p" %}
-    <h5 id="order_cancelled_title">{{ 'customer.order.cancelled' | t: date: cancelled_at }}</h5>
-    <span class="note">{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason }}</span>
+    <h5 id="order_cancelled_title">{{ 'customer.order.cancelled' | t: cancelled_at }}</h5>
+    <span class="note">{{ 'customer.order.cancelled_reason' | t: order.cancel_reason }}</span>
   </div>
   {% endif %}
 

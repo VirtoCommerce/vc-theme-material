@@ -5,7 +5,7 @@
 {% endif %}
 
 <div id="col-main" class="blog-page{% if settings.sidebar_blog_placement != 'none' %} col-sm-9{% else %} col-sm-12{% endif %}">
-  {% paginate blog.articles by settings.blog_pagination_limit %}
+  {{ paginator =  blog.articles | paginate settings.blog_pagination_limit }}
 
   {% if blog.articles.size > 0 %}
   <div class="blog-posts">
@@ -57,8 +57,7 @@
     {{'blogs.article.no_acticles' | t}}
   </p>
   {% endif %}
-
-  {% endpaginate %}
+  
 </div>
 
 {% if settings.sidebar_blog_placement == 'right' %}

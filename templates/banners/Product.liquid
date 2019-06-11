@@ -1,5 +1,5 @@
 ﻿{% assign product = collections.all[banner.productCode] %}
-{% if product != blank %}
+{% if product.empty? == false %}
 <div class="grid-item large--one-quarter medium--one-third small--one-half on-sale">
   <a href="{{ product.url }}" class="product-grid-item">
         <div class="product-grid-image" style="height: 160px;">

@@ -4,7 +4,7 @@
 </div>
 {% endif %}
 
-{% paginate article.comments by settings.comment_pagination_limit %}
+{{ paginator =  article.comments | paginate settings.comment_pagination_limit }}
 <div id="col-main" class="blog-page article{% if settings.sidebar_blog_placement != 'none' %} col-sm-9{% else %} col-sm-12{% endif %}">
   <div class="blog-posts">
     <article class="blog-post clearfix">
@@ -124,7 +124,7 @@
   
   <div id="comments" class="comments">
     <div class="title">
-      {{ 'blogs.comments.comments_with_count' | t: count: number_of_comments }}
+      {{ 'blogs.comments.comments_with_count' | t: number_of_comments }}
     </div>
     
     <div class="comment-list">
@@ -147,7 +147,6 @@
   {% endif %}
   
 </div>
-{% endpaginate %}
 
 {% if settings.sidebar_blog_placement == 'right' %}
 <div id="sidebar" class="col-sm-3{% if settings.sidebar_blog_mobile %} hidden-xs{% endif %}">

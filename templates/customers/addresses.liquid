@@ -6,7 +6,7 @@
       </h2>
       
       <a href="#" onclick="Shopify.CustomerAddress.toggleNewForm(); return false;" class="add-new-address">{{ 'customer.addresses.add_new' | t }}</a>
-      {% form 'customer_address', customer.new_address %}
+      <form accept-charset="UTF-8" action="{{ '~/account/addresses' | absolute_url }}" method="post" id="customer_address" name="customer_address">
       <div id="add_address" class="customer_address edit_address" {% unless form.errors %} style="display:none;"{% endunless %}>
         {{ form.errors | default_errors | replace:'errors', 'alert-error errors' }}
         <h4 id="add_address_title" class="title">{{ 'customer.addresses.add_new' | t }}</h4>
@@ -91,10 +91,10 @@
           <span class="note"><a href="#" onclick="Shopify.CustomerAddress.toggleNewForm(); return false;">{{ 'customer.addresses.cancel' | t }}</a></span>
         </div>
       </div>
-      {% endform %}
-
+      {{ antiforgery }}
+      </form>
       <div id="address_tables">
-        {% paginate customer.addresses by 10 %}
+        {{ paginator =  customer.addresses | paginate 10 }}
 
         {% for address in customer.addresses %}
         <div class="address_table">
@@ -118,7 +118,7 @@
               </div>
             </div>
           </div>
-          {% form 'customer_address', address %}
+          <form accept-charset="UTF-8" action="{{ '~/account/addresses' | absolute_url }}" method="post" id="customer_address" name="customer_address">
           <div id="edit_address_{{address.id}}" class="customer_address edit_address" {% unless form.errors %} style="display:none;" {% endunless %}>
             {{ form.errors | default_errors | replace:'errors', 'alert-error errors' }}
             <div class="customer_address_div">
@@ -202,12 +202,18 @@
               <span class="note"><a href="/" onclick="Shopify.CustomerAddress.toggleForm({{form.id}}); return false;">{{ 'customer.addresses.cancel' | t }}</a></span>
             </div>
           </div>
-          {% endform %}
+          {{ antiforgery }}
+          </form>
         </div>
         {% endfor %}
-
+        {% if paginator.pages > 1 %}
+        <div class="text-center">
+        {% include 'pagination-custom' %}
+        </div>
+        {% endif %}
+        {%comment%}
         <div id="address_pagination">{{ paginate | default_pagination }}</div>
-        {% endpaginate %}
+        {%endcomment%}
       </div>
     </div>
   </div>

@@ -1,12 +1,12 @@
 ﻿<ul class="site-nav" id="accessibleNav">
-    {% unless linklists.main-menu.links.first.url == '/' %}
+    {% unless linklists['main-menu'].links.first.url == '/' %}
         <li class="large--hide">
             <a href="{{ '/' | absolute_url }}">{{ 'general.breadcrumbs.home' | t }}</a>
         </li>
     {% endunless %}
-    {% for link in linklists.main-menu.links %}
+    {% for link in linklists['main-menu'].links %}
         {% assign child_list_handle = link.title | handleize %}
-        {% if linklists[child_list_handle].links != blank %}
+        {% if linklists[child_list_handle].empty? == false %}
             <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
                 <a href="{{ link.url }}">
                     {{ link.title }}

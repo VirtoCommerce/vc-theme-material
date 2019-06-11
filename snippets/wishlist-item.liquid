@@ -12,11 +12,15 @@
 	{% if check == 0 %}{% assign display_button = true %}{% else %}{% assign display_button = false %}{% endif %}
 
 	{% if display_button %}
+		{% comment %}
 		{% form 'customer' %}
+		
 			<input type="hidden" name="contact[email]" value="{{ customer.email }}"/>
 			<input type="hidden" name="contact[tags]" value="{{ value }}" />
             <a class="btn-wishlist add-to-wishlist" href="{{pages[settings.wishlist_page].url}}" data-id="{{product.id}}" data-added="{{'wish_list.general.browse_wishlist' | t}}" title="{{'wish_list.general.add_to_wishlist' | t}}"><i class="fa fa-heart-o"></i><span>{{'wish_list.general.add_to_wishlist' | t}}</span></a>
+		
 		{% endform %}
+		{% endcomment %}
 	{% else %}
       <a class="btn-wishlist added" href="{{pages[settings.wishlist_page].url}}" title="{{'wish_list.general.browse_wishlist' | t}}"><i class="fa fa-heart"></i><span>{{'wish_list.general.browse_wishlist' | t}}</span></a>
 	{% endif %}

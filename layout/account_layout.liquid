@@ -10,7 +10,7 @@
     {% endif %}
 
     <title>
-        {{ page_title }}{% if current_tags %}{% assign current_tags_joined = current_tags | join: ', ' %} - {{ 'general.meta.tags' | t: tags: current_tags_joined }}{% endif %}{% if current_page != 1 %} - {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} - {{ shop.name }}{% endunless %}
+        {{ page_title }}{% if current_tags %}{% assign current_tags_joined = current_tags | join: ', ' %} - {{ 'general.meta.tags' | t: current_tags_joined }}{% endif %}{% if current_page != 1 %} - {{ 'general.meta.page' | t: current_page }}{% endif %}{% unless page_title contains shop.name %} - {{ shop.name }}{% endunless %}
     </title>
     {% if page_description %}
     <meta name="description" content="{{ page_description | escape }}" />
@@ -83,31 +83,11 @@
                 </div>
                 {% endif %}
             </div>
-            <div class="grid-item large--two-third text-center large--text-right">
-                {% if settings.header_message != blank or shop.customer_accounts_enabled %}
+            <div class="grid-item large--two-third text-center large--text-right">                
                 <div class="site-header--text-links{% if settings.header_message == blank %} medium-down--hide{% endif %}">
                     {% if settings.header_message != blank %}
                     {{ settings.header_message }}
-                    {% endif %}
-                    {% comment %}
-                    {% if shop.customer_accounts_enabled %}
-                    <span class="site-header--meta-links medium-down--hide">
-                        {% if customer %}
-                        {% capture first_name %}
-                        <a href="{{ '/account' | absolute_url }}">{{ customer.first_name }}</a>
-                        {% endcapture %}
-                        {{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }} &middot; {{ 'layout.customer.log_out' | t | customer_logout_link }}
-                        {% else %}
-                        {{ 'layout.customer.sign_in' | t | customer_login_link }}
-                        {% if shop.customer_accounts_optional %}
-                        <span class="site-header--spacer">{{ 'layout.customer.or' | t }}</span>
-                        {{ 'layout.customer.create_account' | t | customer_register_link }}
-                        {% endif %}
-                        {% endif %}
-                    </span>
-                    {% endif %}
-                    {% endcomment %}
-
+                    {% endif %}                
                     <span class="site-header--meta-links medium-down--hide">
                         <span ng-if="customer && customer.isRegisteredUser && customer.operatorUserName" ng-cloak>
                             {{ 'layout.customer.logged_in_on_behalf_of_label' | t }} <a href="{{ 'account' | absolute_url }}" ng-bind="customer.firstName || customer.userName"></a> &middot; {{ 'layout.customer.log_out' | t | customer_logout_link }}
@@ -121,10 +101,8 @@
                             {{ 'layout.customer.create_account' | t | customer_register_link }}
                         </span>
                     </span>
-
                 </div>
-                <br class="medium-down--hide" />
-                {% endif %}
+                <br class="medium-down--hide" />                
                 {% include 'search-bar' %}
                 {% if settings.product_compare_enabled %}
                     <a class="header-cart-btn cart-toggle" href="{{ 'compare' | absolute_url }}" ng-controller="productCompareListBarController" ng-show="itemsCount > 0">

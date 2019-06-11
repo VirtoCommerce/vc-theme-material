@@ -5,7 +5,7 @@
 
       <h2 class="page-title">{{ 'customer.register.title' | t }}</h2>
 
-        {% form 'create_customer' %}
+        <form accept-charset="UTF-8" action="{{ '~/account/register' | absolute_url }}" method="post" id="create_customer" name="create_customer">
 
         {% include 'form-errors-custom' %}
 
@@ -51,7 +51,8 @@
       <div class="login-account">
         <a href="/account/login" id="login-btn">{{'customer.register.login_html' | t}}</a>
       </div>
-      {% endform %}
+      {{ antiforgery }}
+      </form>
     </div>
   </div>
 </div>
