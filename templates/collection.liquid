@@ -1,13 +1,20 @@
 
+<div> YEAP </div>
+
+{% comment %}
 {% if settings.sidebar_collection_placement == 'left' %}
 <div id="sidebar" class="col-sm-3{% if settings.sidebar_collection_mobile %} hidden-xs{% endif %}">
   {% include 'sidebar-collection' %}  
 </div>
 {% endif %}
 
+{% endcomment %}
+
 {{ paginator = collection.products | paginate settings.collection_pagination_limit }}
-<div id="col-main" class="collection-page{% if settings.sidebar_collection_placement != 'none' %} col-sm-9{% else %} col-sm-12{% endif %}">  
-  {% include 'collection-slider' %}  
+<div id="col-main" class="collection-page{% if settings.sidebar_collection_placement != 'none' %} col-sm-9{% else %} col-sm-12{% endif %}">
+{% comment %}
+  {% include 'collection-slider' %}
+{% endcomment %}
   <div id="sandBox">  
     <h2>{{collection.title}}<span class="count">{{ collection.all_products_count }} {{ collection.all_products_count | pluralize: 'collections.general.product', 'collections.general.products' | t }}</span></h2>
     {% if collection.description != empty %}
@@ -15,9 +22,10 @@
       {{ collection.description }}
     </div>
     {% endif %}
-    
+    {% comment %}
     {% include 'collection-nav' %}
-    
+    {% endcomment %}
+
     {% if collection.products.size > 0 %}
     <div class="cat-grid">
       {% for product in collection.products %}
@@ -33,6 +41,7 @@
   </div>
 
   <div class="advanced-pagination">
+
     {% if settings.collection_infinite_scoll %}
     {% if paginator.next %}    
     <div class="infinite_scoll">{% include 'spinner2' with paginator.next.url %}</div>    
@@ -40,11 +49,15 @@
     {% else %}    
     {% include 'pagination' %}    
     {% endif %}
+  
   </div>
 </div>
 
+{% comment %}
 {% if settings.sidebar_collection_placement == 'right' %}
 <div id="sidebar" class="col-sm-3{% if settings.sidebar_collection_mobile %} hidden-xs{% endif %}">
   {% include 'sidebar-collection' %}  
 </div>
 {% endif %}
+
+{% endcomment %}
