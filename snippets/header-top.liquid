@@ -75,7 +75,10 @@
               <h5 class="title">{{settings.sliding_feedback_heading}}</h5>
               {% endif %}
               <div class="slidingbar-widget-container">
+                {% comment %}
                 {% form 'contact' %}
+                {% endcomment %}
+                <form accept-charset="UTF-8" action="/Clothing/contact" method="post" id="contact" name="contact">
                 <div class="group-input">      
                   <input id="feedback_name" placeholder="{{ 'contact.form.name' | t }} *" required="required" type="text" id="name" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.first_name }} {{ customer.last_name }}{% endif %}" name="contact[name]" />
                   <span class="highlight"></span>
@@ -95,7 +98,10 @@
                   {{ 'contact.form.send' | t }}
                 </button>
                 <div class="feedback_notify"></div>
+                </form>
+                {% comment %}
                 {% endform %}
+                {% endcomment %}
                 <script>
                   jQuery('.feedback_info form.contact-form').submit(function(event){
                     var form = jQuery('.feedback_info form');
