@@ -14,11 +14,14 @@
 	{% if display_button %}
 		{% comment %}
 		{% form 'customer' %}
+		{% endcomment %}
+		<form accept-charset="UTF-8" action="/Clothing/customer" method="post" id="customer" name="customer">
 		
 			<input type="hidden" name="contact[email]" value="{{ customer.email }}"/>
 			<input type="hidden" name="contact[tags]" value="{{ value }}" />
             <a class="btn-wishlist add-to-wishlist" href="{{pages[settings.wishlist_page].url}}" data-id="{{product.id}}" data-added="{{'wish_list.general.browse_wishlist' | t}}" title="{{'wish_list.general.add_to_wishlist' | t}}"><i class="fa fa-heart-o"></i><span>{{'wish_list.general.add_to_wishlist' | t}}</span></a>
-		
+		</form>
+		{% comment %}
 		{% endform %}
 		{% endcomment %}
 	{% else %}

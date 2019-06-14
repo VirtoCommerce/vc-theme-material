@@ -8,15 +8,21 @@
   {% assign cat_item_down = cat_item | downcase %}
   {% assign tmp = 'filtering_filters_' | append:i %}
   {% assign filters = settings[tmp] | strip_newlines | split: ',' %}
+  
   <div class="filter_title active">
-    <span>{{ cat_item }}<i class="zmdi zmdi-caret-right"></i></span>
+    <span>{{ cat_item }}<i class="zmdi zmdi-caret-right"></i></span>    
     {% for custom_tag in filters %}
+    {% if current_tag and current_tag.value == custom_tag.value  %}
+    {%comment%}
+    Старый код
     {% if current_tags contains custom_tag %}
+    {%endcomment%}
     <a href="javascript:;" class="clear">{{ 'collections.general.clear' | t }}</a>
     {% break %}
     {% endif %}
-    {% endfor %}
+    {% endfor %}    
   </div>
+  
   <div class="advanced-filter filter_container {{ cat_item_down | replace: ' ', '_' }}">
     <span class="filter_close" title="close"></span>
     <ul class="list-unstyled fields">
@@ -24,8 +30,18 @@
       {% assign file_extension = '.png' %}
 
       {% for custom_tag in filters %}
+      {%comment%}
+      Вот эту строчку нужно сменить.
+      {% if collection.all_tags contains custom_tag %}
+      Вот эта нормальная.
+      {% if current_tag and current_tag.value == custom_tag.value  %}
+      {%endcomment%}
+
+      {%comment%}
+      Старый код
       {% if collection.tags contains custom_tag %}
       {% if current_tags contains custom_tag %}
+      {%endcomment%}      
       <li>
         <div class="field active">
           <input type="checkbox" checked="checked" value="{{ custom_tag | handleize }}" class="hide" />
@@ -48,12 +64,23 @@
       </li>
       {% endif %}
       {% endfor %}
-
+      
+      
       {% else %}
 
       {% for custom_tag in filters %}
+      {%comment%}
+      Аналогично 33-38
+      {% if collection.all_tags contains custom_tag %}
+      {% if current_tag and current_tag.value == custom_tag.value  %}
+      {%endcomment%}
+
+      {%comment%}
+      Старый код
       {% if collection.tags contains custom_tag %}
       {% if current_tags contains custom_tag %}
+      {%endcomment%}
+      
       <li>
         <div class="field label-checkbox active">
           <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox" checked="checked" />
@@ -78,9 +105,11 @@
       {% endif %}
       {% endfor %}
 
-      {% endif %}
+      {% endif %} 
+    
     </ul>
   </div>
+  
 </div>
 {% endif %}
 {% endfor %}

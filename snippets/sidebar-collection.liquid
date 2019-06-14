@@ -18,6 +18,7 @@
 {% endif %}
 
 {% comment %} ----- Product Collections ----- {% endcomment %}
+
 {% if settings.allcollections_show %}
 <div class="widget-wrapper">
   {% if settings.allcollections_heading != blank %}
@@ -40,11 +41,13 @@
   </ul>
 </div>
 {% endif %}
-
 {% if settings.collection_sidebar_filters != 'none' %}
 <div class="filter-widgets widget-wrapper">
   <div class="filters-bar">
-    {% include 'collection-filter2' %}
+    
+    {% comment %}
+    {% include 'collection-filter2' %} {% comment %}Тут доделать{% endcomment %}
+    
     {% if settings.collection_sidebar_filters == 'tags' %}
     <div class="column">
       <div class="filter_title active">
@@ -78,7 +81,9 @@
 </div>
 {% endif %}
 
+
 {% comment %} ----- Featured Products ----- {% endcomment %}
+
 {% if settings.featured_prod_visible and collections[settings.featured_prod_collection].products != empty %}
 <div class="widget-wrapper">
   
@@ -98,7 +103,9 @@
 {% endif %}
 
 
+
 {% comment %} ----- Sidebar linklist 1 ----- {% endcomment %}
+
 {% if settings.show_widget_linklist1 %}
 {% assign list_temp = settings.widget_linklist1 %}
 {% if linklists[list_temp] != empty %}
@@ -124,6 +131,7 @@
 
 
 {% comment %} ----- Sidebar linklist 2 ----- {% endcomment %}
+
 {% if settings.show_widget_linklist2 %}
 {% assign list_temp = settings.widget_linklist2 %}
 {% if linklists[list_temp] != empty %}
@@ -149,6 +157,7 @@
 
 
 {% comment %} ----- Social Widget ----- {% endcomment %}
+
 {% if settings.sidebar_social_visible != 'none' %}
 <div class="widget-wrapper">
   {% if settings.sidebar_social_heading != blank %}

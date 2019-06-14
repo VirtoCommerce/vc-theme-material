@@ -27,7 +27,7 @@
       <div id="customer_orders">
         <h2 class="title">{{ 'customer.account.orders' | t }}</h2>
         <div class="wrap">
-          {% paginator = customer.orders | paginate 20 %}
+          {{ paginator = customer.orders | paginate 20 }}
           {% if customer.orders.size != 0 %}
           <table class="table table-striped">
             <thead>

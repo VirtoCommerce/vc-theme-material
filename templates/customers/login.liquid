@@ -13,6 +13,7 @@
         <label>{{ 'customer.register.user_name' | t }} *</label>
       </div>
 
+      {%comment%}
       {% if form.email_needed %}
       <div class="group-input">
         <input type="email" required="required" name="customer[email]" id="customer_email" />
@@ -21,15 +22,16 @@
         <label>{{ 'customer.login.email' | t }} *</label>
       </div>
       {% endif %}
+      {%endcomment%}
 
-      {% if form.password_needed %}
-          <div class="group-input">
-            <input type="password" required="required" name="customer[password]" id="customer_password" />
-            <span class="highlight"></span>
-            <span class="bar"></span>
-            <label>{{ 'customer.login.password' | t }} *</label>
-          </div>
-      {% endif %}
+      
+      <div class="group-input">
+        <input type="password" required="required" name="customer[password]" id="customer_password" />
+        <span class="highlight"></span>
+        <span class="bar"></span>
+        <label>{{ 'customer.login.password' | t }} *</label>
+      </div>
+      
 
       <div class="control-group">
         <button class="btn btn-1 ripple" type="submit">{{'customer.login.sign_in' | t}}</button>
@@ -38,12 +40,14 @@
       <div class="control-group">
         <div id="forgot_password">
           <p class="action">
-            <a href="#recover">{{ 'customer.login.forgot_password' | t }}</a>
+           <a href="{{ '/account/forgotpassword' | absolute_url }}">{{ 'customer.login.forgot_password' | t }}</a>
           </p>
         </div>
       </div>
 
+      {%comment%}
       {% if shop.customer_accounts_optional %}
+      {%endcomment%}
       <div class="control-group">
         <div class="create-account">
           <p>
@@ -51,7 +55,9 @@
           </p>
         </div>
       </div>
+      {%comment%}
       {% endif %}
+      {%endcomment%}
       {{ antiforgery }}
       </form>
     </div>
@@ -65,12 +71,7 @@
 
       <form accept-charset="UTF-8" action="{{ '~/account/forgotpassword' | absolute_url }}" method="post" id="recover_customer_password" name="recover_customer_password">
 
-      {% if form.errors %}
-      <div class="alert alert-error">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        {{ form.errors | default_errors }}
-      </div>
-      {% endif %}
+      {% include 'form-errors-custom' %}
 
       <div class="group-input">
         <input type="email" required="required" name="email" id="recover-email" />

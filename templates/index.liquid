@@ -213,7 +213,7 @@
       <div class="cat-templates hidden">
         {{templates}}
       </div>
-      {% paginator =  collection.products | paginate settings.collection_pagination_limit %}
+      {{ paginator =  collection.products | paginate settings.collection_pagination_limit }}
       <div class="cat-grid">
         <div class="product_item large animated">
           <a href="{{collection.url | absolute_url}}">

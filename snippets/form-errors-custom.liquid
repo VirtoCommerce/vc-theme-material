@@ -5,7 +5,7 @@
   <ul> wrapped with <div class="errors">
     - {{ form.errors | default_errors }}
 {% endcomment %}
-{% if form.errors %}
+{% unless form.errors.empty? %}
  <div class="alert alert-error">
   <p>{{ 'general.forms.post_error' | t }}</p>
 
@@ -27,4 +27,4 @@
     {% endfor %}
    </ul>
  </div>
-{% endif %}
+{% endunless %}

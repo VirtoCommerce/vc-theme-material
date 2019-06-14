@@ -2,21 +2,15 @@
 <div class="collection-wrap">
   <div class="collection-image">
     <a href="{{ collection.url | absolute_url }}">
-      {% if collection.image %}
-      {{ collection.image.src | img_url: 'large' | img_tag: collection_title }}
-      {% comment %}
-      <img src="{{ collection.image.src | collection_img_url }}" alt="{{ collection_title }}" />
-      {% endcomment %}
-      {% else %}
-      {{ collection.products.first.featured_image | img_url: 'large' | img_tag: collection_title }}
-      {% comment %}
-      <img src="{{ collection.products.first.featured_image | product_img_url }}" alt="{{ collection_title }}" />
-      {% endcomment %}
+      {% if collection.image %}          
+      <img ng-src="{{ collection.primary_image.url | img_url }}" alt="{{ collection_title }}" />      
+      {% else %}      
+      <img ng-src="{{ collection.products.first.featured_image | img_url }}" alt="{{ collection_title }}" />      
       {% endif %}
       
       <div class="caption">
         <h2>{{ collection_title }}</h2>
-        <p class="count">{{ collection.products_count }} {{ collection.products_count | pluralize: 'collections.general.product', 'collections.general.products' | t }}</p>
+        <p class="count">{{ collection.all_products_count }} {{ collection.all_products_count | pluralize: 'collections.general.product', 'collections.general.products' | t }}</p>
       </div>
     </a>
   </div>
