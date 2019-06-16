@@ -1,8 +1,13 @@
+{%comment%}
 {% assign variant_tmp = product.selected_or_first_available_variant  %}
+{%endcomment%}
 {% for variant in product.variants %}
-{% if variant.available == true and variant.price < variant_tmp.price %}
+{%comment%}
+{% if variant.available == true and variant.price.actual_price.amount < variant_tmp.price.actual_price.amount %}
 {% assign variant_tmp = variant %}	
 {% endif %}
+{%endcomment%}
+{% assign variant_tmp = variant %}	
 {% endfor %}
 
 <div class="product {{settings.wrapper_style}}">
@@ -24,10 +29,10 @@
     
     <div class="product-wrap">
       <div class="product-image">
-        {% if variant_tmp.compare_at_price > variant_tmp.price %}
+        {% if variant_tmp.compare_at_price.amount > variant_tmp.price.actual_price.amount %}
         <div class="onsale">
-          {% if settings.use_saleoff and variant_tmp.compare_at_price > variant_tmp.price %}
-          <span class="price_percentage">-{{ variant_tmp.compare_at_price | minus: variant_tmp.price | divided_by: variant_tmp.compare_at_price | times: 100 | ceil }}%</span>
+          {% if settings.use_saleoff and variant_tmp.compare_at_price.amount > variant_tmp.price.actual_price.amount %}
+          <span class="price_percentage">-{{ variant_tmp.compare_at_price.amount | minus: variant_tmp.price.actual_price.amount | divided_by: variant_tmp.compare_at_price.amount | times: 100 | ceil }}%</span>
           {% endif %}
         </div>
         {% endif %}
@@ -55,10 +60,12 @@
           <div class="price-val product-price">
             {% if product.available %}
 
-            <span class="price">{{ variant_tmp.price | money }}</span>
+            <span class="price">            
+            {{ variant_tmp.price.actual_price.amount | money }}
+            </span>
 
-            {% if variant_tmp.compare_at_price > variant_tmp.price %}
-            <del class="price_compare"> {{ variant_tmp.compare_at_price | money }}</del>
+            {% if variant_tmp.compare_at_price.amount > variant_tmp.price.actual_price.amount %}
+            <del class="price_compare"> {{ variant_tmp.compare_at_price.amount | money }}</del>
             {% endif %}
 
             {% else %}
@@ -82,7 +89,7 @@
             <input type="hidden" name="quantity" value="1" />
             <select class="hide" name="id">
               {% for variant in product.variants %}
-              <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
+              <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price.actual_price.amount | money }}</option>
               {% endfor %}
             </select>
             <button type="submit" class="btn btn-1 ripple add-to-cart btn-block"><i class="zmdi zmdi-shopping-cart"></i> {{'products.product.add_to_cart' | t}}</button>
@@ -106,7 +113,7 @@
             <button type="submit" class="add-to-cart btn-cart"><i class="zmdi zmdi-shopping-cart"></i> {{'products.product.add_to_cart' | t}}</button>
             <select class="hide" name="id">
               {% for variant in product.variants %}
-              <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price | money }}</option>
+              <option value="{{ variant.id }}">{{ variant.title | escape }} - {{ variant.price.actual_price.amount | money }}</option>
               {% endfor %}
             </select>
           </form>
@@ -151,11 +158,11 @@
           </div>
 
           <div id="price" class="product-price">
-            {% if variant_tmp.compare_at_price > variant_tmp.price %}
-            <del class="price_compare"> {{ variant_tmp.compare_at_price | money }}</del>
-            <span class="price_percentage">{{ variant_tmp.compare_at_price | minus: variant_tmp.price | times: 100.0 | divided_by: variant_tmp.compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%</span>
+            {% if variant_tmp.compare_at_price.amount > variant_tmp.price.actual_price.amount %}
+            <del class="price_compare"> {{ variant_tmp.compare_at_price.amount | money }}</del>
+            <span class="price_percentage">{{ variant_tmp.compare_at_price.amount | minus: variant_tmp.price.actual_price.amount | times: 100.0 | divided_by: variant_tmp.compare_at_price.amount | money_without_currency | times: 100 | remove: '.0'}}%</span>
             {% endif %}
-            <div class="price">{{ variant_tmp.price | money }}</div>
+            <div class="price">{{ variant_tmp.price.actual_price.amount | money }}</div>
           </div>
 
           <div class="sharing-btn">
@@ -171,7 +178,7 @@
             <select id="product-select" name="id" style="display: none;">
               {% for variant in product.variants %}
               {% if variant.available %}
-              <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+              <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">{{ variant.title }} - {{ variant.price.actual_price.amount | money_with_currency }}</option>
               {% else %}
               <option disabled="disabled">
                 {{ variant.title }} - {{'products.product.sold_out' | t}}

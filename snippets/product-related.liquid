@@ -1,8 +1,13 @@
+{%comment%}
 {% assign variant_tmp = prod.selected_or_first_available_variant  %}
+{%endcomment%}
 {% for variant in prod.variants %}
+{%comment%}
 {% if variant.available == true and variant.price < variant_tmp.price %}
 {% assign variant_tmp = variant %}	
 {% endif %}
+{%endcomment%}
+{% assign variant_tmp = variant %}	
 {% endfor %}
 
 <div class="product style2">
@@ -35,10 +40,10 @@
             <div class="price-val product-price">
               {% if prod.available %}
 
-              <span class="price">{{ variant_tmp.price | money }}</span>
+              <span class="price">{{ variant_tmp.price.actual_price.amount | money }}</span>
 
-              {% if variant_tmp.compare_at_price > variant_tmp.price %}
-              <del class="price_compare"> {{ variant_tmp.compare_at_price | money }}</del>
+              {% if variant_tmp.compare_at_price.amount > variant_tmp.price.actual_price.amount %}
+              <del class="price_compare"> {{ variant_tmp.compare_at_price.amount | money }}</del>
               {% endif %}
 
               {% else %}

@@ -3,7 +3,7 @@
 {% endunless %}
 
 {% assign on_sale = false %}
-{% if product.compare_at_price > product.price %}
+{% if product.compare_at_price.amount > product.price.actual_price.amount %}
     {% assign on_sale = true %}
 {% endif %}
 
