@@ -1,7 +1,13 @@
+{% assign respond_js_secret_key = shop.url | md5 %}
+{% assign search = current_product_search_criteria %}
+{% unless search.keyword == respond_js_secret_key %}
+{% assign search_results = product_search_result.products %}
+
+
 <div id="col-main" class="page-search">
   <div class="central">
     <div class="search-form">
-      {% capture search_title %}{{ search.terms | escape }}{% endcapture %}
+      {% capture search_title %}{{ search.keyword | escape }}{% endcapture %}
       <h2 class="title">{{ 'search.general.title' | t: search_title }}</h2>
 
       <div class="wrap">
@@ -14,19 +20,21 @@
             <button type="submit"><i class="zmdi"></i></button>
           </div>
         </form>
-        {% if search.performed and search.results.size > 0 %}{% else %}
+        {% if search and search_results.empty? == false %}
+        {% if search_results.size == 0 %}        
         <p class="empty">{{ 'search.general.no_products' | t: search_title }}</p>
+        {% endif %}
         {% endif %}
       </div>
     </div>
   </div>
 
   <div id="sandBox" class="container">
-    {% if search.performed and search.results.size > 0 %}
-    {{ paginator = search.results | paginate settings.collection_pagination_limit }}
+    {% if search and search_results.empty? == false %}    
+    {{ paginator = search_results | paginate settings.collection_pagination_limit }}
 
     <div class="cat-grid">
-      {% for product in search.results %}
+      {% for product in search_results %}
       <div class="animated product_item">
         {% if product.url contains 'products' %}
         {% include 'product-item' %}
@@ -42,3 +50,5 @@
     {% endif %}
   </div>
 </div>
+
+{% endunless %}
