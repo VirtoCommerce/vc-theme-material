@@ -39,11 +39,15 @@
         {% if check == 0 %}{% assign display_product = true %}{% else %}{% assign display_product = false %}{% endif %}
         {% if display_product and the_test contains productID %}
         
+        {%comment%}
         {% assign variant_tmp = product.selected_or_first_available_variant  %}
+        {%endcomment%}
         {% for variant in product.variants %}
-        {% if variant.available == true and variant.price < variant_tmp.price %}
-        {% assign variant_tmp = variant %}	
+        {%comment%}
+        {% if variant.available == true and variant.price < variant_tmp.price %}      	
         {% endif %}
+        {%endcomment%}
+        {% assign variant_tmp = variant %}
         {% endfor %}
         <li class="item">
           <ul>

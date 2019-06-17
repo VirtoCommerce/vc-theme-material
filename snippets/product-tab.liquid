@@ -1,34 +1,35 @@
 {% assign tmp = settings.product_shipping_return %}
 {% assign temp = pages[tmp] %}
 
-<div class="product-tab">
+<div class="product-tab">  
   <ul class="nav nav-tabs responsive" id="product-tab">
-    <li class="active"><a href="#product-description">{{'products.product.description' | t}}</a></li>
-    {% if product.featured_image.alt contains 'iframe' %}
+    <li class="active"><a href="#product-description">{{'products.product.description' | t}}</a></li>    
+    {{isIframe = product.featured_image.alt | string.contains 'iframe'}}     
+    {% if isIframe %}    
     <li><a href="#product-video">{{'products.product.video' | t}}</a></li>
-    {% endif %}
+    {% endif %}    
+    
     {% if temp.handle != blank %}
     <li><a href="#product-shipping-return">{{'products.product.shipping_and_return' | t}}</a></li>
-    {% endif %}
+    {% endif %}    
     {% if settings.reviews_enable %}
     <li><a id="product-reviews-a" href="#product-reviews">{{'products.product.customer_reviews' | t}}</a></li>
     {% endif %}
     {% if settings.tweet_code %}
     <li><a href="#product-discount">{{'products.product.discount' | t}}</a></li>
     {% endif %}
-  </ul>
-
+  </ul> 
   <div class="tab-content responsive">
     <div class="tab-pane active" id="product-description">
       <div itemprop="description">
         {{product.content}}
       </div>
     </div>
-    {% if product.featured_image.alt contains 'iframe' %}
+    {% if isIframe %} 
     <div class="tab-pane" id="product-video">
       {{product.featured_image.alt}}
     </div>
-    {% endif %}
+    {% endif %}    
     {% if temp.handle != blank %}
     <div class="tab-pane" id="product-shipping-return">
       {{temp.content}}
@@ -67,5 +68,5 @@
       </div>
     </div>
     {% endif %}
-  </div>
+  </div>    
 </div>

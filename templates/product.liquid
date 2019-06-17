@@ -1,4 +1,5 @@
-{% assign variant_tmp = product.selected_or_first_available_variant | default: product.variants.first %}
+{% assign variant_tmp = product.selected_or_first_available_variant | default: product.variants | array.first %}
+
 <div id="col-main">
   <div class="col-md-10" itemscope itemtype="http://schema.org/Product">
     <meta itemprop="url" content="{{ shop.url }}{{ product.url }}" />
@@ -44,7 +45,7 @@
             {% include 'product-breadcrumb' %}
             <div class="product-title">
               <h1 itemprop="name" content="{{ product.title }}"><a href="{{product.url | within: collection}}">{{ product.title }}</a></h1>
-              {% if settings.product_sku_show %}
+              {% if settings.product_sku_show %}              
               <div id="sku"{% unless variant_tmp and variant_tmp.sku %} class="hidden"{% endunless %}>{{'products.product.sku' | t}} <span>{{variant_tmp.sku}}</span></div>
               {% endif %}
             </div>
@@ -66,17 +67,17 @@
 
               <div class="product-price">
                 <div id="price" class="detail-price" itemprop="price">
-                  {% if variant_tmp.compare_at_price > variant_tmp.price %}
-                  <del class="price_compare"> {{ variant_tmp.compare_at_price | money }}</del>
-                  <span class="price_percentage">-{{ variant_tmp.compare_at_price | minus: variant_tmp.price | divided_by: variant_tmp.compare_at_price | times: 100 | ceil }}%</span>
+                  {% if variant_tmp.compare_at_price.amount > variant_tmp.price.actual_price.amount %}
+                  <del class="price_compare"> {{ variant_tmp.compare_at_price.amount | money }}</del>
+                  <span class="price_percentage">-{{ variant_tmp.compare_at_price.amount | minus: variant_tmp.price.actual_price.amount | divided_by: variant_tmp.compare_at_price.amount | times: 100 | ceil }}%</span>
                   {% endif %}
-                  <div class="price">{{ variant_tmp.price | money }}</div>
+                  <div class="price">{{ variant_tmp.price.actual_price.amount | money }}</div>
                 </div>
               </div>
 
               <div class="sharing-btn">
-                <span>{{'products.product.share' | t}}</span>
-                {% include 'social-sharing' %}
+                <span>{{'products.product.share' | t}}</span>                
+                {% include 'social-sharing' %}                
               </div>
 
               {% if product.available %}
@@ -92,11 +93,11 @@
                     </option>
                     {% endif %}
                     {% endfor %}
-                  </select>
+                  </select>                  
                 </div>
 
-                <div class="limited-edition-group">
-                  {% include 'limited-edition' %}
+                <div class="limited-edition-group">                
+                  {% include 'limited-edition' %}                  
                 </div>
 
                 <div class="quantity">
@@ -109,8 +110,8 @@
               </form>
               {% if settings.allow_wishlist %}
               <div class="product-buttons">
-                <div class="product-wishlist wishlist-{{product.id}}">
-                  {% include 'wishlist-item' %}
+                <div class="product-wishlist wishlist-{{product.id}}">                
+                  {% include 'wishlist-item' %}                  
                 </div>
               </div>
               {% endif %}
@@ -138,16 +139,16 @@
         </div>
       </div>
 
-      <div class="product-tabs col-sm-12">
-        {% include 'product-tab' %}
+      <div class="product-tabs col-sm-12">      
+        {% include 'product-tab' %}        
       </div>
     </div>
   </div>
 
   {% if settings.product_style == 'style1' %}
-  <div class="col-md-2">
+  <div class="col-md-2">  
     {% include 'related-products' %}
-    {% include 'recently-viewed' %}
+    {% include 'recently-viewed' %}    
   </div>
   {% elsif settings.product_style == 'style2' %}
   <div class="col-md-2 hidden-sm hidden-xs">
@@ -191,7 +192,7 @@
 {% if settings.product_style == 'style2' %}
 <div class="col-sm-12">
   {% include 'related-products' %}
-  {% include 'recently-viewed' %}
+  {% include 'recently-viewed' %}  
 </div>
 {% endif %}
 <script>window.products.id{{product.id}} = {{product | json}};</script>

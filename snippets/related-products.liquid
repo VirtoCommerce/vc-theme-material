@@ -22,7 +22,7 @@
 
 {% endif %}
 
-{% assign products   = collection.products %}
+{% assign products = collection.products %}
 {% if products.size > 0 %}
 <div class="widget-wrapper clearfix">
   
@@ -34,19 +34,20 @@
   
   <div id="related-products" class="{{settings.product_style}} row clearfix">
     {% assign current_product_found = false %}
-    {% for prod in collection.products limit: number_of_related_products_to_fetch %}
+    {{number = number_of_related_products_to_fetch | string.to_int}} 
+    {% for prod in collection.products limit: number %}
     {% if prod.handle == product.handle %}
     {% assign current_product_found = true %}
     {% else %}
     {% unless current_product_found == false and forloop.last %}
 
-    <div class="product_item{% if settings.animation_effect%} animated{% endif %}">
+    <div class="product_item{% if settings.animation_effect %} animated{% endif %}">
       {% include 'product-related' %}
     </div>
 
     {% endunless %}
     {% endif %}
-    {% endfor %}
+    {% endfor %}    
   </div>
 </div>
 {% endif %}

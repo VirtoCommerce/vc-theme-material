@@ -30,6 +30,8 @@
       {% assign file_extension = '.png' %}
 
       {% for custom_tag in filters %}
+      {% if product_search_result.aggregations contains custom_tag %}
+      {% if current_tag and current_tag.value == custom_tag.value  %}
       {%comment%}
       Вот эту строчку нужно сменить.
       {% if collection.all_tags contains custom_tag %}
@@ -69,6 +71,8 @@
       {% else %}
 
       {% for custom_tag in filters %}
+      {% if product_search_result.aggregations contains custom_tag %}
+      {% if current_tag and current_tag.value == custom_tag.value  %}
       {%comment%}
       Аналогично 33-38
       {% if collection.all_tags contains custom_tag %}
