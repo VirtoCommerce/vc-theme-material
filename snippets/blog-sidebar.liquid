@@ -3,7 +3,7 @@
   <p>
     <a href="{{ article.url }}">{{ article.title }}</a>
     <br>
-    <time pubdate datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+    <time pubdate datetime="{{ article.published_at | date: 'yyyy-MM-dd' }}">
       <em class="text-light">{{ article.published_at | date: 'month_day_year' }}</em>
     </time>
   </p>

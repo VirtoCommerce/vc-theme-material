@@ -9,10 +9,12 @@
   {% assign tmp = 'filtering_filters_' | append:i %}
   {% assign filters = settings[tmp] | strip_newlines | split: ',' %}
   
-  <div class="filter_title active">
+  <div class="filter_title active">    
     <span>{{ cat_item }}<i class="zmdi zmdi-caret-right"></i></span>    
     {% for custom_tag in filters %}
-    {% if current_tag and current_tag.value == custom_tag.value  %}
+    {% if current_tag and current_tag.value == custom_tag.value %}
+    {%comment%}
+    {% if aggregation.items contains custom_tag %}
     {%comment%}
     Старый код
     {% if current_tags contains custom_tag %}
