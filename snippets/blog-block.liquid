@@ -11,9 +11,11 @@
     {% for article in blog.articles limit:settings.home_blog_number %}
     <div class="col-sm-4 col-xs-6">
       <div class="article animated">
+        {% if article.excerpt %}
         {% if article.excerpt contains "<iframe" %}
         {% assign src = article.excerpt | split: 'src="' %}
         {% assign src = src[1] | split: '"' | first %}
+
         {% if src %}
         <div class="excerpt responsive-video">
           <iframe width="100%" scrolling="no" frameborder="no" src="{{ src }}"></iframe>
@@ -21,7 +23,7 @@
         </div>
         {% endif %}
         {% endif %}
-        {% if article.excerpt contains "<img" %}
+        {% if article.excerpt contains '<img' %}
         {% assign src = article.excerpt | split: 'src="' %}
         {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn' | replace: 'http:http://', 'http://' | remove: 'https:' %}
         {% if src %}
@@ -33,7 +35,7 @@
         </div>
         {% endif %}
         {% endif %}
-        
+        {% endif %}
         <h3 class="title"><a href="{{ article.url }}">{{ article.title | escape }}</a></h3>
         <div class="content">{{ article.content | strip_html | truncatewords: 30 }}</div>
       </div>
