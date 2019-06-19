@@ -7,7 +7,7 @@
       <div class="product-gallery col-sm-6">
         <div class="inner">
           <div class="thumbnails">
-            {% for image in product.images %}			
+            {% for image in product.images %}
             <a class="thumbnail" href="{{ image | product_img_url }}" data-src="{{image | product_img_url }}">
 			<img ng-src="{{ image | product_img_url: "50x50"  }}" fallback-src="{{ image | product_img_url }}" alt="{{product.title}}" /></a>
             {% endfor %}
@@ -45,7 +45,7 @@
             {% include 'product-breadcrumb' %}
             <div class="product-title">
               <h1 itemprop="name" content="{{ product.title }}"><a href="{{product.url | within: collection}}">{{ product.title }}</a></h1>
-              {% if settings.product_sku_show %}              
+              {% if settings.product_sku_show %}
               <div id="sku"{% unless variant_tmp and variant_tmp.sku %} class="hidden"{% endunless %}>{{'products.product.sku' | t}} <span>{{variant_tmp.sku}}</span></div>
               {% endif %}
             </div>
@@ -76,13 +76,23 @@
               </div>
 
               <div class="sharing-btn">
-                <span>{{'products.product.share' | t}}</span>                
-                {% include 'social-sharing' %}                
+                <span>{{'products.product.share' | t}}</span>
+                {% include 'social-sharing' %}
               </div>
 
               {% if product.available %}
               <form class="product-form" id="product-form" action="{{ 'cart/add' | absolute_url }}" method="post" enctype="multipart/form-data" data-product-id="{{product.id}}">
                 <div id="product-variants">
+
+
+
+                {% if collection.name == 'Bags' or collection.name == 'Jewelry' %}
+                {% include 'swatch' with "Colour" %}
+                {% else %}
+                {% include 'swatch' with "Size" %}
+                {% include 'swatch' with "Colour" %}
+                {% endif %}
+
                   <select id="product-select" name="id" style="display: none;">
                     {% for variant in product.variants %}
                     {% if variant.available %}
@@ -93,15 +103,15 @@
                     </option>
                     {% endif %}
                     {% endfor %}
-                  </select>                  
+                  </select>
                 </div>
 
-                <div class="limited-edition-group">                
-                  {% include 'limited-edition' %}                  
+                <div class="limited-edition-group">
+                  {% include 'limited-edition' %}
                 </div>
 
                 <div class="quantity">
-                  <div class="group-input">      
+                  <div class="group-input">
                     <input type="number" title="{{'products.product.quantity' | t}}" step="1" min="1" size="4" id="quantity" name="quantity" value="1" />
                     <span class="bar"></span>
                   </div>
@@ -110,8 +120,8 @@
               </form>
               {% if settings.allow_wishlist %}
               <div class="product-buttons">
-                <div class="product-wishlist wishlist-{{product.id}}">                
-                  {% include 'wishlist-item' %}                  
+                <div class="product-wishlist wishlist-{{product.id}}">
+                  {% include 'wishlist-item' %}
                 </div>
               </div>
               {% endif %}
@@ -130,25 +140,25 @@
 
               <div id="product-actions" class="sold-out">
                 <div id="price">
-                  <p class="price">{{'products.product.sold_out' | t}}</p>      
+                  <p class="price">{{'products.product.sold_out' | t}}</p>
                 </div>
-              </div>    
+              </div>
               {% endif %}
             </div>
           </div>
         </div>
       </div>
 
-      <div class="product-tabs col-sm-12">      
-        {% include 'product-tab' %}        
+      <div class="product-tabs col-sm-12">
+        {% include 'product-tab' %}
       </div>
     </div>
   </div>
 
   {% if settings.product_style == 'style1' %}
-  <div class="col-md-2">  
+  <div class="col-md-2">
     {% include 'related-products' %}
-    {% include 'recently-viewed' %}    
+    {% include 'recently-viewed' %}
   </div>
   {% elsif settings.product_style == 'style2' %}
   <div class="col-md-2 hidden-sm hidden-xs">
@@ -192,7 +202,7 @@
 {% if settings.product_style == 'style2' %}
 <div class="col-sm-12">
   {% include 'related-products' %}
-  {% include 'recently-viewed' %}  
+  {% include 'recently-viewed' %}
 </div>
 {% endif %}
 <script>window.products.id{{product.id}} = {{product | json}};</script>
