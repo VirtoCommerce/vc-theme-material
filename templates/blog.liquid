@@ -12,6 +12,7 @@
     {% for article in blog.articles %}
     <article class="blog-post clearfix">
       <div class="blog-head">
+        {% if article.excerpt %}
         {% if article.excerpt contains "<iframe" %}
         {% assign src = article.excerpt | split: 'src="' %}
         {% assign src = src[1] | split: '"' | first %}
@@ -20,8 +21,7 @@
           <iframe width="100%" scrolling="no" frameborder="no" src="{{ src }}"></iframe>
         </div>
         {% endif %}
-        {% endif %}
-        {% if article.excerpt contains "<img" %}
+        {% elsif article.excerpt contains "<img" %}
         {% assign src = article.excerpt | split: 'src="' %}
         {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn' | replace: 'http:http://', 'http://' | remove: 'https:'  %}
         {% if src %}
@@ -32,9 +32,10 @@
         </div>
         {% endif %}
         {% endif %}
-        
+        {% endif %}
+
         <h2 data-role="title"><a href="{{ article.url }}">{{ article.title | escape }}</a></h2>
-        <span class="date">{{ article.published_at | date: "%b, %d" }}</span>
+        <span class="date">{{ article.published_at | date: "MMM, dd" }}</span>
         {% if settings.social_sharing_blog %}
         <div class="blog-qshare">
           <a href="javascript:;" class="zmdi zmdi-share"></a>
@@ -57,7 +58,7 @@
     {{'blogs.article.no_acticles' | t}}
   </p>
   {% endif %}
-  
+
 </div>
 
 {% if settings.sidebar_blog_placement == 'right' %}
