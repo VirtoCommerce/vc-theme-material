@@ -2,11 +2,12 @@
   Set the extension of your color files below. Use 'png', 'jpeg', 'jpg' or 'gif'.
 {% endcomment %}
 
+
 {% assign file_extension = 'png' %}
 
 {% if swatch == blank %}
 <div class="swatch error">
-  <p>You must include the snippet swatch.liquid with the name of a product option.</p> 
+  <p>You must include the snippet swatch.liquid with the name of a product option.</p>
   <p>Use: <code>{% raw %}{% include 'swatch' with 'name of your product option here' %}{% endraw %}</code></p>
   <p>Example: <code>{% raw %}{% include 'swatch' with 'Color' %}{% endraw %}</code></p>
 </div>
@@ -15,11 +16,16 @@
 {% assign found_option = false %}
 {% assign is_color = false %}
 {% assign option_index = 0 %}
+{% assign options_array = [] %}
+{% assign values_array = [] %}
 
-{% for option in product.options %}
-  {% if option == swatch %}
+{% for variant in product.variants %}
+{% for prop in variant.variation_properties %}
+  {% if prop.name == swatch %}
     {% assign found_option = true %}
-    {% assign option_index = forloop.index0 %}
+    {% assign option_index = for.index %}
+    {% assign options_array[for.index] = prop.name %}
+    {% assign values_array[for.index] = prop.value %}
     <style>
       label[for="product-select-option-{{ option_index }}"] { display: none; }
       #product-select-option-{{ option_index }} { display: none; }
@@ -32,27 +38,44 @@
     {% endif %}
   {% endif %}
 {% endfor %}
+{% endfor %}
 
 {% unless found_option %}
 
 {% else %}
 <div class="swatch {{swatch | downcase}} clearfix" data-option-index="{{ option_index }}">
-  <div class="header">{{ swatch }}</div>
+  <div class="header">{{ swatch }}
+  {% if downcased_option contains 'size' %}
+  {% if settings.product_size_chart != blank %}
+  <a id="size-chart-trigger" href="#size-chart" class="no">{{'products.product.size_chart' | t}}</a>
+  <script>
+    var sizeChart = jQuery('#size-chart-trigger');
+    sizeChart.click(function() {
+      jQuery.fancybox({content: jQuery("#size-chart").html()});
+      return false;
+    });
+  </script>
+  <div id="size-chart" style="display:none">{{ pages[settings.product_size_chart].content }}</div>
+  {% endif %}
+  {% endif %}
+  </div>
   {% assign values = '' %}
   {% for variant in product.variants %}
-    {% assign value = variant.options[option_index] %}
+    {% assign value = values_array[option_index] %}
     {% unless values contains value %}
       {% assign values = values | join: ',' %}
-      {% assign values = values | append: ',' | append: value %} 
+      {% assign values = values | append: ',' | append: value %}
       {% assign values = values | split: ',' %}
-      <div data-value="{{ value | escape }}" class="swatch-element {% if is_color %}color {% endif %}{{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
+      <div data-value="{{ value | escape }}" class="swatch-element {% if is_color %}color{% endif %}{{ value | handle }} {% if variant.available %}available{% else %}soldout{% endif %}">
         {% if is_color %}
         <div class="tooltip">{{ value }}</div>
         {% endif %}
-        <input id="swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if forloop.first %} checked{% endif %} {% unless variant.available %}disabled{% endunless %} />
+        <input id="swatch-{{ option_index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ value | escape }}"{% if for.first %} checked{% endif %} {% unless variant.available %}disabled{% endunless %} />
         {% if is_color %}
-        <label for="swatch-{{ option_index }}-{{ value | handle }}" style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | asset_url }})">
+        <label for="swatch-{{ option_index }}-{{ value | handle }}" class="img">
+          <i style="background-color: {{ value | split: ' ' | last | handle }}; background-image: url({{ value | handle | append: '.' | append: file_extension | asset_url }})">
           <img class="crossed-out" src="{{ 'soldout.png' | asset_url }}" />
+          </i>
         </label>
         {% else %}
         <label for="swatch-{{ option_index }}-{{ value | handle }}">
@@ -68,22 +91,9 @@
     </script>
     {% endif %}
   {% endfor %}
-  
-  {% if downcased_option contains 'size' %}
-  {% if settings.product_size_chart != blank %}
-  <a id="size-chart-trigger" href="#size-chart" class="no">{{'products.product.size_chart' | t}}</a>
-  <script>
-    var sizeChart = jQuery('#size-chart-trigger');
-    sizeChart.click(function() {
-      jQuery.fancybox({content: jQuery("#size-chart").html()});
-      return false;
-    });
-  </script>
-  <div id="size-chart" style="display:none">{{ pages[settings.product_size_chart].content }}</div>
-  {% endif %}
-  {% endif %}
+
+
 </div>
-
 {% endunless %}
-
 {% endif %}
+
