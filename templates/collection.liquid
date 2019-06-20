@@ -1,6 +1,7 @@
+<div ng-controller="collectionController as $collection">
 {% if settings.sidebar_collection_placement == 'left' %}
 <div id="sidebar" class="col-sm-3{% if settings.sidebar_collection_mobile %} hidden-xs{% endif %}">
-  {% include 'sidebar-collection' %}  {% comment %}Тут доделать{% endcomment %} 
+  {% include 'sidebar-collection' %}  {% comment %}Тут доделать{% endcomment %}
 </div>
 {% endif %}
 
@@ -8,52 +9,52 @@
 
 {{ paginator = collection.products | paginate settings.collection_pagination_limit }}
 <div id="col-main" class="collection-page{% if settings.sidebar_collection_placement != 'none' %} col-sm-9{% else %} col-sm-12{% endif %}">
-  
+
   {% include 'collection-slider' %}
 
-  <div id="sandBox">  
+  <div id="sandBox">
     <h2>{{collection.title}}<span class="count">{{ collection.all_products_count }} {{ collection.all_products_count | pluralize: 'collections.general.product', 'collections.general.products' | t }}</span></h2>
     {% if collection.description != empty %}
     <div class="cat-desc clearfix">
       {{ collection.description }}
     </div>
     {% endif %}
-    
-    {% include 'collection-nav' %} {% comment %}Тут доделать(collection-filter2.liquid){% endcomment %} 
-    
+
+    {% include 'collection-nav' %} {% comment %}Тут доделать(collection-filter2.liquid){% endcomment %}
+
 
     {% if collection.products.size > 0 %}
     <div class="cat-grid">
       {% for product in collection.products %}
-      <div class="product_item animated">      
-        {% include 'product-item' %}        
+      <div class="product_item animated">
+        {% include 'product-item' %}
       </div>
       {% endfor %}
     </div>
     {% else %}
-    <p class="empty">{{ 'collections.general.no_products' | t }}</p>    
-    {% include 'collection-default' %}    
+    <p class="empty">{{ 'collections.general.no_products' | t }}</p>
+    {% include 'collection-default' %}
     {% endif %}
   </div>
 
   <div class="advanced-pagination">
 
     {% if settings.collection_infinite_scoll %}
-    {% if paginator.next %}    
-    <div class="infinite_scoll">{% include 'spinner2' with paginator.next.url %}</div>    
+    {% if paginator.next %}
+    <div class="infinite_scoll">{% include 'spinner2' with paginator.next.url %}</div>
     {% endif %}
-    {% else %}    
-    {% include 'pagination' %}    
+    {% else %}
+    {% include 'pagination' %}
     {% endif %}
-  
+
   </div>
 </div>
 
 
 {% if settings.sidebar_collection_placement == 'right' %}
 <div id="sidebar" class="col-sm-3{% if settings.sidebar_collection_mobile %} hidden-xs{% endif %}">
-  {% include 'sidebar-collection' %}  
+  {% include 'sidebar-collection' %}
 </div>
 {% endif %}
-
+</div>
 

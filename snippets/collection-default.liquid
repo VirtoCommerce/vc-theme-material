@@ -9,11 +9,10 @@
     <span>{{ settings.collection_default_heading }}</span>
   </div>
   {% endif %}
-
   <div id="default-products" class="cat-grid clearfix">
     {% for product in products limit: settings.collection_default_number %}
-    <div class="product_item animated">      
-      {% include 'product-item' %}      
+    <div class="product_item animated">
+      {% include 'product-item' %}
     </div>
     {% endfor %}
   </div>
