@@ -8,7 +8,10 @@
             "assets/js/services.js",
             "assets/js/directives.js",
             "assets/js/main.js",
-            "assets/js/order.js"
+            "assets/js/order.js",
+            "assets/js/controllers/*.js",
+            "assets/js/services/*.js",
+            "assets/js/directives/*.js"
         ]
     },
     {

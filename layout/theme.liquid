@@ -63,7 +63,7 @@
   {% if template contains 'index' and settings.slideshow_show %}
   {{ 'jquery.flexslider.scss.css' | asset_url | stylesheet_tag }}
   {% endif %}
-  
+
   {% if template contains 'collection' and settings.collection_slider %}
   {{ 'jquery.flexslider.scss.css' | asset_url | stylesheet_tag }}
   {% endif %}
@@ -73,7 +73,7 @@
   <!--[if IE 8 ]> {{ 'ie8.scss.css' | asset_url | stylesheet_tag }} <![endif]-->
   {{ 'rt.media.scss.css' | asset_url | stylesheet_tag }}
   {% if settings.rtl_enable %}{{ 'rt.rtl.css' | asset_url | stylesheet_tag }}{% endif %}
-  
+
   <!--[if lt IE 9]>
   <script src="{{ 'html5shiv.js' | asset_url }}"></script>
   <script src="{{ 'respond.min.js' | asset_url }}"></script>
@@ -83,9 +83,39 @@
   <![endif]-->
 
       {% include 'head_script' %}
-
+{%comment%}
       {{ 'jquery-2.1.4.min.js' | asset_url | script_tag }}
       {{ 'jquery.easing.1.3.js' | asset_url | script_tag }}
+{%endcomment%}
+
+      {{ content_for_header }}
+
+    <base href="{{ '/' | absolute_url }}" />
+
+{%comment%}
+      {{ '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js' | script_tag }}
+      {{ '//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js' | script_tag }}
+     {{ '//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.min.js' | script_tag }}
+      {{ '//cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js' | script_tag }}
+      {{ '//cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.7/angular-sanitize.min.js' | script_tag }}
+      {{ '//cdnjs.cloudflare.com/ajax/libs/angular-translate/2.12.1/angular-translate.min.js' | script_tag }}
+      {{ '//cdnjs.cloudflare.com/ajax/libs/angular-translate/2.12.1/angular-translate-loader-url/angular-translate-loader-url.min.js' | script_tag }}
+      {{ '//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.2/ui-bootstrap-tpls.min.js' | script_tag }}
+{%endcomment%}
+
+      {{ 'bundle/scripts_dependencies.js' | static_asset_url | append_version | script_tag }}
+
+      {{ 'shopify_common.js' | asset_url | script_tag }}
+      {{ 'bundle/scripts.js' | static_asset_url | append_version | script_tag }}
+      {{ 'shop.js' | asset_url | script_tag }}
+
+      {% if template contains 'collection' %}
+      {{ "shopify_common_additions.js" | asset_url | script_tag }}
+      {% endif %}
+
+      {% if template contains 'customers' %}
+      {{ 'customer_area.js'  | asset_url | script_tag }}
+      {% endif %}
 
       {% if template contains 'page.contact' and settings.contact_map %}
       {{ '//maps.google.com/maps/api/js?sensor=false' | script_tag }}
@@ -97,37 +127,11 @@
       {{ 'jquery.gmap.min.js' | asset_url | script_tag }}
       {% endif %}
 
-      {{ content_for_header }}
 
-    <base href="{{ '/' | absolute_url }}" />
+        <script>
+            var BASE_URL = '{{ "/" | full_url }}';
+        </script>
 
-
-      {{ '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js' | script_tag }}
-      {{ '//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js' | script_tag }}
-      {{ '//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.min.js' | script_tag }}
-      {{ '//cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js' | script_tag }}
-      {{ '//cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.5.7/angular-sanitize.min.js' | script_tag }}
-      {{ '//cdnjs.cloudflare.com/ajax/libs/angular-translate/2.12.1/angular-translate.min.js' | script_tag }}
-      {{ '//cdnjs.cloudflare.com/ajax/libs/angular-translate/2.12.1/angular-translate-loader-url/angular-translate-loader-url.min.js' | script_tag }}
-      {{ '//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.2/ui-bootstrap-tpls.min.js' | script_tag }}
-
-      {{ 'shopify_common.js' | asset_url | script_tag }}
-      {{ 'bundle/scripts.js' | static_asset_url | append_version | script_tag }}
-      
-      {{ 'shop.js' | asset_url | script_tag }}
-      
-      {% if template contains 'collection' %}
-      {{ "shopify_common_additions.js" | asset_url | script_tag }}
-      {% endif %}
-
-      {% if template contains 'customers' %}
-      {{ 'customer_area.js'  | asset_url | script_tag }}
-      {% endif %}
-
-      <script>
-        var BASE_URL = '{{ "/" | full_url }}';
-    </script>
-    
   </head>
 
 <body class="{% if customer %}customer-logged-in {% endif %}template{{ template | split: '.' | first | camelize }}{% if template == 'collection' or template contains 'collection.' %}{% if settings.collection_grid_list == 'list' %} cat-list{% endif %}{% endif %}" >
@@ -135,7 +139,7 @@
     {% include 'navigation-mobile' %}
     <div id="page" class="box">
       {% include 'header-top' %}
-      
+
       <header id="header" class="clearfix{% if settings.header_sticky %} sticky-header{% endif %}">
         {% include 'header' %}
       </header>
@@ -148,7 +152,7 @@
         {% if template == 'product' %}
         {% include 'product-promo-block' %}
         {% endif %}
-        
+
         {% unless template contains 'index' or template contains 'page.contact' or template contains 'page.lookbook' %}
         <div id="content" class="container">
           <div class="row">
@@ -180,7 +184,7 @@
   {% if template contains 'index' and settings.slideshow_show %}
   {{ 'jquery.flexslider-min.js' | asset_url | script_tag }}
   {% endif %}
-  
+
   {% if template == 'collection' or template contains 'collection.' %}
   {{ 'jquery.history.min.js' | asset_url | script_tag }}
   {% endif %}
@@ -202,7 +206,7 @@
   {% include 'notify-slider' %}
   {% include 'popup-mailchimp' %}
   {% include 'spinner' %}
-  
+
   {{ 'option_selection.js' | asset_url | script_tag }}
 </body>
 </html>
