@@ -1,4 +1,4 @@
-<h1>Filter 2</h1>
+
 <!--<p>{{ current_tags | json }}</p>-->
 {% if settings.collection_sidebar_filters == 'groups' %}
 
@@ -36,8 +36,31 @@
 {%endcomment%}
   {% unless product_search_result.aggregations.empty? %}
   {% assign current_tags = current_product_search_criteria.terms %}
+
   {% for aggregation in product_search_result.aggregations %}
 
+  <div class="column">
+
+        <div class="filter_title active">
+                <span>{{ aggregation.label }}<i class="zmdi zmdi-caret-right"></i></span>
+
+                {% for custom_tag in aggregation.items %}
+                {% for c_tag in current_tags %}
+                    {% if aggregation.field == c_tag.name and custom_tag.value == c_tag.value%}
+                    <a href="javascript:;" class="clear">{{ 'collections.general.clear' | t }}</a>
+                        {% break %}
+                    {% endif %}
+                {% endfor %}
+                {% endfor %}
+                {%comment%}
+                {% for custom_tag in filters %}
+                {% if current_tags contains custom_tag %}
+                <a href="javascript:;" class="clear">{{ 'collections.general.clear' | t }}</a>
+                {% break %}
+                {% endif %}
+                {% endfor %}
+                {%endcomment%}
+              </div>
   <div class="advanced-filter filter_container {{ aggregation.field | replace: ' ', '_' }}">
     <span class="filter_close" title="close"></span>
     <ul class="list-unstyled fields">
@@ -124,5 +147,6 @@
 </div>
 
 {% endfor %}
+
 {% endunless %}
 {% endif %}
