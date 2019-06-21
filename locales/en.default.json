@@ -3,6 +3,21 @@
         "required": "Required",
         "invalid": "Invalid"
     },
+    "tags": {
+        "price": {
+            "label": "Price"
+        },
+        "pricerange": {
+            "less": "Under {0}",
+            "between": "{0} to {1}",
+            "greater": "{0} & Above"
+        },
+        "range": {
+            "less": "Under {0}",
+            "between": "{0} to {1}",
+            "greater": "{0} & Up"
+        }
+    },
     "checkout": {
         "title": "Checkout",
         "description": "Description",
