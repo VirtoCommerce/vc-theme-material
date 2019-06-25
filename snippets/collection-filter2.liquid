@@ -1,8 +1,6 @@
-
-<!--<p>{{ current_tags | json }}</p>-->
 {% if settings.collection_sidebar_filters == 'groups' %}
 
-{%comment%}
+ <!-- {%comment%}
 {% for i in (1..10) %}
 {% assign tmp = 'filtering_' | append:i %}
 {% if settings[tmp] %}
@@ -13,16 +11,17 @@
   {% assign tmp = 'filtering_filters_' | append:i %}
   {% assign filters = settings[tmp] | strip_newlines | split: ',' %}
 
-
-
+ {%endcomment%}
+ {%comment%}
   <div class="filter_title active">
     <span>{{ cat_item }}<i class="zmdi zmdi-caret-right"></i></span>
 
 
     {% for custom_tag in filters %}
         {% if current_tag and current_tag.value == custom_tag.value %}
-            {%comment%}
+
             {% if aggregation.items contains custom_tag %}
+            {%endcomment%}
             {%comment%}
             Старый код
             {% if current_tags contains custom_tag %}
@@ -32,8 +31,10 @@
             {% break %}
         {% endif %}
     {% endfor %}
+
   </div>
-{%endcomment%}
+{%endcomment%} -->
+
   {% unless product_search_result.aggregations.empty? %}
   {% assign current_tags = current_product_search_criteria.terms %}
 
@@ -43,7 +44,7 @@
 
         <div class="filter_title active">
                 <span>{{ aggregation.label }}<i class="zmdi zmdi-caret-right"></i></span>
-{%comment%}
+
                 {% for custom_tag in aggregation.items %}
                 {% for c_tag in current_tags %}
                     {% if aggregation.field == c_tag.name and custom_tag.value == c_tag.value%}
@@ -52,7 +53,7 @@
                     {% endif %}
                 {% endfor %}
                 {% endfor %}
-
+ {%comment%}
                 {% for custom_tag in filters %}
                 {% if current_tags contains custom_tag %}
                 <a href="javascript:;" class="clear">{{ 'collections.general.clear' | t }}</a>
@@ -60,11 +61,11 @@
                 {% endif %}
                 {% endfor %}
                 {%endcomment%}
-              </div>
+        </div>
   <div class="advanced-filter filter_container {{ aggregation.field | replace: ' ', '_' }}">
     <span class="filter_close" title="close"></span>
     <ul class="list-unstyled fields">
-    {% comment %}
+    <!-- {% comment %}
       {% if cat_item_down contains 'color' or cat_item_down contains 'colour' %}
         {% assign file_extension = '.png' %}
 
@@ -92,7 +93,7 @@
 
 
       {% else %}
-{% endcomment %}
+{% endcomment %} -->
         {% for custom_tag in aggregation.items %}
 
         {% assign tag_checked = false %}
@@ -104,11 +105,11 @@
         {% endfor %}
         {% assign tag = custom_tag %}
         {% include 'tag-label' %}
-      {%comment%}
+      <!-- {%comment%}
       Старый код
       {% if collection.tags contains custom_tag %}
       {% if current_tags contains custom_tag %}
-      {%endcomment%}
+      {%endcomment%} -->
       {% if tag_checked %}
       <li>
         <div class="field label-checkbox active">
@@ -119,7 +120,6 @@
         {%endcomment%}
       {% else %}
       <li>
-
         <div class="field label-checkbox">
             {%comment%}
           <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox" />
@@ -128,12 +128,12 @@
       </li>
       {%endcomment%}
       {% endif %}
-      <input type="checkbox" class="checkbox" ng-checked="{{ tag_checked }}"/>
       <a vc-query-source="{ terms: { '{{ aggregation.field }}': ['{{ custom_tag.value }}'] } }" switchable="true">
+          <input type="checkbox" class="checkbox" ng-checked="{{ tag_checked }}"/>
           <span class="switch"></span>
           <span class="name">{{ tag_label }}</span></span>
       </a>
-        </div>
+    </div>
     </li>
 
       {% endfor %}

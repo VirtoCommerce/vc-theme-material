@@ -20,7 +20,7 @@
     </div>
     {% endif %}
 
-    {% include 'collection-nav' %} {% comment %}Тут доделать(collection-filter2.liquid){% endcomment %}
+   {% include 'collection-nav' %}  {% comment %} Тут доделать(collection-filter2.liquid){% endcomment %}
 
 
     {% if collection.products.size > 0 %}
@@ -41,7 +41,7 @@
 
     {% if settings.collection_infinite_scoll %}
     {% if paginator.next %}
-    <div class="infinite_scoll">{% include 'spinner2' with paginator.next.url %}</div>
+        <div class="infinite_scoll">{% include 'spinner2' with paginator.next.url %}</div>
     {% endif %}
     {% else %}
     {% include 'pagination' %}
