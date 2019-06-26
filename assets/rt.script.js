@@ -545,7 +545,14 @@ var ctlCloseButton = '<a class="close-ctl" href="javascript:;" data-ctl-close><i
                 },
                 success: function (t) {
                     var i = t.match("<title>(.*?)</title>")[1];
-                    jQuery("#filters").empty().html(jQuery(t).find("#filters").html()), jQuery("#sandBox").empty().html(jQuery(t).find("#sandBox").html()), jQuery(".filter-widgets").empty().html(jQuery(t).find(".filter-widgets").html()), jQuery(".advanced-pagination").empty().html(jQuery(t).find(".advanced-pagination").html()), jQuery(".page-top").empty().html(jQuery(t).find(".page-top").html()), jQuery(".infinite_scoll").length && jQuery(t).find(".infinite_scoll").length && jQuery(".infinite_scoll").removeClass("invisible").empty().html(jQuery(t).find(".infinite_scoll").html()), History.pushState({
+                    jQuery("#filters").empty().html(jQuery(t).find("#filters").html()),
+                    jQuery("#sandBox").empty().html(jQuery(t).find("#sandBox").html()),
+                    jQuery(".filter-widgets").empty().html(jQuery(t).find(".filter-widgets").html()),
+                    jQuery(".advanced-pagination").empty().html(jQuery(t).find(".advanced-pagination").html()),
+                    jQuery(".page-top").empty().html(jQuery(t).find(".page-top").html()),
+                    jQuery(".infinite_scoll").length && jQuery(t).find(".infinite_scoll").length
+                        && jQuery(".infinite_scoll").removeClass("invisible").empty().html(jQuery(t).find(".infinite_scoll").html()),
+                    History.pushState({
                         param: Shopify.queryParams
                     }, i, e), setTimeout(function () {
                         jQuery("html,body").animate({
