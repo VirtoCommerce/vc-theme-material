@@ -1,8 +1,4 @@
-<h1>Filter 2</h1>
-<!--<p>{{ current_tags | json }}</p>-->
 {% if settings.collection_sidebar_filters == 'groups' %}
-
-{%comment%}
 {% for i in (1..10) %}
 {% assign tmp = 'filtering_' | append:i %}
 {% if settings[tmp] %}
@@ -13,116 +9,114 @@
   {% assign tmp = 'filtering_filters_' | append:i %}
   {% assign filters = settings[tmp] | strip_newlines | split: ',' %}
 
-
-
   <div class="filter_title active">
     <span>{{ cat_item }}<i class="zmdi zmdi-caret-right"></i></span>
-
-
     {% for custom_tag in filters %}
-        {% if current_tag and current_tag.value == custom_tag.value %}
-            {%comment%}
-            {% if aggregation.items contains custom_tag %}
-            {%comment%}
-            Старый код
-            {% if current_tags contains custom_tag %}
-            {%endcomment%}
-            {%comment%}
-            <a href="javascript:;" class="clear">{{ 'collections.general.clear' | t }}</a>
-            {% break %}
-        {% endif %}
+    {% if current_tag and current_tag.value == custom_tag.value %}
+    {%comment%}
+    {% if aggregation.items contains custom_tag %}
+    {%comment%}
+    Старый код
+    {% if current_tags contains custom_tag %}
+    {%endcomment%}
+    <a href="javascript:;" class="clear">{{ 'collections.general.clear' | t }}</a>
+    {% break %}
+    {% endif %}
     {% endfor %}
   </div>
-{%endcomment%}
-  {% unless product_search_result.aggregations.empty? %}
-  {% assign current_tags = current_product_search_criteria.terms %}
-  {% for aggregation in product_search_result.aggregations %}
 
-  <div class="advanced-filter filter_container {{ aggregation.field | replace: ' ', '_' }}">
+  <div class="advanced-filter filter_container {{ cat_item_down | replace: ' ', '_' }}">
     <span class="filter_close" title="close"></span>
     <ul class="list-unstyled fields">
-    {% comment %}
       {% if cat_item_down contains 'color' or cat_item_down contains 'colour' %}
-        {% assign file_extension = '.png' %}
+      {% assign file_extension = '.png' %}
 
-        {% for custom_tag in filters %}
+      {% for custom_tag in filters %}
+      {% if product_search_result.aggregations contains custom_tag %}
+      {% if current_tag and current_tag.value == custom_tag.value  %}
+      {%comment%}
+      Вот эту строчку нужно сменить.
+      {% if collection.all_tags contains custom_tag %}
+      Вот эта нормальная.
+      {% if current_tag and current_tag.value == custom_tag.value  %}
+      {%endcomment%}
 
-            {% if current_tag and current_tag.value == custom_tag.value  %}
-            <li>
-              <div class="field active">
-                <input type="checkbox" checked="checked" value="{{ custom_tag | handleize }}" class="hide" />
-                <span class="img btooltip" title="{{ custom_tag | remove_first: cat_item | remove: '_' }}">
-                    <i style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i>
-                </span>
-              </div>
-            </li>
-            {% else %}
-            <li>
-              <div class="field">
-                <input type="checkbox" value="{{ custom_tag | handleize }}" class="hide" />
-                <span class="img btooltip" title="{{ custom_tag | remove_first: cat_item | remove: '_' }}"><i style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i></span>
-              </div>
-            </li>
-            {% endif %}
-
-      {% endfor %}
-
-
-      {% else %}
-{% endcomment %}
-        {% for custom_tag in aggregation.items %}
-
-        {% assign tag_checked = false %}
-        {% for c_tag in current_tags %}
-            {% if aggregation.field == c_tag.name and custom_tag.value == c_tag.value%}
-                {% assign tag_checked = true %}
-                {% break %}
-            {% endif %}
-        {% endfor %}
-        {% assign tag = custom_tag %}
-        {% include 'tag-label' %}
       {%comment%}
       Старый код
       {% if collection.tags contains custom_tag %}
       {% if current_tags contains custom_tag %}
       {%endcomment%}
-      {% if tag_checked %}
       <li>
-        <div class="field label-checkbox active">
-            {%comment%}
-          <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox" checked="checked" />
-          <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+        <div class="field active">
+          <input type="checkbox" checked="checked" value="{{ custom_tag | handleize }}" class="hide" />
+          <span class="img btooltip" title="{{ custom_tag | remove_first: cat_item | remove: '_' }}"><i style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i></span>
         </div>
-        {%endcomment%}
       </li>
       {% else %}
       <li>
+        <div class="field">
+          <input type="checkbox" value="{{ custom_tag | handleize }}" class="hide" />
+          <span class="img btooltip" title="{{ custom_tag | remove_first: cat_item | remove: '_' }}"><i style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i></span>
+        </div>
+      </li>
+      {% endif %}
+      {% else %}
+      <li>
+        <div class="field disable">
+          <span class="img"><i style="background-color: {{ custom_tag | remove_first: cat_item | remove: '_' | handle }}; background-image: url({{ custom_tag | remove_first: cat_item | remove: '_' | handle | append: file_extension | asset_url }})"></i></span>
+        </div>
+      </li>
+      {% endif %}
+      {% endfor %}
 
+
+      {% else %}
+
+      {% for custom_tag in filters %}
+      {% if product_search_result.aggregations contains custom_tag %}
+      {% if current_tag and current_tag.value == custom_tag.value  %}
+      {%comment%}
+      Аналогично 33-38
+      {% if collection.all_tags contains custom_tag %}
+      {% if current_tag and current_tag.value == custom_tag.value  %}
+      {%endcomment%}
+
+      {%comment%}
+      Старый код
+      {% if collection.tags contains custom_tag %}
+      {% if current_tags contains custom_tag %}
+      {%endcomment%}
+
+      <li>
+        <div class="field label-checkbox active">
+          <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox" checked="checked" />
+          <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
+        </div>
+      </li>
+      {% else %}
+      <li>
         <div class="field label-checkbox">
-            {%comment%}
           <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox" />
           <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
         </div>
       </li>
-      {%endcomment%}
       {% endif %}
-      <input type="checkbox" class="checkbox" ng-checked="{{ tag_checked }}">
-      <a vc-query-source="{ terms: { '{{ cat_item }}': ['{{ custom_tag.value }}'] } }" switchable="true">
-          <span class="switch"></span>
-          <span class="name">{{ tag_label }}</span></span>
-      </a>
+      {% else %}
+      <li>
+        <div class="field disable label-checkbox">
+          <input type="checkbox" value="{{ custom_tag | handleize }}" class="checkbox" />
+          <span class="name">{{ custom_tag | remove_first: cat_item | remove: '_' }}</span>
         </div>
-    </li>
-
-      {% endfor %}
-      {%comment%}
+      </li>
       {% endif %}
-      {%endcomment%}
+      {% endfor %}
+
+      {% endif %}
+
     </ul>
   </div>
 
 </div>
-
+{% endif %}
 {% endfor %}
-{% endunless %}
 {% endif %}
