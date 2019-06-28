@@ -2,8 +2,8 @@
   <div class="cart-loading">
     {% include 'spinner' %}
   </div>
-  <div id="cart-info" class="cart-info">   
-    
+  <div id="cart-info" class="cart-info">
+
     {% unless cart or cart.items.empty? %}
     <div class="cart-empty">
       {{ 'general.cart_info.cart_empty_html' | t }}
@@ -24,7 +24,7 @@
         </div>
         <figure>
           <a class="cart_list_product_img" href="{{ item.url}}">
-            <img ng-src="{{item.image | product_img_url: "50x50" }}" fallback-src="{{ item.image | product_img_url }}" alt="{{ item.title | escape }}" />
+            <img src="{{item.image | product_img_url: "50x50" }}" fallback-src="{{ item.image | product_img_url }}" alt="{{ item.title | escape }}" />
           </a>
         </figure>
       </li>
@@ -40,6 +40,6 @@
       <a href="{{ 'cart' |absolute_url }}" class="btn-cart">{{ 'general.cart_info.view_shopping_bag' | t }}</a>
     </div>
     {% endunless %}
-    
+
   </div>
 </div>

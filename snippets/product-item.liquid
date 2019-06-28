@@ -4,10 +4,10 @@
 {% for variant in product.variants %}
 {%comment%}
 {% if variant.available == true and variant.price.actual_price.amount < variant_tmp.price.actual_price.amount %}
-{% assign variant_tmp = variant %}	
+{% assign variant_tmp = variant %}
 {% endif %}
 {%endcomment%}
-{% assign variant_tmp = variant %}	
+{% assign variant_tmp = variant %}
 {% endfor %}
 
 <div class="product {{settings.wrapper_style}}">
@@ -26,7 +26,7 @@
         {% include 'social-sharing' %}
       </div>
     </div>
-    
+
     <div class="product-wrap">
       <div class="product-image">
         {% if variant_tmp.compare_at_price.amount > variant_tmp.price.actual_price.amount %}
@@ -38,7 +38,7 @@
         {% endif %}
         <div class="wrap">
           <a href="{{product.url | within: collection}}">
-			<img ng-src="{{ product.featured_image | product_img_url: "216x216" }}" vc-fallback-image fallback-src="{{ product.featured_image | product_img_url }}" class="main-image img-responsive" alt="{{ product.title }}" />
+			<img src="{{ product.featured_image | product_img_url: "216x216" }}" vc-fallback-image fallback-src="{{ product.featured_image | product_img_url }}" class="main-image img-responsive" alt="{{ product.title }}" />
           </a>
         </div>
       </div>
@@ -60,7 +60,7 @@
           <div class="price-val product-price">
             {% if product.available %}
 
-            <span class="price">            
+            <span class="price">
             {{ variant_tmp.price.actual_price.amount | money }}
             </span>
 
@@ -80,7 +80,7 @@
         <div class="product-action">
           {% comment %} Style #1 {% endcomment %}
           {% if settings.wrapper_style == 'style1' %}
-          
+
           {% if product.available %}
           {% if product.variants.size > 1 %}
           <a href="{{ product.url | within: collection }}" class="btn btn-1 ripple choose-options btn-block"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.select_options' | t}}</a>
@@ -98,9 +98,9 @@
           {% else %}
           <a href="{{ product.url | within: collection }}" class="btn btn-1 ripple choose-options btn-block"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.show_details' | t}}</a>
           {% endif %}
-          
+
           <a href="javascript:;" class="quick-shop{% if settings.wrapper_style == 'style1' %} btooltip{% endif %}" title="{{'products.product.quick_shop' | t}}" data-placement="left"><i class="zmdi zmdi-eye"></i> {{'products.product.quick_shop' | t}}</a>
-          
+
           {% comment %} Style #2 {% endcomment %}
           {% else %}
           <span class="line"></span>
@@ -136,7 +136,7 @@
         <div class="thumbnails">
           {% for image in product.images %}
           <a class="thumbnail" href="{{image | product_img_url }}" data-src="{{image | product_img_url }}">
-            <img ng-src="{{image | product_img_url: "50x50" }}" fallback-src="{{ image | product_img_url }}" title="{{product.alt}}" />
+            <img src="{{image | product_img_url: "50x50" }}" fallback-src="{{ image | product_img_url }}" title="{{product.alt}}" />
           </a>
           {% endfor %}
         </div>
@@ -189,7 +189,7 @@
           </div>
 
           <div class="quantity">
-            <div class="group-input">      
+            <div class="group-input">
               <input type="number" title="{{'products.product.quantity' | t}}" step="1" min="1" size="4" id="quantity" name="quantity" value="1" />
               <span class="bar"></span>
             </div>

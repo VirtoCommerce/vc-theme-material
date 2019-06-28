@@ -4,10 +4,10 @@
 {% for variant in prod.variants %}
 {%comment%}
 {% if variant.available == true and variant.price < variant_tmp.price %}
-{% assign variant_tmp = variant %}	
+{% assign variant_tmp = variant %}
 {% endif %}
 {%endcomment%}
-{% assign variant_tmp = variant %}	
+{% assign variant_tmp = variant %}
 {% endfor %}
 
 <div class="product style2">
@@ -16,7 +16,7 @@
       <div class="product-image">
         <div class="wrap">
           <a href="{{prod.url | within: collection}}">
-            <img ng-src="{{ prod.featured_image | product_img_url: "280x280" }}" fallback-src="{{ prod.featured_image | product_img_url }}" class="main-image img-responsive" alt="{{ prod.title }}" />
+            <img src="{{ prod.featured_image | product_img_url: "280x280" }}" fallback-src="{{ prod.featured_image | product_img_url }}" class="main-image img-responsive" alt="{{ prod.title }}" />
           </a>
         </div>
       </div>
@@ -24,7 +24,7 @@
         <div class="table">
           <div class="product-inner">
             <div class="overlay"></div>
-            
+
             <div class="product-title">
               <a href="{{ prod.url | within: collection }}" title="{{ prod.title }}">
                 {{ prod.title }}
@@ -50,7 +50,7 @@
               <span class="sold_out">{{'products.product.sold_out' | t}}</span>
               {% endif %}
             </div>
-            
+
             <div class="product-btn">
               <a href="{{ prod.url | within: collection }}"><i class="zmdi zmdi-format-list-bulleted"></i> {{'products.product.show_details' | t}}</a>
             </div>

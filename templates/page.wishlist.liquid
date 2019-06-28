@@ -28,7 +28,7 @@
         {% assign the_test = '' %}
         {% endif %}
         {% endif %}
-        {% endfor %}	
+        {% endfor %}
 
         {% for collection in collections %}
         {% paginate collection.products by collection.all_products_count %}
@@ -38,13 +38,13 @@
         {% assign check = tag.size | minus:productID.size | modulo:2 %}
         {% if check == 0 %}{% assign display_product = true %}{% else %}{% assign display_product = false %}{% endif %}
         {% if display_product and the_test contains productID %}
-        
+
         {%comment%}
         {% assign variant_tmp = product.selected_or_first_available_variant  %}
         {%endcomment%}
         {% for variant in product.variants %}
         {%comment%}
-        {% if variant.available == true and variant.price < variant_tmp.price %}      	
+        {% if variant.available == true and variant.price < variant_tmp.price %}
         {% endif %}
         {%endcomment%}
         {% assign variant_tmp = variant %}
@@ -53,14 +53,14 @@
           <ul>
             <li class="col-1">
               <a href="{{product.url | within: collection}}" class="product-image">
-                <img ng-src="{{product.featured_image | product_img_url: "280x280" }}" fallback-src="{{ product.featured_image | product_img_url }}" alt="{{product.title}}" />
+                <img src="{{product.featured_image | product_img_url: "280x280" }}" fallback-src="{{ product.featured_image | product_img_url }}" alt="{{product.title}}" />
               </a>
             </li>
             <li class="col-2"><a href="{{product.url | within: collection}}" class="product-title mtop">{{product.title}}{% if product.variants.size > 1 %} - {{variant_tmp.title}}{% endif %}</a></li>
             <li class="col-3"><div class="product-price mtop">{{product.price | money}}</div></li>
             <li class="col-4">
               <div class="mtop2">
-                {% form 'customer' %}	
+                {% form 'customer' %}
                 <input type='hidden' name='contact[email]' value='{{ customer.email }}'/>
                 <input type='hidden' name='contact[tags]' id='remove-value' value='x{{ tagID }}' />
                 <button type="submit" class="wl-remove remove-wishlist"><i class="zmdi zmdi-close"></i></button>

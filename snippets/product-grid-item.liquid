@@ -30,7 +30,7 @@
                     </div>
                 {% endif %}
                 {% if product.featured_image %}
-                    <img ng-src="{{ product.featured_image | img_url: "168x168" }}" fallback-src="{{ product.featured_image | img_url }}" alt="{{ product.featured_image.alt | escape }}" />
+                    <img src="{{ product.featured_image | img_url: "168x168" }}" fallback-src="{{ product.featured_image | img_url }}" alt="{{ product.featured_image.alt | escape }}" />
                 {% else %}
                     <div class="no-product-image">
                         <img src="{{ 'no-image.svg' | asset_url }}" />
@@ -66,7 +66,7 @@
                     {% include 'price' with product.price_with_tax %}
                 {% else %}
                     {% include 'price' with product.price %}
-                {% endif %}            
+                {% endif %}
             </span>
             {% if on_sale %}
                 <span class="sale-tag medium--right{% if settings.product_reviews_enable %} has-reviews{% endif %}">
@@ -76,7 +76,7 @@
                     {% else %}
                         {% assign compare_price = product.compare_at_price %}
                         {% assign product_price = product.price %}
-                    {% endif %} 
+                    {% endif %}
                     {% include 'price-sale' %}
                 </span>
             {% endif %}

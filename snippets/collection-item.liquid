@@ -2,12 +2,12 @@
 <div class="collection-wrap">
   <div class="collection-image">
     <a href="{{ collection.url | absolute_url }}">
-      {% if collection.image %}          
-      <img ng-src="{{ collection.primary_image.url | img_url }}" alt="{{ collection_title }}" />      
-      {% else %}      
-      <img ng-src="{{ collection.products.first.featured_image | img_url }}" alt="{{ collection_title }}" />      
+      {% if collection.image %}
+      <img src="{{ collection.primary_image.url | img_url }}" alt="{{ collection_title }}" />
+      {% else %}
+      <img src="{{ collection.products.first.featured_image | img_url }}" alt="{{ collection_title }}" />
       {% endif %}
-      
+
       <div class="caption">
         <h2>{{ collection_title }}</h2>
         <p class="count">{{ collection.all_products_count }} {{ collection.all_products_count | pluralize: 'collections.general.product', 'collections.general.products' | t }}</p>
