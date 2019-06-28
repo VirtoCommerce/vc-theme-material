@@ -48,7 +48,7 @@
             <ul class="list-unstyled list-styled">
               {% for link in list.links %}
               <li>
-                <a href="{{ link.url }}">{{ link.title }}</a>
+                <a href="{{ link.url | absolute_url }}">{{ link.title }}</a>
               </li>
               {% endfor %}
             </ul>
@@ -65,7 +65,7 @@
           <div class="inner">
             {% if settings.mailing_list_show == 'mailchimp' %}
             <form action="{{ settings.mailing_form_action }}" method="post" id="mc-embedded-subscribe-form" class="mailing-form" name="mc-embedded-subscribe-form" target="_blank">
-              <div class="group-input">      
+              <div class="group-input">
                 <input type="email" required="required" name="EMAIL" id="email-input" />
                 <span class="bar"></span>
                 <label>{{settings.mailing_list_emailtext}}</label>
@@ -75,7 +75,7 @@
             {% elsif settings.mailing_list_show == 'campaignmonitor' %}
             {% assign words = settings.mailing_form_action | split: '/' %}
             <form action="{{settings.mailing_form_action}}" method="post" class="mailing-form" target="_blank">
-              <div class="group-input">      
+              <div class="group-input">
                 <input type="email" required="required" name="cm-{{ words.last }}-{{ words.last }}" id="fieldEmail" />
                 <span class="bar"></span>
                 <label>{{settings.mailing_list_emailtext}}</label>
@@ -103,7 +103,7 @@
             {% case settings.footer_social_visible %}
             {% when 'twitter' %}
             {% include 'twitter' %}
-            
+
             {% when 'facebook' %}
             {% include 'facebook' %}
             {% endcase %}
@@ -125,7 +125,7 @@
               <ul class="list-inline">
                 {% for link in list.links %}
                 <li>
-                  <a href="{{ link.url }}">{{ link.title | escape }}</a>
+                  <a href="{{ link.url | absolute_url }}">{{ link.title | escape }}</a>
                 </li>
                 {% endfor %}
               </ul>

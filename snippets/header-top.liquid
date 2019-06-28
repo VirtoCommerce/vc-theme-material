@@ -32,7 +32,7 @@
                 <ul class="list-unstyled list-styled">
                   {% for link in sliding_list.links %}
                   <li>
-                    <a href="{{ link.url }}">{{ link.title | escape }}</a>
+                    <a href="{{ link.url | absolute_url }}">{{ link.title | escape }}</a>
                   </li>
                   {% endfor %}
                 </ul>
@@ -79,17 +79,17 @@
                 {% form 'contact' %}
                 {% endcomment %}
                 <form accept-charset="UTF-8" action="/Clothing/contact" method="post" id="contact" name="contact">
-                <div class="group-input">      
+                <div class="group-input">
                   <input id="feedback_name" placeholder="{{ 'contact.form.name' | t }} *" required="required" type="text" id="name" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.first_name }} {{ customer.last_name }}{% endif %}" name="contact[name]" />
                   <span class="highlight"></span>
                   <span class="bar"></span>
                 </div>
-                <div class="group-input">      
+                <div class="group-input">
                   <input id="feedback_email" placeholder="{{ 'contact.form.email' | t }} *" required="required" type="email" id="email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" name="contact[email]" />
                   <span class="highlight"></span>
                   <span class="bar"></span>
                 </div>
-                <div class="group-input">      
+                <div class="group-input">
                   <textarea id="feedback_message" placeholder="{{ 'contact.form.message' | t }} *" required="required" id="message" cols="40" rows="5" class="input" name="contact[answer]">{{ form.body }}</textarea>
                   <span class="highlight"></span>
                   <span class="bar"></span>
@@ -122,7 +122,7 @@
                         jQuery('#feedback_submit').html("{{ 'contact.form.send' | t }}");
                         jQuery('.feedback_notify').show().html("{{settings.sliding_feedback_thankyou | replace:'"','\"'}}");
                       }
-                    });    
+                    });
                     event.preventDefault();
                   });
                 </script>

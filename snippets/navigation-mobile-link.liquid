@@ -32,7 +32,7 @@
 <li{% if hasChildren or isMega %} class="parent_submenu"{% endif %}>
   <a href="{{link.url}}"{% if hasChildren or isMega %} class="dropdown_link"{% endif %}>{{link.title}}</a>
   {% if hasChildren or isMega %}<span class="expand"><i></i></span>{% endif %}
-  
+
   {% if isMega %}
   <ul class="dropdown_menu" style="display:none;">
     {% for j in (1..10) %}
@@ -40,7 +40,7 @@
     {% assign temp = settings[tmp] %}
     {% assign nav = linklists[temp] %}
     {% if nav.handle != blank %}
-    
+
     {% assign megaChildren = false %}
     {% if nav.links.size > 0 %}
     {% assign megaChildren = true %}
@@ -55,7 +55,7 @@
       <ul class="dropdown_menu" style="display:none;">
         {% for l in nav.links %}
         <li>
-          <a href="{{l.url}}">{{l.title}}</a>
+          <a href="{{l.url | absolute_url }}">{{l.title}}</a>
         </li>
         {% endfor %}
       </ul>
@@ -65,7 +65,7 @@
     {% endfor %}
   </ul>
   {% endif %}
-  
+
   {% if hasChildren and isMega == false %}
   <ul class="dropdown_menu" style="display:none;">
     {% for link in linklists[link_handle].links %}

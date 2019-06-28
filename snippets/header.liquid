@@ -63,7 +63,7 @@
             {% assign list = linklists[settings.header_menu_linklist] %}
             {% for link in list.links %}
             <li>
-              <a href="{{ link.url }}">{{ link.title }}</a>
+              <a href="{{ link.url | absolute_url }}">{{ link.title }}</a>
             </li>
             {% endfor %}
             {% endif %}
@@ -101,7 +101,7 @@
             <li class="mini-cart nav-dropdown-parent">
               <div class="cart-inner">
                 <a href="/cart" class="cart-link">
-                  <strong class="cart-name">{{'general.cart_info.cart' | t}}</strong> 
+                  <strong class="cart-name">{{'general.cart_info.cart' | t}}</strong>
                   <span class="cart-price">/ <span class="amount">{{cart.total_price | money | replace:'.00',''}}</span></span>
                   <div class="cart-icon">
                     <strong>{{cart.item_count}}</strong>
@@ -139,7 +139,7 @@
   </div>
   {%comment%} Navigation {%endcomment%}
   {% include 'navigation' %}
-  
+
   {% elsif settings.header_style == 'style2' %}
   <span class="top-bar-arrow act"></span>
   <div id="top-bar">
@@ -154,7 +154,7 @@
           {% if settings.header_menu %}
           {% assign list = linklists[settings.header_menu_linklist] %}
           {% for link in list.links %}
-          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          <li><a href="{{ link.url | absolute_url }}">{{ link.title }}</a></li>
           {% endfor %}
           {% endif %}
           {% if settings.show_multiple_currencies %}

@@ -32,10 +32,10 @@
 {% endif %}
 
 <li class="hidden-xs{% if link.active %} active{% endif %}{% if isMega %} is-mega {{mega_style}}{% endif %}{% if hasChildren %} dropdown-parent{% unless isTop %}-submenu{% endunless %}{% endif %}">
-  <a href="{{link.url}}">
+  <a href="{{link.url | absolute_url }}">
     <span>{{link.title}}</span>{% if hasChildren or isMega %}<i class="zmdi zmdi-chevron-down"></i>{% endif %}
   </a>
-  
+
   {% if isMega %}
   {% case mega_style %}
   {% when 'style_1' %}
@@ -71,7 +71,7 @@
                 <ul class="child">
                   {% for l in nav.links %}
                   <li>
-                    <a href="{{l.url}}">{{l.title}}</a>
+                    <a href="{{l.url | absolute_url }}">{{l.title}}</a>
                   </li>
                   {% endfor %}
                 </ul>
@@ -118,7 +118,7 @@
           {% assign tmp1 = affixMenu | append:'title_' | append: j %}
           {% assign tmp2 = affixMenu | append:'link_' | append: j %}
           <a href="{{settings[tmp2]}}">{{settings[tmp1]}}</a>
-          
+
           {% if nav.links.size > 0 %}
           <div class="mega-menu-content">
             <div class="wrap">
@@ -128,7 +128,7 @@
                 <li class="img-visual">
                   {% assign img = tmp3 | append: '.jpg' %}
                   <a href="{{settings[tmp2]}}">
-                    <img src="{{img | asset_url}}" alt="{{settings[tmp1]}}" />
+                    <img src="{{img | asset_url }}" alt="{{settings[tmp1]}}" />
 
                     <div class="img-bg">
                       <span class="img-cpt animated">{{ 'collections.general.shop_the' | t }} {{settings[tmp1]}}</span>
@@ -138,7 +138,7 @@
                 {% endif %}
                 {% for l in nav.links %}
                 <li>
-                  <a href="{{l.url}}">{{l.title}}</a>
+                  <a href="{{l.url | absolute_url }}">{{l.title}}</a>
                 </li>
                 {% endfor %}
               </ul>
@@ -188,7 +188,7 @@
                   {% assign variant_tmp = product.selected_or_first_available_variant  %}
                   {% for variant in product.variants %}
                   {% if variant.available == true and variant.price < variant_tmp.price %}
-                  {% assign variant_tmp = variant %}	
+                  {% assign variant_tmp = variant %}
                   {% endif %}
                   {% endfor %}
                   <div class="product {{settings.wrapper_style}}">
@@ -310,7 +310,7 @@
                     {% endif %}
                     {% for l in nav.links %}
                     <li>
-                      <a href="{{l.url}}">{{l.title}}</a>
+                      <a href="{{l.url | absolute_url }}">{{l.title}}</a>
                     </li>
                     {% endfor %}
                   </ul>
@@ -348,7 +348,7 @@
           {% assign tmp1 = affixMenu | append:'title_' | append: j %}
           {% assign tmp2 = affixMenu | append:'link_' | append: j %}
           <a href="{{settings[tmp2]}}">{{settings[tmp1]}}</a>
-          
+
           {% if nav.links.size > 0 %}
           <div class="mega-menu-content">
             <div class="wrap">
@@ -361,7 +361,7 @@
               <ul class="child">
                 {% for l in nav.links %}
                 <li>
-                  <a href="{{l.url}}">{{l.title}}</a>
+                  <a href="{{l.url | absolute_url }}">{{l.title}}</a>
                 </li>
                 {% endfor %}
               </ul>
@@ -381,7 +381,7 @@
   </div>
   {% endcase %}
   {% endif %}
-  
+
   {% if hasChildren and isMega == false %}
   <ul class="dropdown-menu" style="display:none;">
     {% for link in linklists[link_handle].links %}

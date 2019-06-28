@@ -1,13 +1,13 @@
 {% comment %} ----- Sidebar textwidget ----- {% endcomment %}
 {% if settings.textwidget_visible %}
 <div class="widget-wrapper">
-  
+
   {% if settings.textwidget_heading != blank %}
   <h3 class="title title_left">
     <span>{{ settings.textwidget_heading }}</span>
   </h3>
   {% endif %}
-  
+
   <ul class="list-unstyled list-styled">
     {% if settings.textwidget_image %}
     <li><img src="{{'textwidget_image.png' | asset_url}}" alt="{{settings.textwidget_heading}}" /></li>
@@ -26,7 +26,7 @@
     <span>{{ settings.allcollections_heading }}</span>
   </h3>
   {% endif %}
-  
+
   <ul class="list-unstyled advanced-collection">
     {% for coll in collections %}
     {% unless coll.handle == 'frontpage' or coll.handle == 'all' %}
@@ -44,10 +44,10 @@
 {% if settings.collection_sidebar_filters != 'none' %}
 <div class="filter-widgets widget-wrapper">
   <div class="filters-bar">
-    
-    
+
+
     {% include 'collection-filter2' %} {% comment %}Тут доделать{% endcomment %}
-    
+
     {% if settings.collection_sidebar_filters == 'tags' %}
     <div class="column">
       <div class="filter_title active">
@@ -86,13 +86,13 @@
 
 {% if settings.featured_prod_visible and collections[settings.featured_prod_collection].products != empty %}
 <div class="widget-wrapper">
-  
+
   {% if settings.featured_prod_heading != blank %}
   <h3 class="title title_left">
     <span>{{ settings.featured_prod_heading }}</span>
   </h3>
   {% endif %}
-  
+
   {% assign featuredCollection = collections[settings.featured_prod_collection] %}
   <div class="featured-products">
     {% for product in featuredCollection.products limit: settings.featured_prod_num %}
@@ -111,17 +111,17 @@
 {% if linklists[list_temp] != empty %}
 {% assign list = linklists[list_temp] %}
 <div class="widget-wrapper">
-  
+
   {% if list.title != blank %}
   <h3 class="title title_left">
     <span>{{ list.title | escape }}</span>
   </h3>
   {% endif %}
-  
+
   <ul class="list-unstyled list-styled">
     {% for link in list.links %}
     <li>
-      <a href="{{ link.url }}" title="{{ link.title | escape }}">{{ link.title | escape }}</a>
+      <a href="{{ link.url | absolute_url }}" title="{{ link.title | escape }}">{{ link.title | escape }}</a>
     </li>
     {% endfor %}
   </ul>
@@ -137,17 +137,17 @@
 {% if linklists[list_temp] != empty %}
 {% assign list = linklists[list_temp] %}
 <div class="widget-wrapper">
-  
+
   {% if list.title != blank %}
   <h3 class="title title_left">
     <span>{{ list.title | escape }}</span>
   </h3>
   {% endif %}
-  
+
   <ul class="list-unstyled list-styled">
     {% for link in list.links %}
     <li>
-      <a href="{{ link.url }}" title="{{ link.title | escape }}">{{ link.title | escape }}</a>
+      <a href="{{ link.url | absolute_url }}" title="{{ link.title | escape }}">{{ link.title | escape }}</a>
     </li>
     {% endfor %}
   </ul>
@@ -165,7 +165,7 @@
     <span>{{settings.sidebar_social_heading}}</span>
   </h3>
   {% endif %}
-  
+
   {% case settings.sidebar_social_visible %}
 
   {% when 'instagram' %}
