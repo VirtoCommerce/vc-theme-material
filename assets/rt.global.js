@@ -66,6 +66,17 @@ function addToWishlist(t) {
     })
 }
 
+function updateCart() {
+    Shopify.getCart(function (e) {
+        setTimeout(function () {
+            jQuery("body").removeClass("is_loading"),
+            roar.timeout = setTimeout(function () {
+                roar.closeThemeCtl2()
+            }, 5e3)
+        }, 500), Shopify.updateCartInfo(e, ".cart-info")
+    })
+}
+
 function addToCart(t) {
     roar.closeThemeCtl2(), "undefined" != typeof t && t.preventDefault();
     var e = $(this),
@@ -135,6 +146,7 @@ function searchPlaceholder() {
 var GLOBAL = {
     common: {
         init: function () {
+            updateCart()
             $("html").removeClass("no-js").addClass("js"), searchPlaceholder(), $("body").on("click", ".add-to-cart", addToCart), $("body").on("click", ".add-to-wishlist", addToWishlist), $("body").on("click", ".remove-wishlist", removeWishlist)
         }
     }
