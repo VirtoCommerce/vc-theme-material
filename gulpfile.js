@@ -185,23 +185,26 @@ gulp.task("lint", function() {
     return merge(tasks);
 });
 
-gulp.task("compress", ["min"], function() {
+gulp.task("compress", ["min", "packJavaScript"], function() {
     var package = getPackage();
-    return gulp
-        .src(
-            [].concat(
-                ["./*/**", '!./node_modules/**'],
-                [].concat.apply(
-                    [],
-                    getBundleConfig().map(function(bundle) {
-                        return bundle.inputFiles.map(function(inputFile) {
-                            return "!" + inputFile;
-                        });
-                    })
+    return merge2(
+            gulp.src(
+                [].concat(
+                    ["./*/**", '!./node_modules/**'],
+                    [].concat.apply(
+                        [],
+                        getBundleConfig().map(function(bundle) {
+                            return bundle.inputFiles.map(function(inputFile) {
+                                return "!" + inputFile;
+                            });
+                        })
+                    )
                 )
             )
+            .pipe(gitignore()),
+            // Need to add them manually because otherwise all bundles will be skipped as they are in .gitignore
+            gulp.src("assets/static/bundle/**", {base: '.'})
         )
-        .pipe(gitignore())
         .pipe(
             rename(function(path) {
                 path.dirname = "default/" + path.dirname;
