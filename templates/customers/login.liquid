@@ -3,7 +3,7 @@
     <div id="customer-login">
       <h2 class="page-title">{{ 'customer.login.title' | t }}</h2>
 
-      <form accept-charset="UTF-8" action="{{ '~/account/login' | absolute_url }}" method="post" id="customer_login" name="customer_login">
+      <form accept-charset="UTF-8" action="{{ requestUrl }}" method="post" id="customer_login" name="customer_login">
       {% include 'form-errors-custom' %}
 
       <div class="group-input{% if form.errors contains 'user_name' %} error{% endif %}">
