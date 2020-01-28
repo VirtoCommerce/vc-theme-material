@@ -71,5 +71,7 @@
     "bugs": {
         "url": "https://github.com/VirtoCommerce/material-theme/issues"
     },
-    "scripts": {}
+    "scripts": {
+        "postinstall": "node_modules/.bin/bower install"
+    }
 }
