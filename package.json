@@ -1,5 +1,5 @@
 {
-    "version": "2.0.1",
+    "version": "2.0.2",
     "name": "vc-material-theme",
     "author": "VirtoCommerce",
     "description": "Material theme for Storefront",
@@ -71,5 +71,7 @@
     "bugs": {
         "url": "https://github.com/VirtoCommerce/material-theme/issues"
     },
-    "scripts": {}
+    "scripts": {
+        "postinstall": "node_modules/.bin/bower install"
+    }
 }
